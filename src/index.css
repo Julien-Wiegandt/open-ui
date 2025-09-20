@@ -1,0 +1,9 @@
+body {
+  all: unset;
+  width: 100vw;
+}
+
+select,
+option {
+  all: unset;
+}

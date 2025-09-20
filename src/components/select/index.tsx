@@ -1,0 +1,140 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { forwardRef, useEffect, useRef, useState } from "react";
+import { useTheme } from "styled-components";
+import { Flex } from "../flex";
+import { Text } from "../text";
+
+export type SelectOption = { key: string; label: string; data?: any };
+
+export type SelectProps = {
+  options: Array<SelectOption>;
+  initialValue?: SelectOption;
+  onChange?: (value: SelectOption) => void;
+  label?: string;
+  required?: boolean;
+  placeholder?: string;
+  CustomOption?: (props: {
+    option: SelectOption;
+    handleChange: (option: SelectOption) => void;
+  }) => React.ReactNode;
+};
+
+export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
+  const theme = useTheme();
+
+  const [selectedValue, setSelectedValue] = useState<SelectOption>(
+    props.initialValue ?? {
+      key: props.placeholder ?? "key",
+      label: props.placeholder ?? "label",
+    }
+  );
+  const [open, setOpen] = useState(false);
+
+  const selectContainerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        selectContainerRef.current &&
+        !selectContainerRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleChange = (option: SelectOption) => {
+    setSelectedValue(option);
+    if (props.onChange) {
+      props.onChange(option);
+    }
+  };
+
+  const DefaultOption = ({
+    option,
+    handleChange,
+  }: {
+    option: SelectOption;
+    handleChange: (option: SelectOption) => void;
+  }) => (
+    <Flex
+      key={option.key}
+      onClick={() => handleChange(option)}
+      px={1.5}
+      py={1}
+      hoverstyle={{
+        backgroundColor: theme.palette.primary.light,
+      }}
+    >
+      <Text size="14" align="left">
+        {option.label}
+      </Text>
+    </Flex>
+  );
+
+  return (
+    <Flex ref={selectContainerRef} direction="column" width="100%" justify="start">
+      {(props.label || props.required) && (
+        <Flex
+          direction="row"
+          gap={0.5}
+          align="center"
+          mb="4px"
+          style={{ minHeight: "1.2em" }}
+        >
+          {props.label && <Text size="12">{props.label}</Text>}
+          {props.required && (
+            <Text color={theme.palette.error.main} size="12">
+              *
+            </Text>
+          )}
+        </Flex>
+      )}
+      <Flex
+        elevation={1}
+        height="fit-content"
+        onClick={() => setOpen(!open)}
+        style={{ position: "relative", cursor: "pointer" }}
+      >
+        {props.CustomOption ? (
+          <props.CustomOption option={selectedValue} handleChange={handleChange} />
+        ) : (
+          <DefaultOption option={selectedValue} handleChange={handleChange} />
+        )}
+
+        <Flex
+          elevation={1}
+          width="100%"
+          gap={0.5}
+          style={{
+            position: "absolute",
+            left: "0",
+            top: "38px",
+            display: open ? "flex" : "none",
+            zIndex: 1,
+            backgroundColor: "white",
+            maxHeight: "200px",
+            overflow: "auto",
+          }}
+        >
+          {props.options.map((option) =>
+            props.CustomOption ? (
+              <props.CustomOption option={option} handleChange={handleChange} />
+            ) : (
+              <DefaultOption option={option} handleChange={handleChange} />
+            )
+          )}
+        </Flex>
+      </Flex>
+    </Flex>
+  );
+});
+
+Select.displayName = "Select";
