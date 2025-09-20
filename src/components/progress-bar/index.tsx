@@ -6,20 +6,21 @@ import { useTheme } from "styled-components";
 export type ProgressBarProps = {
   color: Color;
   value: number;
-  height?: string;
+  h?: string;
+  w?: string;
 };
 
-export const ProgressBar = ({ color, value, height }: ProgressBarProps) => {
+export const ProgressBar = ({ color, value, h, w }: ProgressBarProps) => {
   const theme = useTheme();
 
   return (
     <div
       style={{
-        width: "100%",
+        width: w ?? "100%",
         position: "relative",
         backgroundColor: theme.palette[color].light,
         borderRadius: "8px",
-        height: height ?? "8px",
+        height: h ?? "8px",
         border: `2px solid ${theme.palette[color].light}`,
       }}
     >

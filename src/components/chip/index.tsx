@@ -31,7 +31,7 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
   ({ label, startIcon, endIcon, ...props }, ref) => {
     const memoizedProps = useMemo(() => {
       const defaultProps = {
-        size: "sm" as const,
+        size: "md" as const,
       };
       return {
         ...defaultProps,
@@ -42,11 +42,11 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
     return (
       <StyledChip ref={ref} {...memoizedProps}>
         {startIcon}
-        {
+        {label && (
           <Text size={sizeMap[memoizedProps.size].fontSize} mx={0.75}>
             {label}
           </Text>
-        }
+        )}
         {endIcon}
       </StyledChip>
     );

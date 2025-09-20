@@ -2,7 +2,7 @@
 import { radiusMap } from "@/theme/constants";
 import type { Color, Theme } from "@/theme/types";
 import styled from "styled-components";
-import type { ButtonStyleProps } from ".";
+import type { ButtonProps } from ".";
 import { getMarginsCSS, getPaddingCSS, toRem } from "../common";
 import type { TextProps } from "../text";
 
@@ -50,7 +50,7 @@ const getVariantStyle = ({
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const sizeMap: Record<
-  NonNullable<ButtonStyleProps["size"]>,
+  NonNullable<ButtonProps["size"]>,
   { padding: string; fontSize: TextProps["size"] }
 > = {
   sm: {
@@ -67,10 +67,32 @@ export const sizeMap: Record<
   },
 };
 
-export const StyledButton = styled.button<ButtonStyleProps>`
+// eslint-disable-next-line react-refresh/only-export-components
+export const sizeIconMap: Record<
+  NonNullable<ButtonProps["size"]>,
+  { padding: string; fontSize: TextProps["size"] }
+> = {
+  sm: {
+    padding: "6px",
+    fontSize: "12",
+  },
+  md: {
+    padding: "8px",
+    fontSize: "14",
+  },
+  lg: {
+    padding: "10px",
+    fontSize: "16",
+  },
+};
+
+export const StyledButton = styled.button<ButtonProps>`
   all: unset;
   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
-  padding: ${({ size }) => sizeMap[size ?? "md"].padding};
+  padding: ${({ size, label, startIcon, endIcon }) =>
+    !label && (startIcon || endIcon)
+      ? sizeIconMap[size ?? "md"].padding
+      : sizeMap[size ?? "md"].padding};
   display: flex;
   align-items: center;
   height: fit-content;
@@ -98,6 +120,9 @@ export const StyledButton = styled.button<ButtonStyleProps>`
   h6 {
     opacity: ${({ loading }) => (loading ? 0 : 1)};
   }
+
+  ${({ variant, color, theme, active }) =>
+    active && getVariantStyle({ color, theme })[variant].onHover}
 
   &:hover {
     ${({ variant, color, theme }) => getVariantStyle({ color, theme })[variant].onHover}

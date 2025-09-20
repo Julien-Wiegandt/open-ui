@@ -49,13 +49,13 @@ const getVariantStyle = ({
 // eslint-disable-next-line react-refresh/only-export-components
 export const sizeMap: Record<NonNullable<ChipStyleProps["size"]>, { padding: string }> = {
   sm: {
-    padding: "4px 0.25rem",
+    padding: "3px 0.25rem",
   },
   md: {
-    padding: "6px 0.5rem",
+    padding: "3.5px 0.25rem",
   },
   lg: {
-    padding: "8px 1rem",
+    padding: "4px 0.5rem",
   },
 };
 

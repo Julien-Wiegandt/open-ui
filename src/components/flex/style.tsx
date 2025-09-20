@@ -37,6 +37,7 @@ export const SlyledFlex = styled.div<FlexProps>`
   align-items: ${({ align }) => align && alignMap[align]};
   justify-content: ${({ justify }) => justify && justifyMap[justify]};
   flex-wrap: ${({ wrap }) => wrap};
+  box-sizing: border-box;
   width: ${({ width }) => width};
   height: ${({ height }) => height};
   border-radius: min(16px, ${({ theme }) => radiusMap[theme.radius]});

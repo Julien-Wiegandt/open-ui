@@ -20,6 +20,11 @@ export const Buttons = () => {
             <Button variant="text" color="primary" label="text" />
           </>
         }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Button variant="contained" color="primary" label="contained" />`
+          )
+        }
       />
       <Usage
         title="colors"
@@ -31,6 +36,11 @@ export const Buttons = () => {
             <Button variant="contained" color="error" label="error" />
           </>
         }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Button variant="contained" color="primary" label="primary" />`
+          )
+        }
       />
       <Usage
         title="sizes"
@@ -40,6 +50,11 @@ export const Buttons = () => {
             <Button variant="contained" color="primary" size="md" label="medium" />
             <Button variant="contained" color="primary" size="lg" label="large" />
           </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Button variant="contained" color="primary" size="sm" label="small" />`
+          )
         }
       />
       <Usage
@@ -52,6 +67,11 @@ export const Buttons = () => {
             <Button variant="contained" color="primary" label="lg" radius="lg" />
             <Button variant="contained" color="primary" label="full" radius="full" />
           </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Button variant="contained" color="primary" label="none" radius="none" />`
+          )
         }
       />
 
@@ -125,6 +145,32 @@ export const Buttons = () => {
               }
             />
           </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Button
+              variant="contained"
+              color="primary"
+              size="md"
+              label="start icon"
+              startIcon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="M12 5v14" />
+                </svg>
+              }
+            />`
+          )
         }
       />
     </Flex>

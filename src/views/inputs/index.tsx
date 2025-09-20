@@ -43,17 +43,56 @@ export const Inputs = () => {
             <Input type="button" placeholder="button" label="button" /> */}
           </>
         }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Input type="text" placeholder="text" label="text" />`
+          )
+        }
         orientation="vertical"
       />
-      <Input placeholder="me@example.com" color="primary" />
-      <Input label="Label" placeholder="me@example.com" color="primary" />
-
-      <Input placeholder="Errors" error="Invalid value provided" />
-      <Input label="Email" placeholder="me@example.com" />
-      <Input label="Email" placeholder="me@example.com" error="Wrong email" />
-      <Input label="Email" placeholder="me@example.com" required />
-
-      <Input type="number" label="Number" placeholder="1" required />
+      <Usage
+        title="colors"
+        components={
+          <>
+            <Input label="primary" placeholder="primary" color="primary" />
+            <Input label="secondary" placeholder="secondary" color="secondary" />
+            <Input label="default" placeholder="default" color="default" />
+            <Input label="error" placeholder="error" color="error" />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Input label="primary" placeholder="primary" color="primary" />`
+          )
+        }
+        orientation="vertical"
+      />
+      <Usage
+        title="required"
+        components={
+          <>
+            <Input label="required" placeholder="required" required />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Input label="required" placeholder="required" required />`
+          )
+        }
+      />
+      <Usage
+        title="error"
+        components={
+          <>
+            <Input label="Email" placeholder="me@example.com" error="Wrong email" />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Input label="Email" placeholder="me@example.com" error="Wrong email" />`
+          )
+        }
+      />
     </Flex>
   );
 };

@@ -1,5 +1,6 @@
 import type { Radius, Theme } from "./types";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const radiusMap: Record<Radius, string> = {
   none: "0px",
   sm: "8px",
@@ -8,6 +9,7 @@ export const radiusMap: Record<Radius, string> = {
   full: "42px",
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const THEME: Theme = {
   radius: "none",
   title: {
@@ -27,18 +29,31 @@ export const THEME: Theme = {
       main: "#e64980",
       light: "#fcc2d7",
     },
-    default: {
-      main: "#000000",
-      light: "#ffffff",
-      dark: "#000000",
-    },
+    default: { dark: "#000000", main: "#1e1e1e", light: "#d1d1d1" },
     error: {
+      dark: "#43110c",
       main: "#e74c3c",
-      dark: "#e74c3c",
-      light: "#e74c3c",
+      light: "#fde5e3",
     },
   },
 };
+
+export const SuccessIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+    <path d="m9 12 2 2 4-4" />
+  </svg>
+);
 
 // 'blue-ribbon': {
 //     '50': '#eff8ff',

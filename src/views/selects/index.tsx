@@ -1,95 +1,202 @@
 import { Flex } from "@/components/flex";
 import { Select } from "@/components/select";
 import { Text } from "@/components/text";
+import { Title } from "@/components/title";
 import { useTheme } from "styled-components";
+import { Usage } from "../components/usage";
 
 export const Selects = () => {
   const theme = useTheme();
   return (
-    <Flex gap={1} width="200px">
-      <Select
-        label="Select an option"
-        placeholder="Select an option"
-        options={[
-          { key: "1", label: "One" },
-          { key: "2", label: "Two" },
-          { key: "3", label: "Three" },
-          { key: "4", label: "Four" },
-          { key: "5", label: "Five" },
-          { key: "6", label: "Six" },
-          { key: "7", label: "Seven" },
-          { key: "8", label: "Eight" },
-          { key: "9", label: "Nine" },
-          { key: "10", label: "Ten" },
-          { key: "11", label: "Eleven" },
-          { key: "12", label: "Twelve" },
-          { key: "13", label: "Thirteen" },
-          { key: "14", label: "Fourteen" },
-          { key: "15", label: "Fifteen" },
-        ]}
+    <Flex gap={4}>
+      <Title level={2}>Select</Title>
+      <Usage
+        title="base"
+        components={
+          <>
+            <Select
+              label="Select an option"
+              placeholder="Select an option"
+              options={[
+                { key: "1", label: "One" },
+                { key: "2", label: "Two" },
+                { key: "3", label: "Three" },
+                { key: "4", label: "Four" },
+                { key: "5", label: "Five" },
+                { key: "6", label: "Six" },
+                { key: "7", label: "Seven" },
+                { key: "8", label: "Eight" },
+                { key: "9", label: "Nine" },
+                { key: "10", label: "Ten" },
+                { key: "11", label: "Eleven" },
+                { key: "12", label: "Twelve" },
+                { key: "13", label: "Thirteen" },
+                { key: "14", label: "Fourteen" },
+                { key: "15", label: "Fifteen" },
+              ]}
+            />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(`<Select
+              label="Select an option"
+              placeholder="Select an option"
+              options={[
+                { key: "1", label: "One" },
+                { key: "2", label: "Two" },
+                { key: "3", label: "Three" },
+                { key: "4", label: "Four" },
+                { key: "5", label: "Five" },
+                { key: "6", label: "Six" },
+                { key: "7", label: "Seven" },
+                { key: "8", label: "Eight" },
+                { key: "9", label: "Nine" },
+                { key: "10", label: "Ten" },
+                { key: "11", label: "Eleven" },
+                { key: "12", label: "Twelve" },
+                { key: "13", label: "Thirteen" },
+                { key: "14", label: "Fourteen" },
+                { key: "15", label: "Fifteen" },
+              ]}
+            />`)
+        }
+        orientation="vertical"
       />
-      <Select
-        label="Custom options"
-        placeholder="Select an option"
-        CustomOption={({ option, handleChange }) => (
-          <Flex
-            key={option.key}
-            direction="row"
-            align="center"
-            gap={1}
-            onClick={() => handleChange(option)}
-            px={1.5}
-            py={1}
-            hoverstyle={{
-              backgroundColor: theme.palette.primary.light,
-            }}
-          >
-            {option.data?.picture && (
-              <img
-                src={option.data.picture}
-                alt="profile"
-                style={{
-                  width: "28px",
-                  height: "28px",
-                  borderRadius: "50%",
-                }}
-              />
-            )}
-            <Text size="14" align="left">
-              {option.label}
-            </Text>
-          </Flex>
-        )}
-        options={[
-          {
-            key: "julien",
-            label: "Julien",
-            data: {
-              picture: `https://media.licdn.com/dms/image/v2/D4E03AQHRRXnWgQS85g/profile-displayphoto-shrink_200_200/B4EZUUgIobHUAc-/0/1739805723754?e=1761177600&v=beta&t=sXatBtnILliwMWY3zqh_rbhJjsQkBlRDdSD1F3T-M7o`,
-            },
-          },
-          {
-            key: "toinon",
-            label: "Toinon",
-            data: {
-              picture: `https://media.licdn.com/dms/image/v2/D5603AQGIVxiPe71JyA/profile-displayphoto-shrink_800_800/B56ZaF7X6lGoAg-/0/1746003657244?e=1761177600&v=beta&t=kSL820IMPZqk_hUIEZk8t0p5Udz4Ueo57GCfBld_R8w`,
-            },
-          },
-          {
-            key: "kevin",
-            label: "Kevin",
-            data: {
-              picture: `https://media.licdn.com/dms/image/v2/D4D03AQEhB2N4VciIow/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1692021967212?e=1761177600&v=beta&t=uVT6nd3rcNVwM5T269mrdDegH57JyECQPVXggxGhjoc`,
-            },
-          },
-          {
-            key: "gael",
-            label: "Gael",
-            data: {
-              picture: `https://media.licdn.com/dms/image/v2/D5603AQFsjD56fDiAgg/profile-displayphoto-scale_200_200/B56ZgO3vD3HQAc-/0/1752596149158?e=1761177600&v=beta&t=cYkZgWqqbCqf2m-c_-EmX1CVsd9PWYdFpSP3kGA8vhU`,
-            },
-          },
-        ]}
+      <Usage
+        title="custom option"
+        components={
+          <>
+            <Select
+              label="Custom options"
+              placeholder="Select an option"
+              CustomOption={({ option, handleChange }) => (
+                <Flex
+                  key={option.key}
+                  direction="row"
+                  align="center"
+                  gap={1}
+                  onClick={() => handleChange(option)}
+                  px={1.5}
+                  py={1}
+                  hoverstyle={{
+                    backgroundColor: theme.palette.primary.light,
+                  }}
+                >
+                  {option.data?.picture && (
+                    <img
+                      src={option.data.picture}
+                      alt="profile"
+                      style={{
+                        width: "28px",
+                        height: "28px",
+                        borderRadius: "50%",
+                      }}
+                    />
+                  )}
+                  <Text size="14" align="left">
+                    {option.label}
+                  </Text>
+                </Flex>
+              )}
+              options={[
+                {
+                  key: "julien",
+                  label: "Julien",
+                  data: {
+                    picture: `https://media.licdn.com/dms/image/v2/D4E03AQHRRXnWgQS85g/profile-displayphoto-shrink_200_200/B4EZUUgIobHUAc-/0/1739805723754?e=1761177600&v=beta&t=sXatBtnILliwMWY3zqh_rbhJjsQkBlRDdSD1F3T-M7o`,
+                  },
+                },
+                {
+                  key: "toinon",
+                  label: "Toinon",
+                  data: {
+                    picture: `https://media.licdn.com/dms/image/v2/D5603AQGIVxiPe71JyA/profile-displayphoto-shrink_800_800/B56ZaF7X6lGoAg-/0/1746003657244?e=1761177600&v=beta&t=kSL820IMPZqk_hUIEZk8t0p5Udz4Ueo57GCfBld_R8w`,
+                  },
+                },
+                {
+                  key: "kevin",
+                  label: "Kevin",
+                  data: {
+                    picture: `https://media.licdn.com/dms/image/v2/D4D03AQEhB2N4VciIow/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1692021967212?e=1761177600&v=beta&t=uVT6nd3rcNVwM5T269mrdDegH57JyECQPVXggxGhjoc`,
+                  },
+                },
+                {
+                  key: "gael",
+                  label: "Gael",
+                  data: {
+                    picture: `https://media.licdn.com/dms/image/v2/D5603AQFsjD56fDiAgg/profile-displayphoto-scale_200_200/B56ZgO3vD3HQAc-/0/1752596149158?e=1761177600&v=beta&t=cYkZgWqqbCqf2m-c_-EmX1CVsd9PWYdFpSP3kGA8vhU`,
+                  },
+                },
+              ]}
+            />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(`<Select
+              label="Custom options"
+              placeholder="Select an option"
+              CustomOption={({ option, handleChange }) => (
+                <Flex
+                  key={option.key}
+                  direction="row"
+                  align="center"
+                  gap={1}
+                  onClick={() => handleChange(option)}
+                  px={1.5}
+                  py={1}
+                  hoverstyle={{
+                    backgroundColor: theme.palette.primary.light,
+                  }}
+                >
+                  {option.data?.picture && (
+                    <img
+                      src={option.data.picture}
+                      alt="profile"
+                      style={{
+                        width: "28px",
+                        height: "28px",
+                        borderRadius: "50%",
+                      }}
+                    />
+                  )}
+                  <Text size="14" align="left">
+                    {option.label}
+                  </Text>
+                </Flex>
+              )}
+              options={[
+                {
+                  key: "julien",
+                  label: "Julien",
+                  data: {
+                    picture: 'https://media.licdn.com/dms/image/v2/D4E03AQHRRXnWgQS85g/profile-displayphoto-shrink_200_200/B4EZUUgIobHUAc-/0/1739805723754?e=1761177600&v=beta&t=sXatBtnILliwMWY3zqh_rbhJjsQkBlRDdSD1F3T-M7o',
+                  },
+                },
+                {
+                  key: "toinon",
+                  label: "Toinon",
+                  data: {
+                    picture: 'https://media.licdn.com/dms/image/v2/D5603AQGIVxiPe71JyA/profile-displayphoto-shrink_800_800/B56ZaF7X6lGoAg-/0/1746003657244?e=1761177600&v=beta&t=kSL820IMPZqk_hUIEZk8t0p5Udz4Ueo57GCfBld_R8w',
+                  },
+                },
+                {
+                  key: "kevin",
+                  label: "Kevin",
+                  data: {
+                    picture: 'https://media.licdn.com/dms/image/v2/D4D03AQEhB2N4VciIow/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1692021967212?e=1761177600&v=beta&t=uVT6nd3rcNVwM5T269mrdDegH57JyECQPVXggxGhjoc',
+                  },
+                },
+                {
+                  key: "gael",
+                  label: "Gael",
+                  data: {
+                    picture: 'https://media.licdn.com/dms/image/v2/D5603AQFsjD56fDiAgg/profile-displayphoto-scale_200_200/B56ZgO3vD3HQAc-/0/1752596149158?e=1761177600&v=beta&t=cYkZgWqqbCqf2m-c_-EmX1CVsd9PWYdFpSP3kGA8vhU',
+                  },
+                },
+              ]}
+            />`)
+        }
+        orientation="vertical"
       />
     </Flex>
   );

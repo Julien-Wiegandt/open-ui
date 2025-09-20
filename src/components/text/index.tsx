@@ -32,7 +32,7 @@ export type TextProps = {
     | "96";
   width?: string;
   height?: string;
-  align?: "left" | "center" | "right";
+  align?: "left" | "center" | "right" | "justify";
 } & MarginProps &
   PaddingProps &
   React.HTMLAttributes<HTMLParagraphElement>;

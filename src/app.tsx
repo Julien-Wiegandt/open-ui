@@ -12,21 +12,25 @@ import { Titles } from "./views/titles";
 import "@fontsource/poppins/400-italic.css";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/latin.css";
-import { useContext, useMemo } from "react";
-import { ThemeProvider } from "styled-components";
+import { useContext, useMemo, useState } from "react";
+import { OpenUIProvider } from "./theme";
 import type { Theme as ThemeType } from "./theme/types";
 import { CustomThemeContext } from "./theme/use-theme";
 import { Chips } from "./views/chips";
+import { Dividers } from "./views/dividers";
 import { Flexs } from "./views/flexs";
 import { Inputs } from "./views/inputs";
+import { Modals } from "./views/modals";
 import { ProgressBars } from "./views/progress-bars";
 import { Selects } from "./views/selects";
 import { Theme } from "./views/theme";
+import { Toasts } from "./views/toasts";
 
 const App = () => {
   const navigate = useNavigate();
 
   const { radius, palette, text, title } = useContext(CustomThemeContext);
+  const [active, setActive] = useState<number | undefined>(undefined);
 
   const theme: ThemeType = useMemo(
     () => ({
@@ -39,7 +43,7 @@ const App = () => {
   );
 
   return (
-    <ThemeProvider theme={theme}>
+    <OpenUIProvider theme={theme}>
       <Flex width="100vw" style={{ position: "relative" }}>
         <Flex
           direction="row"
@@ -57,88 +61,171 @@ const App = () => {
           <img src="/open-ui.png" alt="open-ui" height="36px" />
           <Title level={3}>open-ui</Title>
         </Flex>
-        <Flex direction="row" mt="68px">
-          <Flex p={2}>
-            <Text size="15">components</Text>
+        <Flex direction="row" width="100%" mt="68px">
+          <Flex p={2} width="15%">
+            <Text size="15" mb={1}>
+              Components
+            </Text>
             <Button
               label="Button"
               variant="text"
               color="default"
-              onClick={() => navigate("/button")}
+              active={active === 0}
+              onClick={() => {
+                navigate("/button");
+                setActive(0);
+              }}
             />
             <Button
               label="Chip"
               variant="text"
               color="default"
-              onClick={() => navigate("/chip")}
+              active={active === 1}
+              onClick={() => {
+                navigate("/chip");
+                setActive(1);
+              }}
+            />
+            <Button
+              label="Divider"
+              variant="text"
+              color="default"
+              active={active === 2}
+              onClick={() => {
+                navigate("/divider");
+                setActive(2);
+              }}
             />
             <Button
               label="Flex"
               variant="text"
               color="default"
-              onClick={() => navigate("/flex")}
+              active={active === 3}
+              onClick={() => {
+                navigate("/flex");
+                setActive(3);
+              }}
             />
             <Button
               label="Input"
               variant="text"
               color="default"
-              onClick={() => navigate("/input")}
+              active={active === 4}
+              onClick={() => {
+                navigate("/input");
+                setActive(4);
+              }}
+            />
+            <Button
+              label="Modal"
+              variant="text"
+              color="default"
+              active={active === 5}
+              onClick={() => {
+                navigate("/modal");
+                setActive(5);
+              }}
             />
             <Button
               label="ProgressBar"
               variant="text"
               color="default"
-              onClick={() => navigate("/progress-bar")}
+              active={active === 6}
+              onClick={() => {
+                navigate("/progress-bar");
+                setActive(6);
+              }}
             />
             <Button
               label="Select"
               variant="text"
               color="default"
-              onClick={() => navigate("/select")}
+              active={active === 7}
+              onClick={() => {
+                navigate("/select");
+                setActive(7);
+              }}
             />
             <Button
               label="Text"
               variant="text"
               color="default"
-              onClick={() => navigate("/text")}
+              active={active === 8}
+              onClick={() => {
+                navigate("/text");
+                setActive(8);
+              }}
             />
             <Button
               label="TextArea"
               variant="text"
               color="default"
-              onClick={() => navigate("/textarea")}
+              active={active === 9}
+              onClick={() => {
+                navigate("/textarea");
+                setActive(9);
+              }}
             />
 
             <Button
               label="Title"
               variant="text"
               color="default"
-              onClick={() => navigate("/title")}
+              active={active === 10}
+              onClick={() => {
+                navigate("/title");
+                setActive(10);
+              }}
+            />
+            <Button
+              label="Toast"
+              variant="text"
+              color="default"
+              active={active === 11}
+              onClick={() => {
+                navigate("/toast");
+                setActive(11);
+              }}
             />
             <Button
               label="Theme"
               variant="text"
               color="default"
-              onClick={() => navigate("/theme")}
+              active={active === 12}
+              onClick={() => {
+                navigate("/theme");
+                setActive(12);
+              }}
             />
           </Flex>
-          <Flex p={2}>
+          <Flex
+            p={6}
+            width="85%"
+            style={{
+              height: "calc(100vh - 68px)",
+              overflowY: "auto",
+              boxSizing: "border-box",
+            }}
+          >
             <Routes>
               <Route path="/title" element={<Titles />} />
               <Route path="/text" element={<Texts />} />
               <Route path="/button" element={<Buttons />} />
+              <Route path="/divider" element={<Dividers />} />
               <Route path="/input" element={<Inputs />} />
+              <Route path="/modal" element={<Modals />} />
               <Route path="/textarea" element={<TextAreas />} />
               <Route path="/flex" element={<Flexs />} />
               <Route path="/chip" element={<Chips />} />
               <Route path="/theme" element={<Theme />} />
               <Route path="/progress-bar" element={<ProgressBars />} />
               <Route path="/select" element={<Selects />} />
+              <Route path="/toast" element={<Toasts />} />
             </Routes>
           </Flex>
         </Flex>
       </Flex>
-    </ThemeProvider>
+    </OpenUIProvider>
   );
 };
 

@@ -1,6 +1,7 @@
 import { Chip } from "@/components/chip";
 import { Flex } from "@/components/flex";
 import { Title } from "@/components/title";
+import { SuccessIcon } from "@/theme/constants";
 import { Usage } from "../components/usage";
 
 export const Chips = () => {
@@ -17,6 +18,11 @@ export const Chips = () => {
             <Chip color="primary" label="text" variant="text" />
           </>
         }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Chip color="primary" label="contained" variant="contained" />`
+          )
+        }
       />
 
       <Usage
@@ -29,6 +35,11 @@ export const Chips = () => {
             <Chip color="error" label="error" variant="contained" />
           </>
         }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Chip color="primary" label="primary" variant="contained" />`
+          )
+        }
       />
 
       <Usage
@@ -39,6 +50,11 @@ export const Chips = () => {
             <Chip color="primary" label="md" variant="contained" size="md" />
             <Chip color="primary" label="lg" variant="contained" size="lg" />
           </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Chip color="primary" label="sm" variant="contained" size="sm" />`
+          )
         }
       />
 
@@ -53,6 +69,11 @@ export const Chips = () => {
             <Chip color="primary" label="full" variant="contained" radius="full" />
           </>
         }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Chip color="primary" label="none" variant="contained" radius="none" />`
+          )
+        }
       />
 
       <Usage
@@ -60,6 +81,41 @@ export const Chips = () => {
         components={
           <>
             <Chip
+              color="primary"
+              startIcon={<SuccessIcon />}
+              label="start icon"
+              variant="contained"
+            />
+            <Chip
+              color="primary"
+              label="end icon"
+              endIcon={<SuccessIcon />}
+              variant="contained"
+            />
+            <Chip
+              color="primary"
+              startIcon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+              }
+              variant="contained"
+            />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(`<Chip
               color="primary"
               startIcon={
                 <svg
@@ -79,49 +135,7 @@ export const Chips = () => {
               }
               label="start icon"
               variant="contained"
-            />
-            <Chip
-              color="primary"
-              label="end icon"
-              endIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                  <path d="m9 12 2 2 4-4" />
-                </svg>
-              }
-              variant="contained"
-            />
-            <Chip
-              color="primary"
-              startIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                  <path d="m9 12 2 2 4-4" />
-                </svg>
-              }
-              variant="contained"
-            />
-          </>
+            />`)
         }
       />
     </Flex>

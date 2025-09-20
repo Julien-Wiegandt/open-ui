@@ -28,6 +28,16 @@ export const Flexs = () => {
             })}
           </>
         }
+        onCopy={() =>
+          navigator.clipboard.writeText(`<Flex
+                  width="100px"
+                  height="100px"
+                  align="center"
+                  justify="center"
+                >
+                  <Text>0</Text>
+                </Flex>`)
+        }
       />
     </Flex>
   );
