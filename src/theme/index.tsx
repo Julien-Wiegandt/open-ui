@@ -1,3 +1,4 @@
+import { ToastContextProvider, ToastProvider } from "@/context/toast";
 import { ThemeProvider } from "styled-components";
 import type { Theme as ThemeType } from "./types";
 
@@ -10,9 +11,11 @@ export const OpenUIProvider = ({
 }) => {
   return (
     <ThemeProvider theme={theme}>
-      <div id="modal"></div>
-      <div id="toast"></div>
-      {children}
+      <ToastContextProvider>
+        <ToastProvider />
+        <div id="modal"></div>
+        {children}
+      </ToastContextProvider>
     </ThemeProvider>
   );
 };
