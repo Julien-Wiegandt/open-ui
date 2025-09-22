@@ -1,7 +1,7 @@
 {
   "name": "@julien-wiegandt/open-ui",
   "private": false,
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "The best open source react UI library",
   "type": "module",
   "main": "./dist/open-ui.umd.cjs",
@@ -17,6 +17,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "gsap": "^3.13.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "styled-components": "^6.1.19"

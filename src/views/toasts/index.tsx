@@ -47,7 +47,7 @@ export const Toasts = () => {
               variant="contained"
               onClick={() =>
                 addToast({
-                  title: "Account created successfully",
+                  title: "Account successfully created",
                   startIcon: <SuccessIcon />,
                   color: "default",
                 })
@@ -59,7 +59,7 @@ export const Toasts = () => {
               variant="contained"
               onClick={() =>
                 addToast({
-                  title: "Account created successfully",
+                  title: "Bonjour !",
                   startIcon: <SuccessIcon />,
                   color: "error",
                 })

@@ -33,7 +33,7 @@ export const THEME: Theme = {
     error: {
       dark: "#43110c",
       main: "#e74c3c",
-      light: "#fde5e3",
+      light: "#fcd0cc",
     },
   },
 };

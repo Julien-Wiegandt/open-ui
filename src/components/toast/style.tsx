@@ -8,6 +8,8 @@ export const StyledToast = styled(Flex)<ToastProps>`
   z-index: 99999;
   background-color: white;
   opacity: 1;
+  width: 320px;
+  position: relative;
 
   svg {
     stroke: ${({ theme, color }) => theme.palette[color ?? "default"].main};

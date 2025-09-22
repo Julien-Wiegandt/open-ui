@@ -1,12 +1,17 @@
 "use client";
 
 import { radiusMap } from "@/theme/constants";
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useTheme } from "styled-components";
 import { Button } from "../button";
 import { Flex } from "../flex";
 import { Title } from "../title";
+
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+
+gsap.registerPlugin(useGSAP);
 
 const sizeMap = {
   sm: {
@@ -62,15 +67,65 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     ref
   ) => {
     const theme = useTheme();
+
     const [portal, setPortal] = useState<HTMLElement | null>(null);
+
+    const [isMounted, setIsMounted] = useState(false);
+    const scope = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       setPortal(document.getElementById("modal"));
     }, []);
 
+    useEffect(() => {
+      if (isOpen) {
+        setIsMounted(true);
+      }
+    }, [isOpen]);
+
+    useGSAP(
+      () => {
+        if (!isMounted) return;
+
+        if (isOpen) {
+          gsap
+            .timeline()
+            .fromTo(
+              scope.current,
+              { autoAlpha: 0 },
+              { autoAlpha: 1, duration: 0.3, ease: "power2.inOut" }
+            )
+            .fromTo(
+              ".modal-content",
+              { autoAlpha: 0, scale: 0.95, y: -20 },
+              { autoAlpha: 1, scale: 1, y: 0, duration: 0.3, ease: "power2.out" },
+              "-=0.2"
+            );
+        } else {
+          gsap
+            .timeline({
+              onComplete: () => setIsMounted(false),
+            })
+            .to(".modal-content", {
+              autoAlpha: 0,
+              scale: 0.95,
+              y: -20,
+              duration: 0.2,
+              ease: "power2.in",
+            })
+            .to(
+              scope.current,
+              { autoAlpha: 0, duration: 0.2, ease: "power2.inOut" },
+              "-=0.1"
+            );
+        }
+      },
+      { dependencies: [isOpen, isMounted], scope: scope }
+    );
+
     const modal = (
       <Flex
-        ref={ref}
+        ref={scope}
         onClick={() => closeOnClickOutside && props.onClose && props.onClose()}
         style={{
           position: "fixed",
@@ -83,9 +138,12 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           justifyContent: "center",
           alignItems: "center",
           backdropFilter: "blur(4px)",
+          visibility: "hidden",
         }}
       >
         <Flex
+          ref={ref}
+          className="modal-content"
           onClick={(e) => {
             e.stopPropagation();
           }}
@@ -98,7 +156,6 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             minWidth: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].minWidth,
             maxWidth: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].maxWidth,
             maxHeight: fullScreen ? "100vh" : sizeMap[props.size ?? "md"].maxHeight,
-            outline: "solid 4px #FFFFFF33",
             borderRadius: fullScreen ? "0px" : `min(24px, ${radiusMap[theme.radius]})`,
             backgroundColor: "white",
             position: "relative",
@@ -171,7 +228,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       </Flex>
     );
 
-    return isOpen && portal ? ReactDOM.createPortal(modal, portal) : null;
+    return portal ? ReactDOM.createPortal(modal, portal) : null;
   }
 );
 
