@@ -77,7 +77,7 @@ export const Toasts = () => {
         components={
           <>
             <Toast
-              startIcon={<SuccessIcon />}
+              // startIcon={<SuccessIcon />}
               title="Account created successfully"
               color="primary"
             />
@@ -87,7 +87,7 @@ export const Toasts = () => {
               color="secondary"
             />
             <Toast
-              startIcon={<SuccessIcon />}
+              endIcon={<SuccessIcon />}
               title="Account created successfully"
               color="default"
             />

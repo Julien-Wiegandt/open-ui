@@ -68,7 +68,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         {!children && (
           <Flex
             direction="row"
-            gap={1}
             align="center"
             style={{
               minWidth: "248px",
@@ -85,7 +84,12 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
               </Flex>
             )}
             {props.title && (
-              <Text size="14" ml={props.startIcon ? 0 : 2} mr={props.endIcon ? 0 : 2}>
+              <Text
+                size="14"
+                p={1.5}
+                // ml={props.startIcon ? 0 : 2}
+                // mr={props.endIcon ? 0 : 2}
+              >
                 {props.title}
               </Text>
             )}
@@ -93,6 +97,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
             {props.endIcon && (
               <Flex
                 p={1.5}
+                ml={"auto"}
                 style={{
                   backgroundColor: `${theme.palette[props.color ?? "default"].light}44`,
                 }}

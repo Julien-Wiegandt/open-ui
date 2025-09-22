@@ -9,4 +9,5 @@ export * from "./components/text";
 export * from "./components/textarea";
 export * from "./components/title";
 export * from "./components/toast";
+export * from "./context/toast";
 export * from "./theme/index";
