@@ -1,5 +1,3 @@
-"use client";
-
 import React, { forwardRef } from "react";
 import type { Styles } from "styled-components/dist/types";
 import { StyledImage } from "./style";

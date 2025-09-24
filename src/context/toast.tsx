@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Flex } from "@/components/flex";
-import { Toast } from "@/components/toast";
-import type { Color } from "@/theme/types";
+import { Toast, type ToastProps } from "@/components/toast";
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useGSAP } from "@gsap/react";
@@ -9,22 +8,22 @@ import { gsap } from "gsap";
 
 gsap.registerPlugin(useGSAP);
 
-type Toast = {
-  id: string;
-  title: string;
-  color?: Color;
-  startIcon?: React.ReactNode;
-  endIcon?: React.ReactNode;
-  size?: "sm" | "md" | "lg";
-  children?: React.ReactNode;
-  style?: React.CSSProperties;
-  duration?: number;
-  onClose?: () => void;
-};
+// export type Toast = {
+//   id: string;
+//   title: string;
+//   variant?: "success" | "error" | "warning" | "info";
+//   startIcon?: React.ReactNode;
+//   endIcon?: React.ReactNode;
+//   size?: "sm" | "md" | "lg";
+//   children?: React.ReactNode;
+//   style?: React.CSSProperties;
+//   duration?: number;
+//   onClose?: () => void;
+// };
 
 export type IToastContext = {
-  toasts: Toast[];
-  addToast: (toast: Omit<Toast, "id">) => void;
+  toasts: ToastProps[];
+  addToast: (toast: Omit<ToastProps, "id">) => void;
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -33,8 +32,30 @@ export const ToastContext = createContext<IToastContext>({
   addToast: () => {},
 });
 
-export const ToastContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+export type ToastSettings =
+  | {
+      maxToastDisplay: number;
+      durationInSeconds: number;
+    }
+  | undefined;
+
+export const ToastContextProvider = ({
+  children,
+  ...props
+}: {
+  children: React.ReactNode;
+  settings?: ToastSettings;
+}) => {
+  const settings: ToastSettings = useMemo(
+    () => ({
+      maxToastDisplay: 3,
+      durationInSeconds: 5,
+      ...props.settings,
+    }),
+    [props.settings]
+  );
+
+  const [toasts, setToasts] = useState<ToastProps[]>([]);
 
   const removeToast = useCallback((id: string) => {
     setToasts((currentToasts) => currentToasts.filter((t) => t.id !== id));
@@ -43,20 +64,21 @@ export const ToastContextProvider = ({ children }: { children: React.ReactNode }
   const memoizedValue: IToastContext = useMemo(
     () => ({
       toasts,
-      addToast: (toast: Omit<Toast, "id">) => {
+      addToast: (toast: Omit<ToastProps, "id">) => {
         const newToast = {
-          ...toast,
           id: `toast-${Date.now()}-${Math.random()}`,
+          ...toast,
         };
         setToasts((prevToasts) => [...prevToasts, newToast]);
       },
     }),
-    [toasts]
+    [toasts, settings]
   );
 
   return (
     <ToastContext.Provider value={memoizedValue}>
-      {children} <ToastProvider toasts={toasts} removeToast={removeToast} />
+      {children}{" "}
+      <ToastProvider toasts={toasts} removeToast={removeToast} settings={settings} />
     </ToastContext.Provider>
   );
 };
@@ -64,9 +86,11 @@ export const ToastContextProvider = ({ children }: { children: React.ReactNode }
 export const ToastProvider = ({
   toasts,
   removeToast,
+  settings,
 }: {
-  toasts: Toast[];
+  toasts: ToastProps[];
   removeToast: (id: string) => void;
+  settings: NonNullable<ToastSettings>;
 }) => {
   const toastRefs = useRef(new Map<string, HTMLDivElement>());
   const containerRef = useRef<HTMLDivElement>(null);
@@ -79,7 +103,7 @@ export const ToastProvider = ({
         node.dataset.animatedIn = "true";
         gsap.fromTo(
           node,
-          { opacity: 0, y: 100 },
+          { opacity: 0, y: -100 },
           {
             opacity: 1,
             y: 0,
@@ -87,7 +111,7 @@ export const ToastProvider = ({
             ease: "power2.out",
             onComplete: () => {
               const timeline = gsap.timeline({
-                delay: toast.duration || 10,
+                delay: toast.duration || settings.durationInSeconds,
                 onComplete: () => {
                   removeToast(toast.id);
                   toastRefs.current.delete(toast.id);
@@ -96,7 +120,7 @@ export const ToastProvider = ({
 
               timeline.to(node, {
                 opacity: 0,
-                y: 50,
+                y: -50,
                 duration: 0.3,
                 ease: "power2.in",
               });
@@ -107,12 +131,16 @@ export const ToastProvider = ({
     });
   }, [toasts, removeToast]);
 
-  const visibleToasts = toasts.slice(-5);
+  const visibleToasts = toasts.slice(-settings.maxToastDisplay);
 
   useGSAP(
     () => {
       gsap.to(".toast-item", {
-        marginTop: (index) => (toastHover || index === 0 ? 0 : -48),
+        marginBottom: (index) => (toastHover || index === 0 ? 0 : -48),
+        transform: (index) =>
+          index < Math.min(5, visibleToasts.length - 1) && !toastHover
+            ? `scale(${1 - (Math.min(5, visibleToasts.length - 1) - index) * 0.05})`
+            : "scale(1)",
         duration: 0.3,
         ease: "power2.out",
         stagger: 0.05,
@@ -134,9 +162,10 @@ export const ToastProvider = ({
     <Flex
       ref={containerRef}
       gap={0.5}
+      direction="column-reverse"
       style={{
         position: "fixed",
-        bottom: "8px",
+        top: "8px",
         right: "8px",
         zIndex: 99999,
       }}
@@ -157,7 +186,12 @@ export const ToastProvider = ({
           style={{
             position: "relative",
             zIndex: index,
-            marginTop: index > 0 ? "-48px" : "0",
+            marginBottom: index > 0 ? "-48px" : "0",
+
+            transform:
+              index < Math.min(5, visibleToasts.length - 1)
+                ? `scale(${1 - (Math.min(5, visibleToasts.length - 1) - index) * 0.05})`
+                : "scale(1)",
           }}
         />
       ))}

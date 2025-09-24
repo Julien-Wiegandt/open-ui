@@ -1,6 +1,7 @@
 export * from "./components/button";
 export * from "./components/chip";
 export * from "./components/flex";
+export * from "./components/icons";
 export * from "./components/input";
 export * from "./components/modal";
 export * from "./components/progress-bar";

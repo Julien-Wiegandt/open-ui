@@ -1,5 +1,3 @@
-"use client";
-
 import type { Color, Radius, Variant } from "@/theme/types";
 import React, { forwardRef, useMemo } from "react";
 import { sizeMap } from "../button/style";

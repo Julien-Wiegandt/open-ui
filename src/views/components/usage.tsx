@@ -1,6 +1,7 @@
 import { Button } from "@/components/button";
 import { Flex } from "@/components/flex";
 import { Title } from "@/components/title";
+import { useTheme } from "styled-components";
 
 export const Usage = (props: {
   title: string;
@@ -8,6 +9,7 @@ export const Usage = (props: {
   orientation?: "vertical" | "horizontal";
   onCopy?: () => void;
 }) => {
+  const theme = useTheme();
   return (
     <Flex gap={1}>
       <Title level={5}>{props.title}</Title>
@@ -28,6 +30,7 @@ export const Usage = (props: {
             variant="text"
             size="sm"
             onClick={props.onCopy}
+            endClickAnimation
             startIcon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +38,7 @@ export const Usage = (props: {
                 height="16"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#3D3D3D"
+                stroke={theme.palette.default.main}
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"

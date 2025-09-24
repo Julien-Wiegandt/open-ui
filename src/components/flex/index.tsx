@@ -1,12 +1,10 @@
-"use client";
-
 import type { Elevation } from "@/theme/types";
 import { forwardRef, useMemo } from "react";
 import type { Styles } from "styled-components/dist/types";
 import type { MarginProps, PaddingProps } from "../common/types";
 import { SlyledFlex } from "./style";
 
-export type FlexDirection = "row" | "column";
+export type FlexDirection = "row" | "column" | "row-reverse" | "column-reverse";
 
 export type FlexWrap = "nowrap" | "wrap" | "wrap-reverse";
 

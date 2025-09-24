@@ -1,5 +1,3 @@
-"use client";
-
 import type { Color } from "@/theme/types";
 import { forwardRef } from "react";
 import { useTheme } from "styled-components";
@@ -8,19 +6,24 @@ import { Flex, type FlexProps } from "../flex";
 import { Text } from "../text";
 import { StyledToast } from "./style";
 
+/**
+ * TODO:
+ * - make children/custom toast component available
+ */
+
 export type ToastProps = {
-  title?: React.ReactNode;
+  id: string;
   color?: Color;
-  startIcon?: React.ReactNode;
-  endIcon?: React.ReactNode;
-  size?: "sm" | "md" | "lg";
+  title: string;
+  icon?: React.ReactNode;
+  duration?: number;
   children?: React.ReactNode;
   style?: React.CSSProperties;
   onClose?: () => void;
 } & FlexProps &
   React.HTMLAttributes<HTMLDivElement>;
 
-export const Toast = forwardRef<HTMLDivElement, ToastProps>(
+export const Toast = forwardRef<HTMLDivElement, Omit<ToastProps, "id">>(
   ({ children, style, ...props }, ref) => {
     const theme = useTheme();
 
@@ -73,37 +76,20 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
               minWidth: "248px",
             }}
           >
-            {props.startIcon && (
+            {props.icon && (
               <Flex
                 p={1.5}
                 style={{
                   backgroundColor: `${theme.palette[props.color ?? "default"].light}44`,
                 }}
               >
-                {props.startIcon}
+                {props.icon}
               </Flex>
             )}
             {props.title && (
-              <Text
-                size="14"
-                p={1.5}
-                // ml={props.startIcon ? 0 : 2}
-                // mr={props.endIcon ? 0 : 2}
-              >
+              <Text size="14" p={1.5}>
                 {props.title}
               </Text>
-            )}
-
-            {props.endIcon && (
-              <Flex
-                p={1.5}
-                ml={"auto"}
-                style={{
-                  backgroundColor: `${theme.palette[props.color ?? "default"].light}44`,
-                }}
-              >
-                {props.endIcon}
-              </Flex>
             )}
           </Flex>
         )}

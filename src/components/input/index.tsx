@@ -1,5 +1,3 @@
-"use client";
-
 import type { Color } from "@/theme/types";
 import { forwardRef } from "react";
 import { useTheme } from "styled-components";

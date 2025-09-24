@@ -19,6 +19,7 @@ import { CustomThemeContext } from "./theme/use-theme";
 import { Chips } from "./views/chips";
 import { Dividers } from "./views/dividers";
 import { Flexs } from "./views/flexs";
+import { Icons } from "./views/icons";
 import { Inputs } from "./views/inputs";
 import { Modals } from "./views/modals";
 import { ProgressBars } from "./views/progress-bars";
@@ -69,6 +70,7 @@ const App = () => {
             <Button
               label="Button"
               variant="text"
+              align="left"
               color="default"
               active={active === 0}
               onClick={() => {
@@ -79,6 +81,7 @@ const App = () => {
             <Button
               label="Chip"
               variant="text"
+              align="left"
               color="default"
               active={active === 1}
               onClick={() => {
@@ -89,6 +92,7 @@ const App = () => {
             <Button
               label="Divider"
               variant="text"
+              align="left"
               color="default"
               active={active === 2}
               onClick={() => {
@@ -99,6 +103,7 @@ const App = () => {
             <Button
               label="Flex"
               variant="text"
+              align="left"
               color="default"
               active={active === 3}
               onClick={() => {
@@ -107,94 +112,114 @@ const App = () => {
               }}
             />
             <Button
-              label="Input"
+              label="Icons"
               variant="text"
+              align="left"
               color="default"
               active={active === 4}
               onClick={() => {
-                navigate("/input");
+                navigate("/icons");
                 setActive(4);
+              }}
+            />
+            <Button
+              label="Input"
+              variant="text"
+              align="left"
+              color="default"
+              active={active === 5}
+              onClick={() => {
+                navigate("/input");
+                setActive(5);
               }}
             />
             <Button
               label="Modal"
               variant="text"
+              align="left"
               color="default"
-              active={active === 5}
+              active={active === 6}
               onClick={() => {
                 navigate("/modal");
-                setActive(5);
+                setActive(6);
               }}
             />
             <Button
               label="ProgressBar"
               variant="text"
+              align="left"
               color="default"
-              active={active === 6}
+              active={active === 7}
               onClick={() => {
                 navigate("/progress-bar");
-                setActive(6);
+                setActive(7);
               }}
             />
             <Button
               label="Select"
               variant="text"
+              align="left"
               color="default"
-              active={active === 7}
+              active={active === 8}
               onClick={() => {
                 navigate("/select");
-                setActive(7);
+                setActive(8);
               }}
             />
             <Button
               label="Text"
               variant="text"
+              align="left"
               color="default"
-              active={active === 8}
+              active={active === 9}
               onClick={() => {
                 navigate("/text");
-                setActive(8);
+                setActive(9);
               }}
             />
             <Button
               label="TextArea"
               variant="text"
+              align="left"
               color="default"
-              active={active === 9}
+              active={active === 10}
               onClick={() => {
                 navigate("/textarea");
-                setActive(9);
+                setActive(10);
               }}
             />
 
             <Button
               label="Title"
               variant="text"
+              align="left"
               color="default"
-              active={active === 10}
+              active={active === 11}
               onClick={() => {
                 navigate("/title");
-                setActive(10);
+                setActive(11);
               }}
             />
             <Button
               label="Toast"
               variant="text"
+              align="left"
               color="default"
-              active={active === 11}
+              active={active === 12}
               onClick={() => {
                 navigate("/toast");
-                setActive(11);
+                setActive(12);
               }}
             />
             <Button
               label="Theme"
               variant="text"
+              align="left"
               color="default"
-              active={active === 12}
+              active={active === 13}
               onClick={() => {
                 navigate("/theme");
-                setActive(12);
+                setActive(13);
               }}
             />
           </Flex>
@@ -212,6 +237,7 @@ const App = () => {
               <Route path="/text" element={<Texts />} />
               <Route path="/button" element={<Buttons />} />
               <Route path="/divider" element={<Dividers />} />
+              <Route path="/icons" element={<Icons />} />
               <Route path="/input" element={<Inputs />} />
               <Route path="/modal" element={<Modals />} />
               <Route path="/textarea" element={<TextAreas />} />

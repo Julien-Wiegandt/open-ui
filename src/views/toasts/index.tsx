@@ -3,7 +3,7 @@ import { Flex } from "@/components/flex";
 import { Title } from "@/components/title";
 import { Toast } from "@/components/toast";
 import { ToastContext } from "@/context/toast";
-import { SuccessIcon } from "@/theme/constants";
+import { ExampleIcon } from "@/theme/constants";
 import { useContext } from "react";
 import { Usage } from "../components/usage";
 
@@ -11,7 +11,7 @@ export const Toasts = () => {
   const { addToast } = useContext(ToastContext);
   return (
     <Flex gap={4}>
-      <Title level={2}>Toasts</Title>
+      <Title level={2}>Toast</Title>
 
       <Usage
         title="usage"
@@ -24,7 +24,7 @@ export const Toasts = () => {
               onClick={() =>
                 addToast({
                   title: "Account created successfully",
-                  startIcon: <SuccessIcon />,
+                  icon: <ExampleIcon />,
                   color: "primary",
                 })
               }
@@ -36,7 +36,7 @@ export const Toasts = () => {
               onClick={() =>
                 addToast({
                   title: "Account created",
-                  startIcon: <SuccessIcon />,
+                  icon: <ExampleIcon />,
                   color: "secondary",
                 })
               }
@@ -48,7 +48,7 @@ export const Toasts = () => {
               onClick={() =>
                 addToast({
                   title: "Account successfully created",
-                  startIcon: <SuccessIcon />,
+                  icon: <ExampleIcon />,
                   color: "default",
                 })
               }
@@ -60,7 +60,7 @@ export const Toasts = () => {
               onClick={() =>
                 addToast({
                   title: "Bonjour !",
-                  startIcon: <SuccessIcon />,
+                  icon: <ExampleIcon />,
                   color: "error",
                 })
               }
@@ -77,22 +77,22 @@ export const Toasts = () => {
         components={
           <>
             <Toast
-              // startIcon={<SuccessIcon />}
+              icon={<ExampleIcon />}
               title="Account created successfully"
               color="primary"
             />
             <Toast
-              startIcon={<SuccessIcon />}
+              icon={<ExampleIcon />}
               title="Account created successfully"
               color="secondary"
             />
             <Toast
-              endIcon={<SuccessIcon />}
+              icon={<ExampleIcon />}
               title="Account created successfully"
               color="default"
             />
             <Toast
-              startIcon={<SuccessIcon />}
+              icon={<ExampleIcon />}
               title="Account created successfully"
               color="error"
             />

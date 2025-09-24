@@ -6,7 +6,8 @@ import type { ButtonProps } from ".";
 import { getMarginsCSS, getPaddingCSS, toRem } from "../common";
 import type { TextProps } from "../text";
 
-const getVariantStyle = ({
+// eslint-disable-next-line react-refresh/only-export-components
+export const getVariantStyle = ({
   color,
   theme,
 }: {
@@ -51,19 +52,22 @@ const getVariantStyle = ({
 // eslint-disable-next-line react-refresh/only-export-components
 export const sizeMap: Record<
   NonNullable<ButtonProps["size"]>,
-  { padding: string; fontSize: TextProps["size"] }
+  { padding: string; fontSize: TextProps["size"]; height: number }
 > = {
   sm: {
     padding: "6px 0.75rem",
     fontSize: "12",
+    height: 18,
   },
   md: {
     padding: "8px 1rem",
     fontSize: "14",
+    height: 21,
   },
   lg: {
     padding: "10px 1.5rem",
     fontSize: "16",
+    height: 25,
   },
 };
 
@@ -88,6 +92,7 @@ export const sizeIconMap: Record<
 
 export const StyledButton = styled.button<ButtonProps>`
   all: unset;
+
   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
   padding: ${({ size, label, startIcon, endIcon }) =>
     !label && (startIcon || endIcon)
@@ -95,9 +100,16 @@ export const StyledButton = styled.button<ButtonProps>`
       : sizeMap[size ?? "md"].padding};
   display: flex;
   align-items: center;
-  height: fit-content;
+  justify-content: center;
   gap: ${({ gap }) => (gap ? toRem(gap) : "8px")};
   transition: all 0.25s ease;
+
+  width: ${({ w }) => w ?? "auto"};
+
+  height: ${({ h, size }) =>
+    h ?? sizeMap[size ?? "md"].height ? `${sizeMap[size ?? "md"].height}px` : undefined};
+  overflow: hidden;
+
   background-color: ${({ bgcolor, variant, color, theme }) =>
     bgcolor ?? getVariantStyle({ color, theme })[variant].bgColor};
   border: ${({ variant, color, theme }) =>
@@ -110,16 +122,6 @@ export const StyledButton = styled.button<ButtonProps>`
   position: relative;
   color: ${({ txtColor, color, variant, theme }) =>
     txtColor ?? getVariantStyle({ color, theme })[variant].color};
-
-  p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    opacity: ${({ loading }) => (loading ? 0 : 1)};
-  }
 
   ${({ variant, color, theme, active }) =>
     active && getVariantStyle({ color, theme })[variant].onHover}

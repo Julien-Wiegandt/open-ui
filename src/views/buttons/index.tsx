@@ -173,6 +173,79 @@ export const Buttons = () => {
           )
         }
       />
+      <Usage
+        title="loading"
+        components={
+          <>
+            <Button
+              variant="contained"
+              color="primary"
+              label="loading"
+              onClick={async () => {
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+              }}
+            />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Button
+              variant="contained"
+              color="primary"
+              label="loading"
+              onClick={async () => {
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+              }}
+            />`
+          )
+        }
+      />
+      <Usage
+        title="end click animation"
+        components={
+          <>
+            <Button
+              variant="contained"
+              color="primary"
+              label="instant"
+              size="sm"
+              endClickAnimation
+            />
+            <Button
+              variant="outlined"
+              color="primary"
+              label="instant"
+              endClickAnimation
+            />
+            <Button
+              variant="text"
+              color="primary"
+              label="instant"
+              size="lg"
+              endClickAnimation
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              label="loading"
+              endClickAnimation
+              onClick={async () => {
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+              }}
+            />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Button
+              variant="contained"
+              color="primary"
+              label="instant"
+              endClickAnimation
+            />`
+          )
+        }
+      />
     </Flex>
   );
 };

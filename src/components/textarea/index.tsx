@@ -1,5 +1,3 @@
-"use client";
-
 import { forwardRef } from "react";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";

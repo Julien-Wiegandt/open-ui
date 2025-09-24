@@ -1,5 +1,3 @@
-"use client";
-
 import { radiusMap } from "@/theme/constants";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";

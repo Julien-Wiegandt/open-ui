@@ -1,5 +1,3 @@
-"use client";
-
 import type { MarginProps, PaddingProps } from "./types";
 
 export const toRem = (value: number | string) => {

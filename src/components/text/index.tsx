@@ -1,8 +1,7 @@
-"use client";
-
 import { useResponsive } from "@/hooks/use-responsive";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import type { MarginProps, PaddingProps } from "../common/types";
+import { useCombinedRefs } from "../utils/use-combined-refs";
 import { StyledText } from "./styled";
 
 export type TextProps = {
@@ -33,15 +32,41 @@ export type TextProps = {
   width?: string;
   height?: string;
   align?: "left" | "center" | "right" | "justify";
+  onSizeChange?: (size: { width: number; height: number }) => void;
 } & MarginProps &
   PaddingProps &
   React.HTMLAttributes<HTMLParagraphElement>;
 
 export const Text = forwardRef<HTMLParagraphElement, TextProps>(
-  ({ children, ...props }, ref) => {
+  ({ children, onSizeChange, ...props }, ref) => {
     const { breakpoint } = useResponsive();
+    const internalRef = useRef<HTMLParagraphElement | null>(null);
+
+    useEffect(() => {
+      const element = internalRef.current;
+      if (!element || !onSizeChange) {
+        return;
+      }
+
+      const observer = new ResizeObserver((entries) => {
+        const entry = entries[0];
+        if (entry) {
+          const { width, height } = entry.contentRect;
+          onSizeChange({ width, height });
+        }
+      });
+
+      observer.observe(element);
+
+      return () => {
+        observer.unobserve(element);
+      };
+    }, [onSizeChange]);
+
+    const combinedRef = useCombinedRefs(ref, internalRef);
+
     return (
-      <StyledText ref={ref} {...props} breakpoint={breakpoint}>
+      <StyledText ref={combinedRef} {...props} breakpoint={breakpoint}>
         {children}
       </StyledText>
     );

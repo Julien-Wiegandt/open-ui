@@ -1,7 +1,7 @@
 import { Chip } from "@/components/chip";
 import { Flex } from "@/components/flex";
 import { Title } from "@/components/title";
-import { SuccessIcon } from "@/theme/constants";
+import { ExampleIcon } from "@/theme/constants";
 import { Usage } from "../components/usage";
 
 export const Chips = () => {
@@ -82,14 +82,14 @@ export const Chips = () => {
           <>
             <Chip
               color="primary"
-              startIcon={<SuccessIcon />}
+              startIcon={<ExampleIcon />}
               label="start icon"
               variant="contained"
             />
             <Chip
               color="primary"
               label="end icon"
-              endIcon={<SuccessIcon />}
+              endIcon={<ExampleIcon />}
               variant="contained"
             />
             <Chip

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
-
-import { forwardRef, useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTheme } from "styled-components";
 import { Flex } from "../flex";
 import { Text } from "../text";
@@ -21,6 +20,32 @@ export type SelectProps = {
   }) => React.ReactNode;
 };
 
+const DefaultOption = ({
+  option,
+  handleChange,
+}: {
+  option: SelectOption;
+  handleChange: (option: SelectOption) => void;
+}) => {
+  const theme = useTheme();
+  return (
+    <Flex
+      key={option.key}
+      onClick={() => handleChange(option)}
+      px={1.5}
+      py={1}
+      height="37px"
+      hoverstyle={{
+        backgroundColor: theme.palette.primary.light,
+      }}
+    >
+      <Text size="14" align="left">
+        {option.label}
+      </Text>
+    </Flex>
+  );
+};
+
 export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
   const theme = useTheme();
 
@@ -31,8 +56,14 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
     }
   );
   const [open, setOpen] = useState(false);
+  const [selectOptionHeight, setSelectOptionHeight] = useState<number | undefined>(
+    undefined
+  );
 
   const selectContainerRef = useRef<HTMLDivElement>(null);
+  const selectOptionRef = useRef<HTMLDivElement>(null);
+  const optionsContainerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -50,34 +81,37 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
     };
   }, []);
 
+  useLayoutEffect(() => {
+    if (open) {
+      gsap.to(optionsContainerRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    } else {
+      gsap.to(optionsContainerRef.current, {
+        autoAlpha: 0,
+        y: -10,
+        duration: 0.2,
+        ease: "power2.in",
+      });
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (selectOptionRef.current) {
+      setSelectOptionHeight(selectOptionRef.current.clientHeight);
+    }
+  }, [selectOptionRef.current]);
+
   const handleChange = (option: SelectOption) => {
     setSelectedValue(option);
     if (props.onChange) {
       props.onChange(option);
     }
+    setOpen(false);
   };
-
-  const DefaultOption = ({
-    option,
-    handleChange,
-  }: {
-    option: SelectOption;
-    handleChange: (option: SelectOption) => void;
-  }) => (
-    <Flex
-      key={option.key}
-      onClick={() => handleChange(option)}
-      px={1.5}
-      py={1}
-      hoverstyle={{
-        backgroundColor: theme.palette.primary.light,
-      }}
-    >
-      <Text size="14" align="left">
-        {option.label}
-      </Text>
-    </Flex>
-  );
 
   return (
     <Flex ref={selectContainerRef} direction="column" width="100%" justify="start">
@@ -98,8 +132,8 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
         </Flex>
       )}
       <Flex
+        ref={selectOptionRef}
         elevation={1}
-        height="fit-content"
         onClick={() => setOpen(!open)}
         style={{ position: "relative", cursor: "pointer" }}
       >
@@ -110,18 +144,19 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
         )}
 
         <Flex
+          ref={optionsContainerRef}
           elevation={1}
           width="100%"
           gap={0.5}
           style={{
             position: "absolute",
             left: "0",
-            top: "38px",
-            display: open ? "flex" : "none",
+            top: selectOptionHeight ? `${selectOptionHeight + 1}px` : "37px",
+            visibility: "hidden",
             zIndex: 1,
             backgroundColor: "white",
             maxHeight: "200px",
-            overflow: "auto",
+            overflowY: "scroll",
           }}
         >
           {props.options.map((option) =>
