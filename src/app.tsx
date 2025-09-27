@@ -13,6 +13,7 @@ import "@fontsource/poppins/400-italic.css";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/latin.css";
 import { useContext, useMemo, useState } from "react";
+import { useResponsive } from "./hooks/use-responsive";
 import { OpenUIProvider } from "./theme";
 import type { Theme as ThemeType } from "./theme/types";
 import { CustomThemeContext } from "./theme/use-theme";
@@ -29,6 +30,8 @@ import { Toasts } from "./views/toasts";
 
 const App = () => {
   const navigate = useNavigate();
+  const { isMobile, isTablet } = useResponsive();
+  const isMobileOrTablet = isMobile || isTablet;
 
   const { radius, palette, text, title } = useContext(CustomThemeContext);
   const [active, setActive] = useState<number | undefined>(undefined);
@@ -62,7 +65,7 @@ const App = () => {
           <img src="/open-ui.png" alt="open-ui" height="36px" />
           <Title level={3}>open-ui</Title>
         </Flex>
-        <Flex direction="row" width="100%" mt="68px">
+        <Flex direction={isMobileOrTablet ? "column" : "row"} width="100%" mt="68px">
           <Flex p={2} width="15%">
             <Text size="15" mb={1}>
               Components

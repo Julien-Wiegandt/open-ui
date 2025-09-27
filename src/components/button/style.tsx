@@ -94,8 +94,8 @@ export const StyledButton = styled.button<ButtonProps>`
   all: unset;
 
   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
-  padding: ${({ size, label, startIcon, endIcon }) =>
-    !label && (startIcon || endIcon)
+  padding: ${({ size, label, starticon, endicon }) =>
+    !label && (starticon || endicon)
       ? sizeIconMap[size ?? "md"].padding
       : sizeMap[size ?? "md"].padding};
   display: flex;
@@ -120,8 +120,8 @@ export const StyledButton = styled.button<ButtonProps>`
   ${({ p, pb, pl, pr, pt, px, py }) => getPaddingCSS({ p, pb, pl, pr, pt, px, py })};
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
   position: relative;
-  color: ${({ txtColor, color, variant, theme }) =>
-    txtColor ?? getVariantStyle({ color, theme })[variant].color};
+  color: ${({ color, variant, theme }) =>
+    getVariantStyle({ color, theme })[variant].color};
 
   ${({ variant, color, theme, active }) =>
     active && getVariantStyle({ color, theme })[variant].onHover}

@@ -2,12 +2,19 @@
 import type { Color, Radius, Variant } from "@/theme/types";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
 import { Flex } from "../flex";
-import CheckIcon from "../icons/check";
-import { Text } from "../text";
+import { CheckIcon } from "../icons/check";
+import { Text, type TextProps } from "../text";
 import { useCombinedRefs } from "../utils/use-combined-refs";
 import { getVariantStyle, sizeMap, StyledButton } from "./style";
 
@@ -19,8 +26,8 @@ export type ButtonProps = {
   variant: Variant;
   // optional
   label?: string;
-  startIcon?: React.ReactNode;
-  endIcon?: React.ReactNode;
+  starticon?: React.ReactNode;
+  endicon?: React.ReactNode;
   endClickAnimation?: boolean;
   size?: "sm" | "md" | "lg";
   bgcolor?: string;
@@ -28,22 +35,22 @@ export type ButtonProps = {
   gap?: string | number;
   loading?: boolean;
   active?: boolean;
-  txtColor?: string;
   align?: "left" | "center" | "right";
   w?: string;
   h?: string;
+  labelProps?: TextProps;
 } & MarginProps &
   PaddingProps &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ onClick, ...props }, ref) => {
+  ({ onClick, loading: loadingProp = true, labelProps, ...props }, ref) => {
     const theme = useTheme();
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const textRef = useRef<HTMLParagraphElement>(null);
-    const startIconRef = useRef<HTMLDivElement>(null);
-    const endIconRef = useRef<HTMLDivElement>(null);
+    const starticonRef = useRef<HTMLDivElement>(null);
+    const endiconRef = useRef<HTMLDivElement>(null);
     const [loading, setLoading] = useState(false);
     const [endAnimation, setEndAnimation] = useState(false);
     const [animationEndWidth, setAnimationEndWidth] = useState<number | undefined>(
@@ -55,7 +62,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const memoizedProps = useMemo(() => {
       const defaultProps = {
         size: "md" as ButtonProps["size"],
-        loading: true,
       };
       return {
         ...defaultProps,
@@ -89,61 +95,72 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     }, [loading, props.label]);
 
     useEffect(() => {
-      if (startIconRef.current && props.startIcon && !props.endIcon) {
-        setAnimationEndWidth(startIconRef.current.getBoundingClientRect().width);
+      if (starticonRef.current && props.starticon && !props.endicon) {
+        setAnimationEndWidth(starticonRef.current.getBoundingClientRect().width);
       }
-    }, [props.startIcon, props.endIcon]);
+    }, [props.starticon, props.endicon]);
 
     useEffect(() => {
-      if (endIconRef.current && props.endIcon) {
-        setAnimationEndWidth(endIconRef.current.getBoundingClientRect().width);
+      if (endiconRef.current && props.endicon) {
+        setAnimationEndWidth(endiconRef.current.getBoundingClientRect().width);
       }
-    }, [props.endIcon]);
+    }, [props.endicon]);
 
     const variant = useMemo(
       () => getVariantStyle({ color: memoizedProps.color, theme }),
       [memoizedProps.color, theme]
     );
 
+    const handleButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (loadingProp) setLoading(true);
+
+      try {
+        if (onClick) await onClick(event);
+      } finally {
+        if (loadingProp) setLoading(false);
+
+        if (memoizedProps.endClickAnimation) {
+          setEndAnimation(true);
+
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+
+          setEndAnimation(false);
+        }
+      }
+    };
+
+    const handleTextSizeChange = useCallback(
+      (size: { width: number; height: number }) => {
+        if (!props.starticon && !props.endicon && !endAnimation) {
+          setAnimationEndWidth(size.width);
+        }
+      },
+      [props.starticon, props.endicon, endAnimation]
+    );
+
     return (
       <StyledButton
         ref={combinedRef}
-        onClick={async (event) => {
-          if (memoizedProps.loading) setLoading(true);
-          try {
-            if (onClick) await onClick(event);
-          } finally {
-            if (memoizedProps.endClickAnimation) {
-              setEndAnimation(true);
-              setTimeout(() => {
-                setEndAnimation(false);
-              }, 1000);
-            }
-            if (memoizedProps.loading) setLoading(false);
-          }
-        }}
+        onClick={handleButtonClick}
         {...memoizedProps}
         disabled={loading || props.disabled}
       >
-        {!endAnimation && props.startIcon && (
-          <Flex ref={startIconRef} align="center" justify="center">
-            {props.startIcon}
+        {!endAnimation && props.starticon && (
+          <Flex ref={starticonRef} align="center" justify="center">
+            {props.starticon}
           </Flex>
         )}
         {props.label &&
           (!endAnimation ||
-            (endAnimation && props.startIcon) ||
-            (endAnimation && props.endIcon)) && (
+            (endAnimation && props.starticon) ||
+            (endAnimation && props.endicon)) && (
             <Text
               ref={textRef}
-              onSizeChange={(size) => {
-                if (!props.startIcon && !props.endIcon) {
-                  setAnimationEndWidth(size.width);
-                }
-              }}
+              onSizeChange={handleTextSizeChange}
               width="100%"
               align={memoizedProps.align ?? "center"}
               size={sizeMap[memoizedProps.size ?? "md"].fontSize}
+              {...labelProps}
             >
               {props.label}
             </Text>
@@ -158,9 +175,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             />
           </Flex>
         )}
-        {!endAnimation && props.endIcon && (
-          <Flex ref={endIconRef} align="center" justify="center">
-            {props.endIcon}
+        {!endAnimation && props.endicon && (
+          <Flex ref={endiconRef} align="center" justify="center">
+            {props.endicon}
           </Flex>
         )}
       </StyledButton>

@@ -1,5 +1,5 @@
 import { Flex } from "@/components/flex";
-import CheckIcon from "@/components/icons/check";
+import { CheckIcon } from "@/components/icons/check";
 import { Title } from "@/components/title";
 import { useState } from "react";
 import { Usage } from "../components/usage";

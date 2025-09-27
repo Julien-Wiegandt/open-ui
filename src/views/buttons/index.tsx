@@ -1,5 +1,6 @@
 import { Flex } from "@/components/flex";
 import { Title } from "@/components/title";
+import { useState } from "react";
 import { Button } from "../../components/button";
 import { Usage } from "../components/usage";
 
@@ -8,6 +9,7 @@ import { Usage } from "../components/usage";
 }
 
 export const Buttons = () => {
+  const [show, setShow] = useState(true);
   return (
     <Flex direction="column" gap={4}>
       <Title level={2}>Button</Title>
@@ -84,7 +86,7 @@ export const Buttons = () => {
               color="primary"
               size="md"
               label="start icon"
-              startIcon={
+              starticon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -106,7 +108,7 @@ export const Buttons = () => {
               color="primary"
               size="md"
               label="end icon"
-              endIcon={
+              endicon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -127,7 +129,7 @@ export const Buttons = () => {
               variant="contained"
               color="primary"
               size="md"
-              startIcon={
+              starticon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -153,7 +155,7 @@ export const Buttons = () => {
               color="primary"
               size="md"
               label="start icon"
-              startIcon={
+              starticon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -233,6 +235,20 @@ export const Buttons = () => {
                 await new Promise((resolve) => setTimeout(resolve, 5000));
               }}
             />
+            {show && (
+              <Button
+                variant="contained"
+                color="primary"
+                label="process and hide"
+                endClickAnimation
+                onClick={async () => {
+                  await new Promise((resolve) => setTimeout(resolve, 5000));
+                  setTimeout(() => {
+                    setShow(false);
+                  }, 1000);
+                }}
+              />
+            )}
           </>
         }
         onCopy={() =>

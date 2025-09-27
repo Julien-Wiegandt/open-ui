@@ -1,5 +1,6 @@
 export * from "./components/button";
 export * from "./components/chip";
+export * from "./components/divider";
 export * from "./components/flex";
 export * from "./components/icons";
 export * from "./components/input";

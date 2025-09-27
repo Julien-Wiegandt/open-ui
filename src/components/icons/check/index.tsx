@@ -11,7 +11,7 @@ export type CheckIconProps = {
   color?: string;
 } & React.SVGAttributes<SVGSVGElement>;
 
-const CheckIcon = forwardRef<SVGSVGElement, CheckIconProps>(
+export const CheckIcon = forwardRef<SVGSVGElement, CheckIconProps>(
   (
     {
       isVisible,
@@ -83,5 +83,3 @@ const CheckIcon = forwardRef<SVGSVGElement, CheckIconProps>(
     );
   }
 );
-
-export default CheckIcon;

@@ -8,7 +8,7 @@ export const StyledToast = styled(Flex)<Omit<ToastProps, "id">>`
   z-index: 99999;
   background-color: white;
   opacity: 1;
-  width: 320px;
+  width: 100%;
   position: relative;
 
   svg {

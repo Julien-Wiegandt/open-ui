@@ -1,6 +1,7 @@
 import { Button } from "@/components/button";
 import { Flex } from "@/components/flex";
 import { Title } from "@/components/title";
+import { useResponsive } from "@/hooks/use-responsive";
 import { useTheme } from "styled-components";
 
 export const Usage = (props: {
@@ -10,15 +11,19 @@ export const Usage = (props: {
   onCopy?: () => void;
 }) => {
   const theme = useTheme();
+  const { isMobile, isTablet } = useResponsive();
+  const isMobileOrTablet = isMobile || isTablet;
+
+  const orientation = isMobileOrTablet ? "vertical" : props.orientation;
   return (
     <Flex gap={1}>
       <Title level={5}>{props.title}</Title>
       <Flex
-        direction={props.orientation === "vertical" ? "column" : "row"}
+        direction={orientation === "vertical" ? "column" : "row"}
         elevation={2}
         p={4}
-        align={props.orientation === "vertical" ? "start" : "center"}
-        justify={props.orientation === "vertical" ? "center" : "start"}
+        align={orientation === "vertical" ? "start" : "center"}
+        justify={orientation === "vertical" ? "center" : "start"}
         gap={2}
         style={{
           position: "relative",
@@ -31,7 +36,7 @@ export const Usage = (props: {
             size="sm"
             onClick={props.onCopy}
             endClickAnimation
-            startIcon={
+            starticon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
