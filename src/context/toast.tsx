@@ -3,23 +3,13 @@ import { Flex } from "@/components/flex";
 import { Toast, type ToastProps } from "@/components/toast";
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { useResponsive } from "@/hooks/use-responsive";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { Draggable } from "gsap/Draggable";
 
 gsap.registerPlugin(useGSAP);
-
-// export type Toast = {
-//   id: string;
-//   title: string;
-//   variant?: "success" | "error" | "warning" | "info";
-//   startIcon?: React.ReactNode;
-//   endIcon?: React.ReactNode;
-//   size?: "sm" | "md" | "lg";
-//   children?: React.ReactNode;
-//   style?: React.CSSProperties;
-//   duration?: number;
-//   onClose?: () => void;
-// };
+gsap.registerPlugin(Draggable);
 
 export type IToastContext = {
   toasts: ToastProps[];
@@ -72,7 +62,7 @@ export const ToastContextProvider = ({
         setToasts((prevToasts) => [...prevToasts, newToast]);
       },
     }),
-    [toasts, settings]
+    [toasts]
   );
 
   return (
@@ -95,6 +85,26 @@ export const ToastProvider = ({
   const toastRefs = useRef(new Map<string, HTMLDivElement>());
   const containerRef = useRef<HTMLDivElement>(null);
   const [toastHover, setToastHover] = useState(false);
+  const { isMobile } = useResponsive();
+
+  const animateAndRemoveToast = useCallback(
+    (id: string) => {
+      const node = toastRefs.current.get(id);
+      if (node) {
+        gsap.killTweensOf(node);
+        gsap.to(node, {
+          x: "100%",
+          opacity: 0,
+          duration: 0.4,
+          ease: "power2.in",
+          onComplete: () => {
+            removeToast(id);
+          },
+        });
+      }
+    },
+    [removeToast]
+  );
 
   useEffect(() => {
     toasts.forEach((toast) => {
@@ -113,17 +123,20 @@ export const ToastProvider = ({
               const timeline = gsap.timeline({
                 delay: toast.duration || settings.durationInSeconds,
                 onComplete: () => {
-                  removeToast(toast.id);
-                  toastRefs.current.delete(toast.id);
+                  gsap.to(node, {
+                    opacity: 0,
+                    y: -50,
+                    duration: 0.3,
+                    ease: "power2.in",
+                    onComplete: () => {
+                      removeToast(toast.id);
+                      toastRefs.current.delete(toast.id);
+                    },
+                  });
                 },
               });
 
-              timeline.to(node, {
-                opacity: 0,
-                y: -50,
-                duration: 0.3,
-                ease: "power2.in",
-              });
+              (node as any).timeline = timeline;
             },
           }
         );
@@ -152,6 +165,62 @@ export const ToastProvider = ({
     }
   );
 
+  useGSAP(
+    () => {
+      const draggables: Draggable[] = [];
+
+      visibleToasts.forEach((toast) => {
+        const node = toastRefs.current.get(toast.id);
+        if (!node) return;
+
+        const dragInstance = Draggable.create(node, {
+          type: "x",
+          edgeResistance: 0.9,
+          bounds: { minX: 0, maxX: window.innerWidth },
+          onPress: function () {
+            if ((this.target as any).timeline) {
+              (this.target as any).timeline.pause();
+            }
+          },
+          onDrag: function () {
+            gsap.set(this.target, { opacity: 1 - Math.abs(this.x) / this.maxX });
+          },
+          onDragEnd: function () {
+            const dismissThreshold = node.offsetWidth * 0.1;
+
+            if (this.x > dismissThreshold) {
+              gsap.to(this.target, {
+                x: "100%",
+                opacity: 0,
+                duration: 0.3,
+                ease: "power2.in",
+                onComplete: () => {
+                  removeToast(toast.id);
+                },
+              });
+            } else {
+              gsap.to(this.target, {
+                x: 0,
+                opacity: 1,
+                duration: 0.4,
+                ease: "elastic.out(1, 0.75)",
+              });
+              if ((this.target as any).timeline) {
+                (this.target as any).timeline.resume();
+              }
+            }
+          },
+        });
+        draggables.push(dragInstance[0]);
+      });
+
+      return () => {
+        draggables.forEach((d) => d.kill());
+      };
+    },
+    { dependencies: [toasts], scope: containerRef }
+  );
+
   useEffect(() => {
     if (visibleToasts.length === 0 && toastHover) {
       setToastHover(false);
@@ -165,8 +234,8 @@ export const ToastProvider = ({
       direction="column-reverse"
       style={{
         position: "fixed",
-        top: "8px",
-        right: "8px",
+        top: isMobile ? "16px" : "8px",
+        right: isMobile ? "16px" : "8px",
         zIndex: 99999,
       }}
       onMouseEnter={() => setToastHover(true)}
@@ -176,7 +245,7 @@ export const ToastProvider = ({
         <Toast
           key={toast.id}
           className="toast-item"
-          onClose={() => removeToast(toast.id)}
+          onClose={() => animateAndRemoveToast(toast.id)}
           ref={(el) => {
             if (el) {
               toastRefs.current.set(toast.id, el);

@@ -13,12 +13,46 @@ import React, {
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
 import { Flex } from "../flex";
+import { HamburgerIcon, HeartIcon } from "../icons";
+import { BellIcon } from "../icons/bell";
 import { CheckIcon } from "../icons/check";
 import { Text, type TextProps } from "../text";
 import { useCombinedRefs } from "../utils/use-combined-refs";
 import { getVariantStyle, sizeMap, StyledButton } from "./style";
 
+export type Icon = "bell" | "check" | "hamburger" | "heart";
+
 gsap.registerPlugin(SplitText);
+
+const Icon = forwardRef<
+  HTMLDivElement,
+  { icon: ButtonProps["starticon"]; animation: boolean; color: string; size: number }
+>(({ icon, animation, color, size }, ref) => {
+  return (
+    icon && (
+      <Flex ref={ref} align="center" justify="center">
+        {typeof icon !== "string" && icon}
+        {icon === "bell" && (
+          <BellIcon hasNotification={animation} size={size} color={color} animated />
+        )}
+        {icon === "check" && (
+          <CheckIcon
+            isVisible={animation}
+            size={size}
+            animated={animation}
+            color={color}
+          />
+        )}
+        {icon === "hamburger" && (
+          <HamburgerIcon isOpen={animation} size={size} animated color={color} />
+        )}
+        {icon === "heart" && (
+          <HeartIcon isLiked={animation} size={size} animated color={color} />
+        )}
+      </Flex>
+    )
+  );
+});
 
 export type ButtonProps = {
   // required
@@ -26,9 +60,9 @@ export type ButtonProps = {
   variant: Variant;
   // optional
   label?: string;
-  starticon?: React.ReactNode;
-  endicon?: React.ReactNode;
-  endClickAnimation?: boolean;
+  starticon?: React.ReactNode | Icon;
+  endicon?: React.ReactNode | Icon;
+  endanimation?: boolean;
   size?: "sm" | "md" | "lg";
   bgcolor?: string;
   radius?: Radius;
@@ -53,9 +87,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const endiconRef = useRef<HTMLDivElement>(null);
     const [loading, setLoading] = useState(false);
     const [endAnimation, setEndAnimation] = useState(false);
+    const [animation, setAnimation] = useState(false);
     const [animationEndWidth, setAnimationEndWidth] = useState<number | undefined>(
       undefined
     );
+
+    const isToogleIcon =
+      (typeof props.starticon === "string" &&
+        ["heart", "hamburger"].includes(props.starticon)) ||
+      (typeof props.endicon === "string" &&
+        ["heart", "hamburger"].includes(props.endicon));
 
     const combinedRef = useCombinedRefs(ref, buttonRef);
 
@@ -119,13 +160,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       } finally {
         if (loadingProp) setLoading(false);
 
-        if (memoizedProps.endClickAnimation) {
-          setEndAnimation(true);
+        if (memoizedProps.endanimation) setEndAnimation(true);
+        setAnimation(isToogleIcon ? !animation : true);
 
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-
-          setEndAnimation(false);
-        }
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        if (memoizedProps.endanimation) setEndAnimation(false);
+        if (!isToogleIcon) setAnimation(false);
       }
     };
 
@@ -145,10 +185,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...memoizedProps}
         disabled={loading || props.disabled}
       >
-        {!endAnimation && props.starticon && (
-          <Flex ref={starticonRef} align="center" justify="center">
-            {props.starticon}
-          </Flex>
+        {!endAnimation && (
+          <Icon
+            ref={starticonRef}
+            icon={props.starticon}
+            animation={animation}
+            color={
+              getVariantStyle({ color: memoizedProps.color, theme })[
+                memoizedProps.variant
+              ].color
+            }
+            size={sizeMap[memoizedProps.size ?? "md"].height ?? 24}
+          />
         )}
         {props.label &&
           (!endAnimation ||
@@ -175,10 +223,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             />
           </Flex>
         )}
-        {!endAnimation && props.endicon && (
-          <Flex ref={endiconRef} align="center" justify="center">
-            {props.endicon}
-          </Flex>
+        {!endAnimation && (
+          <Icon
+            ref={endiconRef}
+            icon={props.endicon}
+            animation={animation}
+            color={
+              getVariantStyle({ color: memoizedProps.color, theme })[
+                memoizedProps.variant
+              ].color
+            }
+            size={sizeMap[memoizedProps.size ?? "md"].height ?? 24}
+          />
         )}
       </StyledButton>
     );

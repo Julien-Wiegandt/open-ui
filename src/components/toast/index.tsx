@@ -1,3 +1,4 @@
+import { useResponsive } from "@/hooks/use-responsive";
 import type { Color } from "@/theme/types";
 import { forwardRef } from "react";
 import { useTheme } from "styled-components";
@@ -26,6 +27,7 @@ export type ToastProps = {
 export const Toast = forwardRef<HTMLDivElement, Omit<ToastProps, "id">>(
   ({ children, style, ...props }, ref) => {
     const theme = useTheme();
+    const { isMobile } = useResponsive();
 
     return (
       <StyledToast
@@ -73,7 +75,8 @@ export const Toast = forwardRef<HTMLDivElement, Omit<ToastProps, "id">>(
             direction="row"
             align="center"
             style={{
-              minWidth: "248px",
+              minWidth: "300px",
+              width: isMobile ? "calc(100vw - 40px)" : "auto",
             }}
           >
             {props.icon && (

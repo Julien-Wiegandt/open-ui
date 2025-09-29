@@ -1,5 +1,3 @@
-// src/components/CheckIcon.tsx
-
 import gsap from "gsap";
 import { forwardRef, useLayoutEffect, useRef } from "react";
 

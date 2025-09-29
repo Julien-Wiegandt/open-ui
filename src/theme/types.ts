@@ -14,7 +14,7 @@ export type Palette = {
   };
 };
 
-export type Text = {
+type Text = {
   fontFamily: string;
 };
 

@@ -1,12 +1,32 @@
 import { Flex } from "@/components/flex";
-import { Select } from "@/components/select";
+import { Select, type SelectOption } from "@/components/select";
 import { Text } from "@/components/text";
 import { Title } from "@/components/title";
+import { useState } from "react";
 import { useTheme } from "styled-components";
 import { Usage } from "../components/usage";
 
+const options = [
+  { key: "one", label: "One" },
+  { key: "two", label: "Two" },
+  { key: "three", label: "Three" },
+  { key: "four", label: "Four" },
+  { key: "five", label: "Five" },
+  { key: "six", label: "Six" },
+  { key: "seven", label: "Seven" },
+  { key: "eight", label: "Eight" },
+  { key: "nine", label: "Nine" },
+  { key: "ten", label: "Ten" },
+  { key: "eleven", label: "Eleven" },
+  { key: "twelve", label: "Twelve" },
+  { key: "thirteen", label: "Thirteen" },
+  { key: "fourteen", label: "Fourteen" },
+  { key: "fifteen", label: "Fifteen" },
+];
+
 export const Selects = () => {
   const theme = useTheme();
+  const [selectedValue, setSelectedValue] = useState<SelectOption | undefined>(undefined);
   return (
     <Flex gap={4}>
       <Title level={2}>Select</Title>
@@ -14,51 +34,18 @@ export const Selects = () => {
         title="base"
         components={
           <>
+            <Select label="Select an option" options={options} />
             <Select
-              label="Select an option"
+              label="With placeholder"
               placeholder="Select an option"
-              options={[
-                { key: "one", label: "One" },
-                { key: "two", label: "Two" },
-                { key: "three", label: "Three" },
-                { key: "four", label: "Four" },
-                { key: "five", label: "Five" },
-                { key: "six", label: "Six" },
-                { key: "seven", label: "Seven" },
-                { key: "eight", label: "Eight" },
-                { key: "nine", label: "Nine" },
-                { key: "ten", label: "Ten" },
-                { key: "eleven", label: "Eleven" },
-                { key: "twelve", label: "Twelve" },
-                { key: "thirteen", label: "Thirteen" },
-                { key: "fourteen", label: "Fourteen" },
-                { key: "fifteen", label: "Fifteen" },
-              ]}
+              options={options}
             />
           </>
         }
         onCopy={() =>
-          navigator.clipboard.writeText(`<Select
-              label="Select an option"
-              placeholder="Select an option"
-              options={[
-                { key: "1", label: "One" },
-                { key: "2", label: "Two" },
-                { key: "3", label: "Three" },
-                { key: "4", label: "Four" },
-                { key: "5", label: "Five" },
-                { key: "6", label: "Six" },
-                { key: "7", label: "Seven" },
-                { key: "8", label: "Eight" },
-                { key: "9", label: "Nine" },
-                { key: "10", label: "Ten" },
-                { key: "11", label: "Eleven" },
-                { key: "12", label: "Twelve" },
-                { key: "13", label: "Thirteen" },
-                { key: "14", label: "Fourteen" },
-                { key: "15", label: "Fifteen" },
-              ]}
-            />`)
+          navigator.clipboard.writeText(
+            `<Select label="Select an option" options={options} />`
+          )
         }
         orientation="vertical"
       />
@@ -71,11 +58,11 @@ export const Selects = () => {
               placeholder="Select an option"
               CustomOption={({ option, handleChange }) => (
                 <Flex
-                  key={option.key}
+                  key={option?.key}
                   direction="row"
                   align="center"
                   gap={1}
-                  onClick={() => handleChange(option)}
+                  onClick={() => handleChange && option && handleChange(option)}
                   px={1.5}
                   py={1}
                   height="calc(28px + 1rem)"
@@ -83,7 +70,7 @@ export const Selects = () => {
                     backgroundColor: theme.palette.primary.light,
                   }}
                 >
-                  {option.data?.picture && (
+                  {option?.data?.picture && (
                     <img
                       src={option.data.picture}
                       alt="profile"
@@ -94,9 +81,11 @@ export const Selects = () => {
                       }}
                     />
                   )}
-                  <Text size="14" align="left">
-                    {option.label}
-                  </Text>
+                  {option?.label && (
+                    <Text size="14" align="left">
+                      {option?.label}
+                    </Text>
+                  )}
                 </Flex>
               )}
               options={[
@@ -217,6 +206,26 @@ export const Selects = () => {
                 },
               ]}
             />`)
+        }
+        orientation="vertical"
+      />
+      <Usage
+        title="controlled"
+        components={
+          <>
+            <Select
+              label="Select an option"
+              placeholder="Select an option"
+              options={options}
+              value={selectedValue}
+              onChange={(option) => setSelectedValue(option)}
+            />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Select label="Select an option" options={options} />`
+          )
         }
         orientation="vertical"
       />

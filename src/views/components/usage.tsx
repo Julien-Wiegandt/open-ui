@@ -35,7 +35,7 @@ export const Usage = (props: {
             variant="text"
             size="sm"
             onClick={props.onCopy}
-            endClickAnimation
+            endanimation
             starticon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"

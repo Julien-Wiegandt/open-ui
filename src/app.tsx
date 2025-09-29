@@ -12,11 +12,10 @@ import { Titles } from "./views/titles";
 import "@fontsource/poppins/400-italic.css";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/latin.css";
-import { useContext, useMemo, useState } from "react";
+import { useState } from "react";
 import { useResponsive } from "./hooks/use-responsive";
 import { OpenUIProvider } from "./theme";
-import type { Theme as ThemeType } from "./theme/types";
-import { CustomThemeContext } from "./theme/use-theme";
+import { THEME } from "./theme/constants";
 import { Chips } from "./views/chips";
 import { Dividers } from "./views/dividers";
 import { Flexs } from "./views/flexs";
@@ -25,7 +24,8 @@ import { Inputs } from "./views/inputs";
 import { Modals } from "./views/modals";
 import { ProgressBars } from "./views/progress-bars";
 import { Selects } from "./views/selects";
-import { Theme } from "./views/theme";
+import { Skeletons } from "./views/skeletons";
+import { Switchs } from "./views/switchs";
 import { Toasts } from "./views/toasts";
 
 const App = () => {
@@ -33,21 +33,10 @@ const App = () => {
   const { isMobile, isTablet } = useResponsive();
   const isMobileOrTablet = isMobile || isTablet;
 
-  const { radius, palette, text, title } = useContext(CustomThemeContext);
   const [active, setActive] = useState<number | undefined>(undefined);
 
-  const theme: ThemeType = useMemo(
-    () => ({
-      palette,
-      radius,
-      title,
-      text,
-    }),
-    [radius, palette, title, text]
-  );
-
   return (
-    <OpenUIProvider theme={theme}>
+    <OpenUIProvider themes={[THEME]}>
       <Flex width="100vw" style={{ position: "relative" }}>
         <Flex
           direction="row"
@@ -170,14 +159,36 @@ const App = () => {
               }}
             />
             <Button
-              label="Text"
+              label="Skeleton"
               variant="text"
               align="left"
               color="default"
               active={active === 9}
               onClick={() => {
-                navigate("/text");
+                navigate("/skeleton");
                 setActive(9);
+              }}
+            />
+            <Button
+              label="Switch"
+              variant="text"
+              align="left"
+              color="default"
+              active={active === 10}
+              onClick={() => {
+                navigate("/switch");
+                setActive(10);
+              }}
+            />
+            <Button
+              label="Text"
+              variant="text"
+              align="left"
+              color="default"
+              active={active === 11}
+              onClick={() => {
+                navigate("/text");
+                setActive(11);
               }}
             />
             <Button
@@ -185,10 +196,10 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 10}
+              active={active === 12}
               onClick={() => {
                 navigate("/textarea");
-                setActive(10);
+                setActive(12);
               }}
             />
 
@@ -197,10 +208,10 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 11}
+              active={active === 13}
               onClick={() => {
                 navigate("/title");
-                setActive(11);
+                setActive(13);
               }}
             />
             <Button
@@ -208,21 +219,10 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 12}
+              active={active === 14}
               onClick={() => {
                 navigate("/toast");
-                setActive(12);
-              }}
-            />
-            <Button
-              label="Theme"
-              variant="text"
-              align="left"
-              color="default"
-              active={active === 13}
-              onClick={() => {
-                navigate("/theme");
-                setActive(13);
+                setActive(14);
               }}
             />
           </Flex>
@@ -246,10 +246,11 @@ const App = () => {
               <Route path="/textarea" element={<TextAreas />} />
               <Route path="/flex" element={<Flexs />} />
               <Route path="/chip" element={<Chips />} />
-              <Route path="/theme" element={<Theme />} />
               <Route path="/progress-bar" element={<ProgressBars />} />
               <Route path="/select" element={<Selects />} />
+              <Route path="/switch" element={<Switchs />} />
               <Route path="/toast" element={<Toasts />} />
+              <Route path="/skeleton" element={<Skeletons />} />
             </Routes>
           </Flex>
         </Flex>

@@ -102,6 +102,7 @@ export const StyledButton = styled.button<ButtonProps>`
   align-items: center;
   justify-content: center;
   gap: ${({ gap }) => (gap ? toRem(gap) : "8px")};
+
   transition: all 0.25s ease;
 
   width: ${({ w }) => w ?? "auto"};
@@ -126,9 +127,11 @@ export const StyledButton = styled.button<ButtonProps>`
   ${({ variant, color, theme, active }) =>
     active && getVariantStyle({ color, theme })[variant].onHover}
 
-  &:hover {
-    ${({ variant, color, theme }) => getVariantStyle({ color, theme })[variant].onHover}
-    opacity: ${({ disabled }) => disabled && 0.6};
+  @media (hover: hover) {
+    &:hover {
+      ${({ variant, color, theme }) => getVariantStyle({ color, theme })[variant].onHover}
+      opacity: ${({ disabled }) => disabled && 0.6};
+    }
   }
 
   &:active {

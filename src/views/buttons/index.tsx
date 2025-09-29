@@ -209,28 +209,8 @@ export const Buttons = () => {
             <Button
               variant="contained"
               color="primary"
-              label="instant"
-              size="sm"
-              endClickAnimation
-            />
-            <Button
-              variant="outlined"
-              color="primary"
-              label="instant"
-              endClickAnimation
-            />
-            <Button
-              variant="text"
-              color="primary"
-              label="instant"
-              size="lg"
-              endClickAnimation
-            />
-            <Button
-              variant="contained"
-              color="primary"
               label="loading"
-              endClickAnimation
+              endanimation
               onClick={async () => {
                 await new Promise((resolve) => setTimeout(resolve, 5000));
               }}
@@ -240,7 +220,7 @@ export const Buttons = () => {
                 variant="contained"
                 color="primary"
                 label="process and hide"
-                endClickAnimation
+                endanimation
                 onClick={async () => {
                   await new Promise((resolve) => setTimeout(resolve, 5000));
                   setTimeout(() => {
@@ -256,9 +236,38 @@ export const Buttons = () => {
             `<Button
               variant="contained"
               color="primary"
-              label="instant"
-              endClickAnimation
+              label="loading"
+              endanimation
+              onClick={async () => {
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+              }}
             />`
+          )
+        }
+      />
+      <Usage
+        title="animated icon"
+        components={
+          <>
+            <Button
+              variant="contained"
+              color="primary"
+              label="Notifications"
+              endicon="bell"
+            />
+            <Button variant="contained" color="primary" label="Like" endicon="heart" />
+            <Button
+              variant="contained"
+              color="primary"
+              label="Menu"
+              endicon="hamburger"
+            />
+            <Button variant="contained" color="primary" label="Accept" endicon="check" />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Button variant="contained" color="primary" label="instant" endicon="bell" />`
           )
         }
       />

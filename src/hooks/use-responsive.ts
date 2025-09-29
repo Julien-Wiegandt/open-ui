@@ -3,23 +3,23 @@ import { useEffect, useMemo, useState } from "react";
 export type Breakpoint = "sm" | "md" | "lg" | "xl";
 
 export const breakpoints: { [key in Breakpoint]: number } = {
-  sm: 480,
-  md: 768,
-  lg: 1024,
+  sm: 768,
+  md: 1024,
+  lg: 1280,
   xl: 1280,
 };
 
-export const useResponsive = () => {
-  const [width, setWidth] = useState<number | undefined>(undefined);
+const getWidth = () => {
+  return typeof window !== "undefined" ? window.innerWidth : 0;
+};
 
-  const [breakpoint, setBreakpoint] = useState<Breakpoint>("sm");
+export const useResponsive = () => {
+  const [width, setWidth] = useState<number>(getWidth());
 
   useEffect(() => {
     const handleResize = () => {
-      setWidth(window.innerWidth);
+      setWidth(getWidth());
     };
-
-    handleResize();
 
     window.addEventListener("resize", handleResize);
 
@@ -28,28 +28,27 @@ export const useResponsive = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (typeof width === "number") {
-      if (width >= breakpoints.xl) {
-        setBreakpoint("xl");
-      } else if (width >= breakpoints.lg) {
-        setBreakpoint("lg");
-      } else if (width >= breakpoints.sm) {
-        setBreakpoint("md");
-      } else {
-        setBreakpoint("sm");
-      }
-    }
-  }, [width]);
+  const { breakpoint, isMobile, isTablet, isLaptop, isDesktop } = useMemo(() => {
+    let currentBreakpoint: Breakpoint = "sm";
 
-  const { isMobile, isTablet, isLaptop, isDesktop } = useMemo(() => {
+    if (width >= breakpoints.lg) {
+      currentBreakpoint = "xl";
+    } else if (width >= breakpoints.md) {
+      currentBreakpoint = "lg";
+    } else if (width >= breakpoints.sm) {
+      currentBreakpoint = "md";
+    } else {
+      currentBreakpoint = "sm";
+    }
+
     return {
-      isMobile: breakpoint === "sm",
-      isTablet: breakpoint === "md",
-      isLaptop: breakpoint === "lg",
-      isDesktop: breakpoint === "xl",
+      breakpoint: currentBreakpoint,
+      isMobile: currentBreakpoint === "sm",
+      isTablet: currentBreakpoint === "md",
+      isLaptop: currentBreakpoint === "lg",
+      isDesktop: currentBreakpoint === "xl",
     };
-  }, [breakpoint]);
+  }, [width]);
 
   return { width, breakpoint, isMobile, isTablet, isLaptop, isDesktop };
 };

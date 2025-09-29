@@ -10,13 +10,14 @@ export type SelectOption = { key: string; label: string; data?: any };
 export type SelectProps = {
   options: Array<SelectOption>;
   initialValue?: SelectOption;
+  value?: SelectOption;
   onChange?: (value: SelectOption) => void;
   label?: string;
   required?: boolean;
   placeholder?: string;
   CustomOption?: (props: {
-    option: SelectOption;
-    handleChange: (option: SelectOption) => void;
+    option?: SelectOption;
+    handleChange?: (option: SelectOption) => void;
   }) => React.ReactNode;
 };
 
@@ -24,14 +25,14 @@ const DefaultOption = ({
   option,
   handleChange,
 }: {
-  option: SelectOption;
-  handleChange: (option: SelectOption) => void;
+  option?: SelectOption;
+  handleChange?: (option: SelectOption) => void;
 }) => {
   const theme = useTheme();
   return (
     <Flex
-      key={option.key}
-      onClick={() => handleChange(option)}
+      key={option?.key}
+      onClick={() => handleChange && option && handleChange(option)}
       px={1.5}
       py={1}
       height="37px"
@@ -39,9 +40,11 @@ const DefaultOption = ({
         backgroundColor: theme.palette.primary.light,
       }}
     >
-      <Text size="14" align="left">
-        {option.label}
-      </Text>
+      {option?.label && (
+        <Text size="14" align="left">
+          {option.label}
+        </Text>
+      )}
     </Flex>
   );
 };
@@ -49,11 +52,15 @@ const DefaultOption = ({
 export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
   const theme = useTheme();
 
-  const [selectedValue, setSelectedValue] = useState<SelectOption>(
-    props.initialValue ?? {
-      key: props.placeholder ?? "key",
-      label: props.placeholder ?? "label",
-    }
+  const [selectedValue, setSelectedValue] = useState<SelectOption | undefined>(
+    props.value ??
+      props.initialValue ??
+      (props.placeholder
+        ? {
+            key: props.placeholder,
+            label: props.placeholder,
+          }
+        : undefined)
   );
   const [open, setOpen] = useState(false);
   const [selectOptionHeight, setSelectOptionHeight] = useState<number | undefined>(
@@ -138,9 +145,9 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
         style={{ position: "relative", cursor: "pointer" }}
       >
         {props.CustomOption ? (
-          <props.CustomOption option={selectedValue} handleChange={handleChange} />
+          <props.CustomOption option={selectedValue} />
         ) : (
-          <DefaultOption option={selectedValue} handleChange={handleChange} />
+          <DefaultOption option={selectedValue} />
         )}
 
         <Flex

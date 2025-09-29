@@ -6,6 +6,7 @@ import { Button } from "../button";
 import { Flex } from "../flex";
 import { Title } from "../title";
 
+import { useResponsive } from "@/hooks/use-responsive";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 
@@ -13,9 +14,14 @@ gsap.registerPlugin(useGSAP);
 
 const sizeMap = {
   sm: {
-    minWidth: "280px",
-    maxWidth: "380px",
+    minWidth: {
+      sm: "82%",
+      md: "380px",
+      lg: "380px",
+      xl: "380px",
+    },
     maxHeight: "60vh",
+    width: "40vw",
     headerPy: 1.5,
     headerPx: 3,
     bodyPy: 1,
@@ -24,9 +30,14 @@ const sizeMap = {
     footerPx: 3,
   },
   md: {
-    minWidth: "400px",
-    maxWidth: "448px",
+    minWidth: {
+      sm: "90%",
+      md: "400px",
+      lg: "400px",
+      xl: "400px",
+    },
     maxHeight: "70vh",
+    width: "50vw",
     headerPy: 2,
     headerPx: 3,
     bodyPy: 1,
@@ -35,9 +46,14 @@ const sizeMap = {
     footerPx: 3,
   },
   lg: {
-    minWidth: "500px",
-    maxWidth: "576px",
+    minWidth: {
+      sm: "96%",
+      md: "500px",
+      lg: "500px",
+      xl: "500px",
+    },
     maxHeight: "80vh",
+    width: "60vw",
     headerPy: 2,
     headerPx: 3,
     bodyPy: 1,
@@ -65,6 +81,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     ref
   ) => {
     const theme = useTheme();
+    const { breakpoint } = useResponsive();
 
     const [portal, setPortal] = useState<HTMLElement | null>(null);
 
@@ -149,10 +166,12 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           elevation={3}
           style={{
             zIndex: 999999,
-            width: fullScreen ? "100vw" : "80vw",
+            width: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].width,
             height: fullScreen ? "100vh" : "fit-content",
-            minWidth: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].minWidth,
-            maxWidth: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].maxWidth,
+            minWidth: fullScreen
+              ? "100vw"
+              : sizeMap[props.size ?? "md"].minWidth[breakpoint],
+            // maxWidth: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].maxWidth,
             maxHeight: fullScreen ? "100vh" : sizeMap[props.size ?? "md"].maxHeight,
             borderRadius: fullScreen ? "0px" : `min(24px, ${radiusMap[theme.radius]})`,
             backgroundColor: "white",

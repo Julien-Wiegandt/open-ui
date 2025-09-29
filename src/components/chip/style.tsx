@@ -16,33 +16,15 @@ const getVariantStyle = ({
   contained: {
     bgColor: theme.palette[color].main,
     color: "#FFFFFF",
-    onHover: {
-      opacity: 0.75,
-    },
-    onActive: {
-      transform: `scale(0.95)`,
-    },
   },
   outlined: {
     bgColor: "#FFFFFF",
     border: `2px solid ${theme.palette[color].main}`,
     color: theme.palette[color].main,
-    onHover: {
-      opacity: 0.75,
-    },
-    onActive: {
-      transform: `scale(0.95)`,
-    },
   },
   text: {
     bgColor: "transparent",
     color: theme.palette[color].main,
-    onActive: {
-      transform: `scale(0.95)`,
-    },
-    onHover: {
-      backgroundColor: `${theme.palette[color].main}22`,
-    },
   },
 });
 
