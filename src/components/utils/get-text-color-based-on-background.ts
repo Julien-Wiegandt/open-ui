@@ -1,9 +1,4 @@
-import type { Theme } from "@/theme/types";
-
-export const getTextColorBasedOnBackground = (
-  backgroundColor: string,
-  theme: Theme
-): string => {
+export const getTextColorBasedOnBackground = (backgroundColor: string): string => {
   if (backgroundColor === "transparent") return "#000000";
 
   let hex = backgroundColor.startsWith("#") ? backgroundColor.slice(1) : backgroundColor;
@@ -25,5 +20,5 @@ export const getTextColorBasedOnBackground = (
 
   const luminance = (r * 299 + g * 587 + b * 114) / 1000;
 
-  return luminance >= 128 ? theme.palette.primary.dark : theme.palette.primary.light;
+  return luminance >= 128 ? "#000000" : "#FFFFFF";
 };

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import type { ButtonProps } from ".";
 import { getMarginsCSS, getPaddingCSS, toRem } from "../common";
 import type { TextProps } from "../text";
+import { getTextColorBasedOnBackground } from "../utils/get-text-color-based-on-background";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getVariantStyle = ({
@@ -17,7 +18,7 @@ export const getVariantStyle = ({
   contained: {
     bgColor: theme.palette[color].main,
     border: `2px solid transparent`,
-    color: "#FFFFFF",
+    color: getTextColorBasedOnBackground(theme.palette[color].main),
     onHover: {
       opacity: 0.75,
     },
