@@ -15,5 +15,6 @@ export * from "./components/title";
 export * from "./components/toast";
 export * from "./context/toast";
 export * from "./hooks";
+export * from "./theme/create-theme";
 export * from "./theme/index";
 export * from "./theme/types";
