@@ -4,7 +4,7 @@ export type Variant = "contained" | "outlined" | "text";
 
 export type Elevation = 0 | 1 | 2 | 3 | 4 | 6 | 8;
 
-export type Color = "default" | "primary" | "secondary" | "error";
+export type Color = "default" | "primary" | "error";
 
 export type Palette = {
   [key in Color]: {

@@ -17,21 +17,21 @@ export const StyledInput = styled.input<InputProps>`
 
   background-color: white;
   border-radius: ${({ theme }) => radiusMap[theme.radius]};
-  padding: 8px 12px;
-  width: 100%;
+  padding: ${({ type }) => (type === "color" ? "0" : `8px 12px`)};
   ${getScrollbarCSS()};
 
   border: 1px solid
     ${({ error }) =>
       error
         ? ({ theme }) => theme.palette.error.main
-        : ({ theme, color }) => theme.palette[color ?? "default"].main};
+        : ({ theme, color, type }) =>
+            type === "color" ? "transparent" : theme.palette[color ?? "default"].main};
   ${({ m, mb, ml, mr, mt, mx, my }: MarginProps) =>
     getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
   ${({ p, pb, pl, pr, pt, px, py }: PaddingProps) =>
     getPaddingCSS({ p, pb, pl, pr, pt, px, py })};
 
-  width: ${({ w }) => w};
+  width: ${({ w }) => w ?? "100%"};
   height: ${({ h }) => h};
 
   &::-webkit-search-cancel-button {

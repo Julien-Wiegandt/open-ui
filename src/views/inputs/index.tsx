@@ -55,7 +55,6 @@ export const Inputs = () => {
         components={
           <>
             <Input label="primary" placeholder="primary" color="primary" />
-            <Input label="secondary" placeholder="secondary" color="secondary" />
             <Input label="default" placeholder="default" color="default" />
             <Input label="error" placeholder="error" color="error" />
           </>

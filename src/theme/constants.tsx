@@ -24,11 +24,6 @@ export const THEME: Theme = {
       main: "#166FEE",
       light: "#daeeff",
     },
-    secondary: {
-      dark: "#c2255c",
-      main: "#e64980",
-      light: "#fcc2d7",
-    },
     default: { dark: "#000000", main: "#1e1e1e", light: "#d1d1d1" },
     error: {
       dark: "#43110c",

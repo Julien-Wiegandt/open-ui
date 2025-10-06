@@ -30,7 +30,6 @@ export const Chips = () => {
         components={
           <>
             <Chip color="primary" label="primary" variant="contained" />
-            <Chip color="secondary" label="secondary" variant="contained" />
             <Chip color="default" label="default" variant="contained" />
             <Chip color="error" label="error" variant="contained" />
           </>

@@ -12,11 +12,11 @@ import { Titles } from "./views/titles";
 import "@fontsource/poppins/400-italic.css";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/latin.css";
-import { useState } from "react";
 import { useResponsive } from "./hooks/use-responsive";
 import { OpenUIProvider } from "./theme";
 import { THEME } from "./theme/constants";
 import { Chips } from "./views/chips";
+import { ColorPickers } from "./views/color-picker";
 import { Dividers } from "./views/dividers";
 import { Flexs } from "./views/flexs";
 import { Icons } from "./views/icons";
@@ -32,8 +32,6 @@ const App = () => {
   const navigate = useNavigate();
   const { isMobile, isTablet } = useResponsive();
   const isMobileOrTablet = isMobile || isTablet;
-
-  const [active, setActive] = useState<number | undefined>(undefined);
 
   return (
     <OpenUIProvider themes={[THEME]}>
@@ -64,10 +62,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 0}
               onClick={() => {
                 navigate("/button");
-                setActive(0);
               }}
             />
             <Button
@@ -75,10 +71,17 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 1}
               onClick={() => {
                 navigate("/chip");
-                setActive(1);
+              }}
+            />
+            <Button
+              label="ColorPicker"
+              variant="text"
+              align="left"
+              color="default"
+              onClick={() => {
+                navigate("/color-picker");
               }}
             />
             <Button
@@ -86,10 +89,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 2}
               onClick={() => {
                 navigate("/divider");
-                setActive(2);
               }}
             />
             <Button
@@ -97,10 +98,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 3}
               onClick={() => {
                 navigate("/flex");
-                setActive(3);
               }}
             />
             <Button
@@ -108,10 +107,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 4}
               onClick={() => {
                 navigate("/icons");
-                setActive(4);
               }}
             />
             <Button
@@ -119,10 +116,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 5}
               onClick={() => {
                 navigate("/input");
-                setActive(5);
               }}
             />
             <Button
@@ -130,10 +125,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 6}
               onClick={() => {
                 navigate("/modal");
-                setActive(6);
               }}
             />
             <Button
@@ -141,10 +134,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 7}
               onClick={() => {
                 navigate("/progress-bar");
-                setActive(7);
               }}
             />
             <Button
@@ -152,10 +143,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 8}
               onClick={() => {
                 navigate("/select");
-                setActive(8);
               }}
             />
             <Button
@@ -163,10 +152,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 9}
               onClick={() => {
                 navigate("/skeleton");
-                setActive(9);
               }}
             />
             <Button
@@ -174,10 +161,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 10}
               onClick={() => {
                 navigate("/switch");
-                setActive(10);
               }}
             />
             <Button
@@ -185,10 +170,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 11}
               onClick={() => {
                 navigate("/text");
-                setActive(11);
               }}
             />
             <Button
@@ -196,10 +179,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 12}
               onClick={() => {
                 navigate("/textarea");
-                setActive(12);
               }}
             />
 
@@ -208,10 +189,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 13}
               onClick={() => {
                 navigate("/title");
-                setActive(13);
               }}
             />
             <Button
@@ -219,10 +198,8 @@ const App = () => {
               variant="text"
               align="left"
               color="default"
-              active={active === 14}
               onClick={() => {
                 navigate("/toast");
-                setActive(14);
               }}
             />
           </Flex>
@@ -236,6 +213,7 @@ const App = () => {
             }}
           >
             <Routes>
+              <Route path="/color-picker" element={<ColorPickers />} />
               <Route path="/title" element={<Titles />} />
               <Route path="/text" element={<Texts />} />
               <Route path="/button" element={<Buttons />} />

@@ -4,17 +4,15 @@ import { generateColorPalette } from "./utils/colors";
 export const createTheme = (props: {
   radius: Radius;
   primary: string;
-  secondary: string;
   default?: string;
   error?: string;
 }): Theme => {
   const primaryPalette = generateColorPalette(props.primary, 500);
-  const secondaryPalette = generateColorPalette(props.primary, 500);
-  const defaultPalette = generateColorPalette(props.primary, 500);
-  const errorPalette = generateColorPalette(props.primary, 500);
+  const defaultPalette = generateColorPalette(props.default ?? "#000000", 500);
+  const errorPalette = generateColorPalette(props.error ?? "#e74c3c", 500);
 
   return {
-    radius: "none",
+    radius: props.radius,
     title: {
       fontFamily: "Poppins",
     },
@@ -26,11 +24,6 @@ export const createTheme = (props: {
         dark: primaryPalette[900],
         main: primaryPalette[500],
         light: primaryPalette[100],
-      },
-      secondary: {
-        dark: secondaryPalette[900],
-        main: secondaryPalette[500],
-        light: secondaryPalette[100],
       },
       default: {
         dark: defaultPalette[900],

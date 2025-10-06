@@ -33,7 +33,6 @@ export const Buttons = () => {
         components={
           <>
             <Button variant="contained" color="primary" label="primary" />
-            <Button variant="contained" color="secondary" label="secondary" />
             <Button variant="contained" color="default" label="default" />
             <Button variant="contained" color="error" label="error" />
           </>
