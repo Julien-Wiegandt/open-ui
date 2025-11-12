@@ -21,11 +21,12 @@ export const StyledInput = styled.input<InputProps>`
   ${getScrollbarCSS()};
 
   border: 1px solid
-    ${({ error }) =>
-      error
+    ${({ error, type }) =>
+      type === "color"
+        ? "transparent"
+        : error
         ? ({ theme }) => theme.palette.error.main
-        : ({ theme, color, type }) =>
-            type === "color" ? "transparent" : theme.palette[color ?? "default"].main};
+        : ({ theme, color }) => theme.palette[color ?? "default"].main};
   ${({ m, mb, ml, mr, mt, mx, my }: MarginProps) =>
     getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
   ${({ p, pb, pl, pr, pt, px, py }: PaddingProps) =>

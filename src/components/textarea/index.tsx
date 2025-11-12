@@ -1,3 +1,4 @@
+import type { Color } from "@/theme/types";
 import { forwardRef } from "react";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
@@ -6,6 +7,7 @@ import { Text } from "../text";
 import { StyledTextArea } from "./styled";
 
 export type TextAreaProps = {
+  color?: Color;
   error?: string;
   w?: string;
   h?: string;

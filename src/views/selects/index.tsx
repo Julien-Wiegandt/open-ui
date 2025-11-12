@@ -35,6 +35,12 @@ export const Selects = () => {
         components={
           <>
             <Select label="Select an option" options={options} />
+            <Select label="Select an option up" orientation="up" options={options} />
+            <Select
+              label="Select an option without scrollbar"
+              hideScrollbar
+              options={options}
+            />
             <Select
               label="With placeholder"
               placeholder="Select an option"

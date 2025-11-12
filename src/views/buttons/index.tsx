@@ -20,6 +20,7 @@ export const Buttons = () => {
             <Button variant="contained" color="primary" label="contained" />
             <Button variant="outlined" color="primary" label="outlined" />
             <Button variant="text" color="primary" label="text" />
+            <Button variant="soft" color="primary" label="soft" />
           </>
         }
         onCopy={() =>

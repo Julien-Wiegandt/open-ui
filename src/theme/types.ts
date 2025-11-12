@@ -1,6 +1,6 @@
 export type Radius = "none" | "sm" | "md" | "lg" | "full";
 
-export type Variant = "contained" | "outlined" | "text";
+export type Variant = "contained" | "outlined" | "text" | "soft";
 
 export type Elevation = 0 | 1 | 2 | 3 | 4 | 6 | 8;
 

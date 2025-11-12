@@ -6,6 +6,8 @@ export const createTheme = (props: {
   primary: string;
   default?: string;
   error?: string;
+  titleFontFamily?: string;
+  textFontFamily?: string;
 }): Theme => {
   const primaryPalette = generateColorPalette(props.primary, 500);
   const defaultPalette = generateColorPalette(props.default ?? "#000000", 500);
@@ -14,10 +16,10 @@ export const createTheme = (props: {
   return {
     radius: props.radius,
     title: {
-      fontFamily: "Poppins",
+      fontFamily: props.titleFontFamily ?? "Poppins",
     },
     text: {
-      fontFamily: "Poppins",
+      fontFamily: props.textFontFamily ?? "Poppins, sans-serif",
     },
     palette: {
       primary: {

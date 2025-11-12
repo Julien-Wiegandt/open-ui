@@ -18,6 +18,7 @@ export default defineConfig({
   },
   build: {
     outDir: "dist",
+
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "open-ui",
@@ -26,6 +27,7 @@ export default defineConfig({
     rollupOptions: {
       external: ["react", "react-dom"],
       output: {
+        name: "open-ui",
         globals: {
           react: "React",
           "react-dom": "ReactDOM",

@@ -13,7 +13,7 @@ export const StyledTextArea = styled.textarea<TextAreaProps>`
   align-items: center;
   text-align: left;
 
-  color: ${({ theme }) => theme.palette.primary.dark};
+  color: ${({ theme, color }) => theme.palette[color ?? "default"].main};
   background-color: white;
   border-radius: min(16px, ${({ theme }) => radiusMap[theme.radius]});
   padding: 8px 12px;

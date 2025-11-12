@@ -6,10 +6,13 @@ export type SkeletonProps = {
   width?: string;
   height?: string;
   radius?: string;
+  color?: string;
+  wrapperStyle?: React.CSSProperties;
+  shimmerStyle?: React.CSSProperties;
 };
 
 export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
-  ({ width, height, radius }, ref) => {
+  ({ width, height, radius, color, wrapperStyle, shimmerStyle }, ref) => {
     const shimmerRef = useRef(null);
 
     useEffect(() => {
@@ -24,8 +27,15 @@ export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
     }, []);
 
     return (
-      <SkeletonWrapper ref={ref} width={width} height={height} radius={radius}>
-        <ShimmerEffect ref={shimmerRef} />
+      <SkeletonWrapper
+        ref={ref}
+        width={width}
+        height={height}
+        radius={radius}
+        color={color}
+        style={wrapperStyle}
+      >
+        <ShimmerEffect ref={shimmerRef} color={color} style={shimmerStyle} />
       </SkeletonWrapper>
     );
   }

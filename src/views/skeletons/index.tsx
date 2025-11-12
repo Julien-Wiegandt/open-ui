@@ -13,6 +13,7 @@ export const Skeletons = () => {
         components={
           <>
             <Skeleton />
+            <Skeleton color="#029381" wrapperStyle={{ borderRadius: "30px" }} />
             <Skeleton width="28px" height="28px" />
             <Skeleton width="50px" height="50px" radius="50px" />
           </>

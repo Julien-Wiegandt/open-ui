@@ -23,6 +23,27 @@ export const ColorPickers = () => {
                 console.log(e.target.value);
               }}
             />
+            <Input
+              type="color"
+              color="primary"
+              label="color"
+              w="3rem"
+              h="3rem"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+            <Input
+              type="color"
+              color="primary"
+              label="color"
+              error="Wrong color"
+              w="3rem"
+              h="3rem"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
           </>
         }
         orientation="horizontal"

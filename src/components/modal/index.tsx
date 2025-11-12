@@ -1,5 +1,5 @@
 import { radiusMap } from "@/theme/constants";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useTheme } from "styled-components";
 import { Button } from "../button";
@@ -9,6 +9,7 @@ import { Title } from "../title";
 import { useResponsive } from "@/hooks/use-responsive";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
 
 gsap.registerPlugin(useGSAP);
 
@@ -138,6 +139,18 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       { dependencies: [isOpen, isMounted], scope: scope }
     );
 
+    const bodyStyle: React.CSSProperties = {
+      zIndex: 999999,
+      width: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].width,
+      height: fullScreen ? "100vh" : "fit-content",
+      minWidth: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].minWidth[breakpoint],
+      maxHeight: fullScreen ? "100vh" : sizeMap[props.size ?? "md"].maxHeight,
+      borderRadius: fullScreen ? "0px" : `min(24px, ${radiusMap[theme.radius]})`,
+      backgroundColor: "#FFFFFF",
+      position: "relative",
+      ...style,
+    };
+
     const modal = (
       <Flex
         ref={scope}
@@ -164,20 +177,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           }}
           direction="column"
           elevation={3}
-          style={{
-            zIndex: 999999,
-            width: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].width,
-            height: fullScreen ? "100vh" : "fit-content",
-            minWidth: fullScreen
-              ? "100vw"
-              : sizeMap[props.size ?? "md"].minWidth[breakpoint],
-            // maxWidth: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].maxWidth,
-            maxHeight: fullScreen ? "100vh" : sizeMap[props.size ?? "md"].maxHeight,
-            borderRadius: fullScreen ? "0px" : `min(24px, ${radiusMap[theme.radius]})`,
-            backgroundColor: "white",
-            position: "relative",
-            ...style,
-          }}
+          style={bodyStyle}
         >
           {props.onClose && (
             <Button
@@ -190,7 +190,9 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                   height="24"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="currentColor"
+                  stroke={getColorBasedOnBackground(
+                    bodyStyle.backgroundColor ?? "#FFFFFF"
+                  )}
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"

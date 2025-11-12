@@ -1,4 +1,4 @@
-export const getTextColorBasedOnBackground = (backgroundColor: string): string => {
+export const getColorBasedOnBackground = (backgroundColor: string): string => {
   if (backgroundColor === "transparent") return "#000000";
 
   let hex = backgroundColor.startsWith("#") ? backgroundColor.slice(1) : backgroundColor;

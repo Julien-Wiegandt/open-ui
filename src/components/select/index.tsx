@@ -15,10 +15,14 @@ export type SelectProps = {
   label?: string;
   required?: boolean;
   placeholder?: string;
+  orientation?: "up" | "down";
+  hideScrollbar?: boolean;
   CustomOption?: (props: {
     option?: SelectOption;
     handleChange?: (option: SelectOption) => void;
   }) => React.ReactNode;
+  selectOptionStyle?: React.CSSProperties;
+  optionContainerStyle?: React.CSSProperties;
 };
 
 const DefaultOption = ({
@@ -142,7 +146,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
         ref={selectOptionRef}
         elevation={1}
         onClick={() => setOpen(!open)}
-        style={{ position: "relative", cursor: "pointer" }}
+        style={{ position: "relative", cursor: "pointer", ...props.selectOptionStyle }}
       >
         {props.CustomOption ? (
           <props.CustomOption option={selectedValue} />
@@ -158,12 +162,23 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
           style={{
             position: "absolute",
             left: "0",
-            top: selectOptionHeight ? `${selectOptionHeight + 1}px` : "37px",
+            ...(!props.orientation || props.orientation === "down"
+              ? {
+                  top: selectOptionHeight ? `${selectOptionHeight + 1}px` : "37px",
+                }
+              : {
+                  bottom: selectOptionHeight ? `${selectOptionHeight + 1}px` : "37px",
+                }),
             visibility: "hidden",
             zIndex: 1,
-            backgroundColor: "white",
+            backdropFilter: "blur(6px)",
             maxHeight: "200px",
-            overflowY: "scroll",
+            overflowY: "auto",
+            ...(props.hideScrollbar && {
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }),
+            ...props.optionContainerStyle,
           }}
         >
           {props.options.map((option) =>

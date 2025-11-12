@@ -13,6 +13,7 @@ export type InputProps = {
   required?: boolean;
   w?: string;
   h?: string;
+  errorStyle?: React.CSSProperties;
 } & MarginProps &
   PaddingProps &
   React.InputHTMLAttributes<HTMLInputElement>;
@@ -26,11 +27,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           direction="row"
           gap={0.5}
           align="center"
-          mb="4px"
+          mb={props.type === "color" ? "0px" : "4px"}
           style={{ minHeight: "1.2em" }}
         >
           {props.label && (
             <Text
+              key={props.label}
               {...{
                 color: props.error
                   ? theme.palette.error.main
@@ -53,8 +55,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         <Text
           color={theme.palette.error.main}
           size="10"
-          mt="4px"
-          style={{ minHeight: "1.2em" }}
+          mt={props.type === "color" ? "0px" : "4px"}
+          style={{ minHeight: "1.2em", ...props.errorStyle }}
         >
           {props.error}
         </Text>

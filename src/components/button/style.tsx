@@ -5,7 +5,7 @@ import styled from "styled-components";
 import type { ButtonProps } from ".";
 import { getMarginsCSS, getPaddingCSS, toRem } from "../common";
 import type { TextProps } from "../text";
-import { getTextColorBasedOnBackground } from "../utils/get-text-color-based-on-background";
+import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getVariantStyle = ({
@@ -18,7 +18,7 @@ export const getVariantStyle = ({
   contained: {
     bgColor: theme.palette[color].main,
     border: `2px solid transparent`,
-    color: getTextColorBasedOnBackground(theme.palette[color].main),
+    color: getColorBasedOnBackground(theme.palette[color].main),
     onHover: {
       opacity: 0.75,
     },
@@ -27,7 +27,7 @@ export const getVariantStyle = ({
     },
   },
   outlined: {
-    bgColor: "#FFFFFF",
+    bgColor: "transparent",
     border: `2px solid ${theme.palette[color].main}`,
     color: theme.palette[color].main,
     onHover: {
@@ -48,6 +48,17 @@ export const getVariantStyle = ({
       backgroundColor: `${theme.palette[color].main}22`,
     },
   },
+  soft: {
+    bgColor: `${theme.palette[color].main}22`,
+    border: `2px solid transparent`,
+    color: theme.palette[color].main,
+    onHover: {
+      opacity: 0.75,
+    },
+    onActive: {
+      transform: `scale(0.95)`,
+    },
+  },
 });
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -56,19 +67,19 @@ export const sizeMap: Record<
   { padding: string; fontSize: TextProps["size"]; height: number }
 > = {
   sm: {
-    padding: "6px 0.75rem",
+    padding: "4px 0.5rem",
     fontSize: "12",
     height: 18,
   },
   md: {
-    padding: "8px 1rem",
+    padding: "5px 0.75rem",
     fontSize: "14",
     height: 21,
   },
   lg: {
-    padding: "10px 1.5rem",
+    padding: "6px 1rem",
     fontSize: "16",
-    height: 25,
+    height: 24,
   },
 };
 

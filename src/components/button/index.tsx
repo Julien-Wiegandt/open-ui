@@ -100,16 +100,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const combinedRef = useCombinedRefs(ref, buttonRef);
 
-    const memoizedProps = useMemo(() => {
-      const defaultProps = {
-        size: "md" as ButtonProps["size"],
-      };
-      return {
-        ...defaultProps,
-        ...props,
-      };
-    }, [props]);
-
     useEffect(() => {
       if (textRef.current) {
         const split = new SplitText(textRef.current, { type: "chars" });
@@ -148,8 +138,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     }, [props.endicon]);
 
     const variant = useMemo(
-      () => getVariantStyle({ color: memoizedProps.color, theme }),
-      [memoizedProps.color, theme]
+      () => getVariantStyle({ color: props.color, theme }),
+      [props.color, theme]
     );
 
     const handleButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -160,11 +150,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       } finally {
         if (loadingProp) setLoading(false);
 
-        if (memoizedProps.endanimation) setEndAnimation(true);
+        if (props.endanimation) setEndAnimation(true);
         setAnimation(isToogleIcon ? !animation : true);
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        if (memoizedProps.endanimation) setEndAnimation(false);
+        if (props.endanimation) setEndAnimation(false);
         if (!isToogleIcon) setAnimation(false);
       }
     };
@@ -182,7 +172,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <StyledButton
         ref={combinedRef}
         onClick={handleButtonClick}
-        {...memoizedProps}
+        {...props}
         disabled={loading || props.disabled}
       >
         {!endAnimation && (
@@ -190,12 +180,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             ref={starticonRef}
             icon={props.starticon}
             animation={animation}
-            color={
-              getVariantStyle({ color: memoizedProps.color, theme })[
-                memoizedProps.variant
-              ].color
-            }
-            size={sizeMap[memoizedProps.size ?? "md"].height ?? 24}
+            color={getVariantStyle({ color: props.color, theme })[props.variant].color}
+            size={sizeMap[props.size ?? "md"].height ?? 24}
           />
         )}
         {props.label &&
@@ -203,11 +189,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             (endAnimation && props.starticon) ||
             (endAnimation && props.endicon)) && (
             <Text
+              key={props.label}
               ref={textRef}
               onSizeChange={handleTextSizeChange}
               width="100%"
-              align={memoizedProps.align ?? "center"}
-              size={sizeMap[memoizedProps.size ?? "md"].fontSize}
+              mt="2px"
+              align={props.align ?? "center"}
+              size={sizeMap[props.size ?? "md"].fontSize}
               {...labelProps}
             >
               {props.label}
@@ -217,8 +205,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           <Flex align="center" justify="center" width={`${animationEndWidth}px`}>
             <CheckIcon
               isVisible={endAnimation}
-              color={variant[memoizedProps.variant].color}
-              size={sizeMap[memoizedProps.size ?? "md"].height ?? 24}
+              color={variant[props.variant].color}
+              size={sizeMap[props.size ?? "md"].height ?? 24}
               animated
             />
           </Flex>
@@ -228,12 +216,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             ref={endiconRef}
             icon={props.endicon}
             animation={animation}
-            color={
-              getVariantStyle({ color: memoizedProps.color, theme })[
-                memoizedProps.variant
-              ].color
-            }
-            size={sizeMap[memoizedProps.size ?? "md"].height ?? 24}
+            color={getVariantStyle({ color: props.color, theme })[props.variant].color}
+            size={sizeMap[props.size ?? "md"].height ?? 24}
           />
         )}
       </StyledButton>
