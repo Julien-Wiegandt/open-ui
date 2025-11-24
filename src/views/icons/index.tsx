@@ -3,6 +3,7 @@ import { HamburgerIcon } from "@/components/icons";
 import { BellIcon } from "@/components/icons/bell";
 import { CheckIcon } from "@/components/icons/check";
 import { HeartIcon } from "@/components/icons/heart";
+import { SyncIcon } from "@/components/icons/sync";
 import { Title } from "@/components/title";
 import { useState } from "react";
 import { Usage } from "../components/usage";
@@ -12,6 +13,7 @@ export const Icons = () => {
   const [hamburgerIcon, setHamburgerIcon] = useState(true);
   const [heartIcon, setHeartIcon] = useState(true);
   const [bellIcon, setBellIcon] = useState(true);
+  const [syncIcon, setSyncIcon] = useState(true);
 
   return (
     <Flex gap={4}>
@@ -25,6 +27,7 @@ export const Icons = () => {
             <HamburgerIcon isOpen={true} />
             <HeartIcon isLiked={true} />
             <BellIcon hasNotification={true} />
+            <SyncIcon isVisible={true} />
           </>
         }
         orientation="horizontal"
@@ -74,6 +77,19 @@ export const Icons = () => {
                 setBellIcon(false);
                 setTimeout(() => {
                   setBellIcon(true);
+                }, 50);
+              }}
+              style={{
+                cursor: "pointer",
+              }}
+            />
+            <SyncIcon
+              isVisible={syncIcon}
+              animated
+              onClick={() => {
+                setSyncIcon(false);
+                setTimeout(() => {
+                  setSyncIcon(true);
                 }, 50);
               }}
               style={{

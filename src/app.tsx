@@ -22,6 +22,7 @@ import { Flexs } from "./views/flexs";
 import { Icons } from "./views/icons";
 import { Inputs } from "./views/inputs";
 import { Modals } from "./views/modals";
+import { Popovers } from "./views/popover";
 import { ProgressBars } from "./views/progress-bars";
 import { Selects } from "./views/selects";
 import { Skeletons } from "./views/skeletons";
@@ -130,6 +131,15 @@ const App = () => {
               }}
             />
             <Button
+              label="Popover"
+              variant="text"
+              align="left"
+              color="default"
+              onClick={() => {
+                navigate("/popover");
+              }}
+            />
+            <Button
               label="ProgressBar"
               variant="text"
               align="left"
@@ -225,6 +235,7 @@ const App = () => {
               <Route path="/flex" element={<Flexs />} />
               <Route path="/chip" element={<Chips />} />
               <Route path="/progress-bar" element={<ProgressBars />} />
+              <Route path="/popover" element={<Popovers />} />
               <Route path="/select" element={<Selects />} />
               <Route path="/switch" element={<Switchs />} />
               <Route path="/toast" element={<Toasts />} />

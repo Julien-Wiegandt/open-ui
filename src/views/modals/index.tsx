@@ -7,9 +7,11 @@ import { useState } from "react";
 import { Usage } from "../components/usage";
 
 export const Modals = () => {
+  const [isExtraSmallModalOpen, setIsExtraSmallModalOpen] = useState(false);
   const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
   const [isMediumModalOpen, setIsMediumModalOpen] = useState(false);
   const [isLargeModalOpen, setIsLargeModalOpen] = useState(false);
+  const [isExtraLargeModalOpen, setIsExtraLargeModalOpen] = useState(false);
   const [isFullScreenModalOpen, setIsFullScreenModalOpen] = useState(false);
 
   const Footer = () => (
@@ -39,10 +41,35 @@ export const Modals = () => {
     </>
   );
 
+  const ExtraSmallModal = () => {
+    return (
+      <Modal
+        size="xs"
+        isOpen={isExtraSmallModalOpen}
+        title="Create your account"
+        onClose={() => setIsExtraSmallModalOpen(false)}
+        footer={<Footer />}
+      >
+        <Flex width="100%" height="100%">
+          <Text size="16" align="justify">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus
+            non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
+            porttitor quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+            hendrerit risus, sed porttitor quam. Magna exercitation reprehenderit magna
+            aute tempor cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
+            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem aliqua
+            enim laboris do dolor eiusmod.
+          </Text>
+        </Flex>
+      </Modal>
+    );
+  };
+
   const SmallModal = () => {
     return (
       <Modal
-        size="sm"
+        size="s"
         isOpen={isSmallModalOpen}
         title="Create your account"
         onClose={() => setIsSmallModalOpen(false)}
@@ -67,7 +94,7 @@ export const Modals = () => {
   const MediumModal = () => {
     return (
       <Modal
-        size="md"
+        size="m"
         isOpen={isMediumModalOpen}
         title="Create your account"
         onClose={() => setIsMediumModalOpen(false)}
@@ -92,10 +119,35 @@ export const Modals = () => {
   const LargeModal = () => {
     return (
       <Modal
-        size="lg"
+        size="l"
         isOpen={isLargeModalOpen}
         title="Create your account"
         onClose={() => setIsLargeModalOpen(false)}
+        footer={<Footer />}
+      >
+        <Flex width="100%" height="100%">
+          <Text size="16" align="justify">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus
+            non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
+            porttitor quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+            hendrerit risus, sed porttitor quam. Magna exercitation reprehenderit magna
+            aute tempor cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
+            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem aliqua
+            enim laboris do dolor eiusmod.
+          </Text>
+        </Flex>
+      </Modal>
+    );
+  };
+
+  const ExtraLargeModal = () => {
+    return (
+      <Modal
+        size="xl"
+        isOpen={isExtraLargeModalOpen}
+        title="Create your account"
+        onClose={() => setIsExtraLargeModalOpen(false)}
         footer={<Footer />}
       >
         <Flex width="100%" height="100%">
@@ -142,9 +194,11 @@ export const Modals = () => {
   return (
     <Flex gap={4}>
       <Title level={2}>Modal</Title>
+      <ExtraSmallModal />
       <MediumModal />
       <SmallModal />
       <LargeModal />
+      <ExtraLargeModal />
       <FullScreenModal />
 
       <Usage
@@ -189,6 +243,12 @@ export const Modals = () => {
             <Button
               color="default"
               variant="contained"
+              label="xs"
+              onClick={() => setIsExtraSmallModalOpen(true)}
+            />
+            <Button
+              color="default"
+              variant="contained"
               label="sm"
               onClick={() => setIsSmallModalOpen(true)}
             />
@@ -203,6 +263,12 @@ export const Modals = () => {
               variant="contained"
               label="lg"
               onClick={() => setIsLargeModalOpen(true)}
+            />
+            <Button
+              color="default"
+              variant="contained"
+              label="xl"
+              onClick={() => setIsExtraLargeModalOpen(true)}
             />
           </>
         }

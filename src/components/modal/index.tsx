@@ -14,7 +14,23 @@ import { getColorBasedOnBackground } from "../utils/get-color-based-on-backgroun
 gsap.registerPlugin(useGSAP);
 
 const sizeMap = {
-  sm: {
+  xs: {
+    minWidth: {
+      sm: "75%",
+      md: "320px",
+      lg: "320px",
+      xl: "320px",
+    },
+    maxHeight: "50vh",
+    width: "30vw",
+    headerPy: 1,
+    headerPx: 2.5,
+    bodyPy: 0.5,
+    bodyPx: 2.5,
+    footerPy: 1,
+    footerPx: 2.5,
+  },
+  s: {
     minWidth: {
       sm: "82%",
       md: "380px",
@@ -30,7 +46,7 @@ const sizeMap = {
     footerPy: 1.5,
     footerPx: 3,
   },
-  md: {
+  m: {
     minWidth: {
       sm: "90%",
       md: "400px",
@@ -46,7 +62,7 @@ const sizeMap = {
     footerPy: 1.5,
     footerPx: 3,
   },
-  lg: {
+  l: {
     minWidth: {
       sm: "96%",
       md: "500px",
@@ -62,13 +78,29 @@ const sizeMap = {
     footerPy: 1.5,
     footerPx: 3,
   },
+  xl: {
+    minWidth: {
+      sm: "98%",
+      md: "600px",
+      lg: "600px",
+      xl: "600px",
+    },
+    maxHeight: "90vh",
+    width: "70vw",
+    headerPy: 2.5,
+    headerPx: 3.5,
+    bodyPy: 1.5,
+    bodyPx: 3.5,
+    footerPy: 2,
+    footerPx: 3.5,
+  },
 };
 
 export type ModalProps = {
   isOpen: boolean;
   fullScreen?: boolean;
   title?: React.ReactNode;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "s" | "m" | "l" | "xl";
   children?: React.ReactNode;
   footer?: React.ReactNode;
   style?: React.CSSProperties;
@@ -141,10 +173,10 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
     const bodyStyle: React.CSSProperties = {
       zIndex: 999999,
-      width: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].width,
+      width: fullScreen ? "100vw" : sizeMap[props.size ?? "m"].width,
       height: fullScreen ? "100vh" : "fit-content",
-      minWidth: fullScreen ? "100vw" : sizeMap[props.size ?? "md"].minWidth[breakpoint],
-      maxHeight: fullScreen ? "100vh" : sizeMap[props.size ?? "md"].maxHeight,
+      minWidth: fullScreen ? "100vw" : sizeMap[props.size ?? "m"].minWidth[breakpoint],
+      maxHeight: fullScreen ? "100vh" : sizeMap[props.size ?? "m"].maxHeight,
       borderRadius: fullScreen ? "0px" : `min(24px, ${radiusMap[theme.radius]})`,
       backgroundColor: "#FFFFFF",
       position: "relative",
@@ -214,8 +246,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             <Flex
               direction="row"
               width="100%"
-              py={sizeMap[props.size ?? "md"].headerPy}
-              px={sizeMap[props.size ?? "md"].headerPx}
+              py={sizeMap[props.size ?? "m"].headerPy}
+              px={sizeMap[props.size ?? "m"].headerPx}
               align="center"
               justify="between"
             >
@@ -223,8 +255,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             </Flex>
           )}
           <Flex
-            py={sizeMap[props.size ?? "md"].bodyPy}
-            px={sizeMap[props.size ?? "md"].bodyPx}
+            py={sizeMap[props.size ?? "m"].bodyPy}
+            px={sizeMap[props.size ?? "m"].bodyPx}
             style={{
               overflowY: "auto",
             }}
@@ -236,8 +268,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             gap={2}
             width="100%"
             mt={"auto"}
-            py={sizeMap[props.size ?? "md"].footerPy}
-            px={sizeMap[props.size ?? "md"].footerPx}
+            py={sizeMap[props.size ?? "m"].footerPy}
+            px={sizeMap[props.size ?? "m"].footerPx}
             align="center"
             justify="end"
           >
