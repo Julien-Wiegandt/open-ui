@@ -15,6 +15,7 @@ import "@fontsource/poppins/latin.css";
 import { useResponsive } from "./hooks/use-responsive";
 import { OpenUIProvider } from "./theme";
 import { THEME } from "./theme/constants";
+import { Checkboxes } from "./views/checkboxes";
 import { Chips } from "./views/chips";
 import { ColorPickers } from "./views/color-picker";
 import { Dividers } from "./views/dividers";
@@ -65,6 +66,15 @@ const App = () => {
               color="default"
               onClick={() => {
                 navigate("/button");
+              }}
+            />
+            <Button
+              label="Checkbox"
+              variant="text"
+              align="left"
+              color="default"
+              onClick={() => {
+                navigate("/checkbox");
               }}
             />
             <Button
@@ -224,6 +234,7 @@ const App = () => {
           >
             <Routes>
               <Route path="/color-picker" element={<ColorPickers />} />
+              <Route path="/checkbox" element={<Checkboxes />} />
               <Route path="/title" element={<Titles />} />
               <Route path="/text" element={<Texts />} />
               <Route path="/button" element={<Buttons />} />
