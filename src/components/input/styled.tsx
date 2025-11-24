@@ -45,4 +45,14 @@ export const StyledInput = styled.input<InputProps>`
     background-position: center;
     cursor: pointer;
   }
+
+  &::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border-radius: ${({ theme }) => radiusMap[theme.radius]};
+  }
+
+  &::-webkit-color-swatch {
+    border: none;
+    border-radius: ${({ theme }) => radiusMap[theme.radius]};
+  }
 `;

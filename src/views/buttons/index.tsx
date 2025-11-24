@@ -10,6 +10,7 @@ import { Usage } from "../components/usage";
 
 export const Buttons = () => {
   const [show, setShow] = useState(true);
+  const [loading, setLoading] = useState(false);
   return (
     <Flex direction="column" gap={4}>
       <Title level={2}>Button</Title>
@@ -187,6 +188,17 @@ export const Buttons = () => {
                 await new Promise((resolve) => setTimeout(resolve, 5000));
               }}
             />
+            <Button
+              variant="contained"
+              color="primary"
+              label="loading"
+              loading={loading}
+              onClick={async () => {
+                setLoading(true);
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+                setLoading(false);
+              }}
+            />
           </>
         }
         onCopy={() =>
@@ -263,6 +275,7 @@ export const Buttons = () => {
               endicon="hamburger"
             />
             <Button variant="contained" color="primary" label="Accept" endicon="check" />
+            <Button variant="contained" color="primary" label="Sync" endicon="sync" />
           </>
         }
         onCopy={() =>

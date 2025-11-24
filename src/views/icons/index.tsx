@@ -27,7 +27,7 @@ export const Icons = () => {
             <HamburgerIcon isOpen={true} />
             <HeartIcon isLiked={true} />
             <BellIcon hasNotification={true} />
-            <SyncIcon isVisible={true} />
+            <SyncIcon isSyncing={true} />
           </>
         }
         orientation="horizontal"
@@ -84,7 +84,7 @@ export const Icons = () => {
               }}
             />
             <SyncIcon
-              isVisible={syncIcon}
+              isSyncing={syncIcon}
               animated
               onClick={() => {
                 setSyncIcon(false);

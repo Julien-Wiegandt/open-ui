@@ -17,8 +17,8 @@ export const ColorPickers = () => {
             <Input
               type="color"
               color="primary"
-              w="3rem"
-              h="3rem"
+              w="2rem"
+              h="2rem"
               onChange={(e) => {
                 console.log(e.target.value);
               }}
@@ -27,8 +27,8 @@ export const ColorPickers = () => {
               type="color"
               color="primary"
               label="color"
-              w="3rem"
-              h="3rem"
+              w="2rem"
+              h="2rem"
               onChange={(e) => {
                 console.log(e.target.value);
               }}
@@ -38,8 +38,8 @@ export const ColorPickers = () => {
               color="primary"
               label="color"
               error="Wrong color"
-              w="3rem"
-              h="3rem"
+              w="2rem"
+              h="2rem"
               onChange={(e) => {
                 console.log(e.target.value);
               }}

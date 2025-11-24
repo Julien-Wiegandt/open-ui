@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { forwardRef, useLayoutEffect, useRef } from "react";
 
 export type SyncIconProps = {
-  isVisible?: boolean;
+  isSyncing?: boolean;
   size?: number;
   animated?: boolean;
   strokeWidth?: number;
@@ -12,7 +12,7 @@ export type SyncIconProps = {
 export const SyncIcon = forwardRef<SVGSVGElement, SyncIconProps>(
   (
     {
-      isVisible = true,
+      isSyncing = false,
       size = 24,
       strokeWidth = 2,
       animated = false,
@@ -22,17 +22,20 @@ export const SyncIcon = forwardRef<SVGSVGElement, SyncIconProps>(
     ref
   ) => {
     const iconRef = useRef<SVGGElement | null>(null);
+    const prevIsSyncingRef = useRef<boolean>(isSyncing);
 
     useLayoutEffect(() => {
       if (!animated) return;
 
       const element = iconRef.current;
+      const prevIsSyncing = prevIsSyncingRef.current;
+
       if (element) {
-        if (isVisible) {
-          gsap.to(element, {
-            opacity: 1,
-            duration: 0.3,
-          });
+        // Detect transition from false to true
+        const isTransitionToSyncing = !prevIsSyncing && isSyncing;
+
+        if (isTransitionToSyncing) {
+          // Start rotation animation only when transitioning from false to true
           gsap.to(element, {
             rotation: 360,
             repeat: -1,
@@ -40,18 +43,22 @@ export const SyncIcon = forwardRef<SVGSVGElement, SyncIconProps>(
             duration: 1,
             transformOrigin: "50% 50%",
           });
-        } else {
-          gsap.to(element, {
-            opacity: 0,
-            duration: 0.3,
+        } else if (!isSyncing) {
+          // Stop animation when isSyncing becomes false, but keep icon visible
+          gsap.killTweensOf(element);
+          gsap.set(element, {
+            rotation: 0,
           });
         }
       }
 
+      // Update the previous value
+      prevIsSyncingRef.current = isSyncing;
+
       return () => {
         if (element) gsap.killTweensOf(element);
       };
-    }, [isVisible, animated]);
+    }, [isSyncing, animated]);
 
     return (
       <svg

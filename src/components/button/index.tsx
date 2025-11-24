@@ -13,14 +13,14 @@ import React, {
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
 import { Flex } from "../flex";
-import { HamburgerIcon, HeartIcon } from "../icons";
+import { HamburgerIcon, HeartIcon, SyncIcon } from "../icons";
 import { BellIcon } from "../icons/bell";
 import { CheckIcon } from "../icons/check";
 import { Text, type TextProps } from "../text";
 import { useCombinedRefs } from "../utils/use-combined-refs";
 import { getVariantStyle, sizeMap, StyledButton } from "./style";
 
-export type Icon = "bell" | "check" | "hamburger" | "heart";
+export type Icon = "bell" | "check" | "hamburger" | "heart" | "sync";
 
 gsap.registerPlugin(SplitText);
 
@@ -48,6 +48,9 @@ const Icon = forwardRef<
         )}
         {icon === "heart" && (
           <HeartIcon isLiked={animation} size={size} animated color={color} />
+        )}
+        {icon === "sync" && (
+          <SyncIcon isSyncing={animation} size={size} animated color={color} />
         )}
       </Flex>
     )
@@ -78,19 +81,23 @@ export type ButtonProps = {
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ onClick, loading: loadingProp = true, labelProps, ...props }, ref) => {
+  ({ onClick, loading: loadingProp, labelProps, ...props }, ref) => {
     const theme = useTheme();
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const textRef = useRef<HTMLParagraphElement>(null);
     const starticonRef = useRef<HTMLDivElement>(null);
     const endiconRef = useRef<HTMLDivElement>(null);
-    const [loading, setLoading] = useState(false);
+    const [internalLoading, setInternalLoading] = useState(false);
     const [endAnimation, setEndAnimation] = useState(false);
     const [animation, setAnimation] = useState(false);
     const [animationEndWidth, setAnimationEndWidth] = useState<number | undefined>(
       undefined
     );
+
+    // Mode contrôlé si loadingProp est défini, sinon mode non-contrôlé
+    const isControlled = loadingProp !== undefined;
+    const loading = isControlled ? loadingProp : internalLoading;
 
     const isToogleIcon =
       (typeof props.starticon === "string" &&
@@ -143,12 +150,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
 
     const handleButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-      if (loadingProp) setLoading(true);
+      // En mode non-contrôlé, gérer le loading automatiquement
+      if (!isControlled) setInternalLoading(true);
 
       try {
         if (onClick) await onClick(event);
       } finally {
-        if (loadingProp) setLoading(false);
+        if (!isControlled) setInternalLoading(false);
 
         if (props.endanimation) setEndAnimation(true);
         setAnimation(isToogleIcon ? !animation : true);
