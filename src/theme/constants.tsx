@@ -11,7 +11,7 @@ export const radiusMap: Record<Radius, string> = {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const THEME: Theme = {
-  radius: "none",
+  radius: "lg",
   title: {
     fontFamily: "Poppins",
   },

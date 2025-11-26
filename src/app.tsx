@@ -36,7 +36,17 @@ const App = () => {
   const isMobileOrTablet = isMobile || isTablet;
 
   return (
-    <OpenUIProvider themes={[THEME]}>
+    <OpenUIProvider
+      themes={[THEME]}
+      settings={{
+        toasts: {
+          durationInSeconds: 10,
+          maxToastDisplay: 5,
+          closable: false,
+          placement: "bottom-right",
+        },
+      }}
+    >
       <Flex width="100vw" style={{ position: "relative" }}>
         <Flex
           direction="row"

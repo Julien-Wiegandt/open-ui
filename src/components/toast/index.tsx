@@ -15,11 +15,12 @@ import { StyledToast } from "./style";
 export type ToastProps = {
   id: string;
   color?: Color;
-  title: string;
+  title?: string;
   icon?: React.ReactNode;
   duration?: number;
   children?: React.ReactNode;
   style?: React.CSSProperties;
+  data?: any;
   onClose?: () => void;
 } & FlexProps &
   React.HTMLAttributes<HTMLDivElement>;

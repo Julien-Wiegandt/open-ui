@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { radiusMap } from "@/theme/constants";
 import type { Color, Theme } from "@/theme/types";
 import styled from "styled-components";
 import type { CheckboxProps } from ".";
@@ -13,6 +12,14 @@ export const getCheckboxStyle = ({ color, theme }: { color: Color; theme: Theme 
   bgColor: theme.palette[color].main,
   checkColor: getColorBasedOnBackground(theme.palette[color].main),
 });
+
+const radiusMap = {
+  none: "0px",
+  sm: "4px",
+  md: "6px",
+  lg: "10px",
+  full: "42px",
+};
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const sizeMap: Record<

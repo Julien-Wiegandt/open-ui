@@ -22,10 +22,15 @@ export const ToastContext = createContext<IToastContext>({
   addToast: () => {},
 });
 
+export type ToastPlacement = "top-left" | "top-right" | "bottom-left" | "bottom-right";
+
 export type ToastSettings =
   | {
       maxToastDisplay: number;
       durationInSeconds: number;
+      closable: boolean;
+      placement: ToastPlacement;
+      Custom?: React.ComponentType<Omit<ToastProps, "id">>;
     }
   | undefined;
 
@@ -40,6 +45,9 @@ export const ToastContextProvider = ({
     () => ({
       maxToastDisplay: 3,
       durationInSeconds: 5,
+      closable: true,
+      placement: "top-right" as ToastPlacement,
+      Custom: undefined,
       ...props.settings,
     }),
     [props.settings]
@@ -92,8 +100,9 @@ export const ToastProvider = ({
       const node = toastRefs.current.get(id);
       if (node) {
         gsap.killTweensOf(node);
+        const isLeft = settings.placement.includes("left");
         gsap.to(node, {
-          x: "100%",
+          x: isLeft ? "-100%" : "100%",
           opacity: 0,
           duration: 0.4,
           ease: "power2.in",
@@ -103,20 +112,28 @@ export const ToastProvider = ({
         });
       }
     },
-    [removeToast]
+    [removeToast, settings.placement]
   );
 
   useEffect(() => {
+    const isTop = settings.placement.includes("top");
+    const isLeft = settings.placement.includes("left");
+
     toasts.forEach((toast) => {
       const node = toastRefs.current.get(toast.id);
       if (node && !node.dataset.animatedIn) {
         node.dataset.animatedIn = "true";
         gsap.fromTo(
           node,
-          { opacity: 0, y: -100 },
+          {
+            opacity: 0,
+            y: isTop ? -100 : 100,
+            x: isLeft ? -50 : 50,
+          },
           {
             opacity: 1,
             y: 0,
+            x: 0,
             duration: 0.5,
             ease: "power2.out",
             onComplete: () => {
@@ -125,7 +142,7 @@ export const ToastProvider = ({
                 onComplete: () => {
                   gsap.to(node, {
                     opacity: 0,
-                    y: -50,
+                    y: isTop ? -50 : 50,
                     duration: 0.3,
                     ease: "power2.in",
                     onComplete: () => {
@@ -142,7 +159,7 @@ export const ToastProvider = ({
         );
       }
     });
-  }, [toasts, removeToast]);
+  }, [toasts, removeToast, settings.durationInSeconds, settings.placement]);
 
   const visibleToasts = toasts.slice(-settings.maxToastDisplay);
 
@@ -168,6 +185,7 @@ export const ToastProvider = ({
   useGSAP(
     () => {
       const draggables: Draggable[] = [];
+      const isLeft = settings.placement.includes("left");
 
       visibleToasts.forEach((toast) => {
         const node = toastRefs.current.get(toast.id);
@@ -176,21 +194,25 @@ export const ToastProvider = ({
         const dragInstance = Draggable.create(node, {
           type: "x",
           edgeResistance: 0.9,
-          bounds: { minX: 0, maxX: window.innerWidth },
+          bounds: isLeft
+            ? { minX: -window.innerWidth, maxX: 0 }
+            : { minX: 0, maxX: window.innerWidth },
           onPress: function () {
             if ((this.target as any).timeline) {
               (this.target as any).timeline.pause();
             }
           },
           onDrag: function () {
-            gsap.set(this.target, { opacity: 1 - Math.abs(this.x) / this.maxX });
+            gsap.set(this.target, {
+              opacity: 1 - Math.abs(this.x) / Math.abs(isLeft ? this.minX : this.maxX),
+            });
           },
           onDragEnd: function () {
             const dismissThreshold = node.offsetWidth * 0.1;
 
-            if (this.x > dismissThreshold) {
+            if (isLeft ? this.x < -dismissThreshold : this.x > dismissThreshold) {
               gsap.to(this.target, {
-                x: "100%",
+                x: isLeft ? "-100%" : "100%",
                 opacity: 0,
                 duration: 0.3,
                 ease: "power2.in",
@@ -218,7 +240,7 @@ export const ToastProvider = ({
         draggables.forEach((d) => d.kill());
       };
     },
-    { dependencies: [toasts], scope: containerRef }
+    { dependencies: [toasts, settings.placement], scope: containerRef }
   );
 
   useEffect(() => {
@@ -227,43 +249,80 @@ export const ToastProvider = ({
     }
   }, [visibleToasts, toastHover]);
 
+  const isTop = settings.placement.includes("top");
+  const isLeft = settings.placement.includes("left");
+
+  const positionStyles = {
+    position: "fixed" as const,
+    ...(isTop
+      ? { top: isMobile ? "16px" : "8px" }
+      : { bottom: isMobile ? "16px" : "8px" }),
+    ...(isLeft
+      ? { left: isMobile ? "16px" : "8px" }
+      : { right: isMobile ? "16px" : "8px" }),
+    zIndex: 99999,
+  };
+
   return (
     <Flex
       ref={containerRef}
       gap={0.5}
       direction="column-reverse"
-      style={{
-        position: "fixed",
-        top: isMobile ? "16px" : "8px",
-        right: isMobile ? "16px" : "8px",
-        zIndex: 99999,
-      }}
+      style={positionStyles}
       onMouseEnter={() => setToastHover(true)}
       onMouseLeave={() => setToastHover(false)}
     >
-      {visibleToasts.map((toast, index) => (
-        <Toast
-          key={toast.id}
-          className="toast-item"
-          onClose={() => animateAndRemoveToast(toast.id)}
-          ref={(el) => {
-            if (el) {
-              toastRefs.current.set(toast.id, el);
-            }
-          }}
-          {...toast}
-          style={{
-            position: "relative",
-            zIndex: index,
-            marginBottom: index > 0 ? "-48px" : "0",
+      {visibleToasts.map((toast, index) => {
+        const { id, ...toastProps } = toast;
+        return settings.Custom ? (
+          <div
+            key={id}
+            className="toast-item"
+            ref={(el) => {
+              if (el) {
+                toastRefs.current.set(id, el);
+              }
+            }}
+            style={{
+              position: "relative",
+              zIndex: index,
+              marginBottom: index > 0 ? "-48px" : "0",
 
-            transform:
-              index < Math.min(5, visibleToasts.length - 1)
-                ? `scale(${1 - (Math.min(5, visibleToasts.length - 1) - index) * 0.05})`
-                : "scale(1)",
-          }}
-        />
-      ))}
+              transform:
+                index < Math.min(5, visibleToasts.length - 1)
+                  ? `scale(${1 - (Math.min(5, visibleToasts.length - 1) - index) * 0.05})`
+                  : "scale(1)",
+            }}
+          >
+            <settings.Custom
+              onClose={settings.closable ? () => animateAndRemoveToast(id) : undefined}
+              {...toastProps}
+            />
+          </div>
+        ) : (
+          <Toast
+            key={id}
+            className="toast-item"
+            onClose={settings.closable ? () => animateAndRemoveToast(id) : undefined}
+            ref={(el) => {
+              if (el) {
+                toastRefs.current.set(id, el);
+              }
+            }}
+            {...toastProps}
+            style={{
+              position: "relative",
+              zIndex: index,
+              marginBottom: index > 0 ? "-48px" : "0",
+
+              transform:
+                index < Math.min(5, visibleToasts.length - 1)
+                  ? `scale(${1 - (Math.min(5, visibleToasts.length - 1) - index) * 0.05})`
+                  : "scale(1)",
+            }}
+          />
+        );
+      })}
     </Flex>
   );
 };
