@@ -1,7 +1,7 @@
 {
   "name": "@julien-wiegandt/open-ui",
   "private": false,
-  "version": "0.1.63",
+  "version": "0.1.64",
   "description": "The best open source react UI library",
   "type": "module",
   "main": "./dist/open-ui.umd.cjs",

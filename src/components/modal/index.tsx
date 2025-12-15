@@ -106,6 +106,7 @@ export type ModalProps = {
   style?: React.CSSProperties;
   onClose?: () => void;
   closeOnClickOutside?: boolean;
+  bodyStyle?: React.CSSProperties;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
@@ -259,6 +260,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             px={sizeMap[props.size ?? "m"].bodyPx}
             style={{
               overflowY: "auto",
+              ...props.bodyStyle,
             }}
           >
             {children}
