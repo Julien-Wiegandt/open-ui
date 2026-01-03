@@ -4,14 +4,12 @@ import styled from "styled-components";
 import type { ChipStyleProps } from ".";
 import { getMarginsCSS, getPaddingCSS, toRem } from "../common";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getVariantStyle = ({
   color,
   theme,
 }: {
   color: Color;
   theme: Theme;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }): Record<string, any> => ({
   contained: {
     bgColor: theme.palette[color].main,
@@ -24,6 +22,11 @@ const getVariantStyle = ({
   },
   text: {
     bgColor: "transparent",
+    color: theme.palette[color].main,
+  },
+  soft: {
+    bgColor: `${theme.palette[color].main}22`,
+    border: `2px solid transparent`,
     color: theme.palette[color].main,
   },
 });

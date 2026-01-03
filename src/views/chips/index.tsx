@@ -16,6 +16,7 @@ export const Chips = () => {
             <Chip color="primary" label="contained" variant="contained" />
             <Chip color="primary" label="outlined" variant="outlined" />
             <Chip color="primary" label="text" variant="text" />
+            <Chip color="primary" label="soft" variant="soft" />
           </>
         }
         onCopy={() =>
@@ -30,6 +31,7 @@ export const Chips = () => {
         components={
           <>
             <Chip color="primary" label="primary" variant="contained" />
+            <Chip color="secondary" label="secondary" variant="contained" />
             <Chip color="default" label="default" variant="contained" />
             <Chip color="error" label="error" variant="contained" />
           </>

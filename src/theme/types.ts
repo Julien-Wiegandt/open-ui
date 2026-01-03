@@ -4,14 +4,26 @@ export type Variant = "contained" | "outlined" | "text" | "soft";
 
 export type Elevation = 0 | 1 | 2 | 3 | 4 | 6 | 8;
 
-export type Color = "default" | "primary" | "error";
+export type Color = "default" | "primary" | "secondary" | "error";
+
+export type ColorPalette = {
+  main: string;
+  dark: string;
+  light: string;
+};
 
 export type Palette = {
-  [key in Color]: {
-    main: string;
-    dark: string;
-    light: string;
-  };
+  [key in Color]: ColorPalette;
+};
+
+export const isColorPalette = (color: string | ColorPalette): color is ColorPalette => {
+  return (
+    typeof color === "object" &&
+    color !== null &&
+    "main" in color &&
+    "dark" in color &&
+    "light" in color
+  );
 };
 
 type Text = {

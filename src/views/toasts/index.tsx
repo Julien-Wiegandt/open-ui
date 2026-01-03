@@ -31,6 +31,18 @@ export const Toasts = () => {
               }
             />
             <Button
+              color="secondary"
+              label="secondary"
+              variant="contained"
+              onClick={() =>
+                addToast({
+                  title: "Account created successfully",
+                  icon: <ExampleIcon />,
+                  color: "secondary",
+                })
+              }
+            />
+            <Button
               color="default"
               label="default"
               variant="contained"
@@ -69,6 +81,11 @@ export const Toasts = () => {
               icon={<ExampleIcon />}
               title="Account created successfully"
               color="primary"
+            />
+            <Toast
+              icon={<ExampleIcon />}
+              title="Account created successfully"
+              color="secondary"
             />
             <Toast
               icon={<ExampleIcon />}

@@ -35,6 +35,7 @@ export const Buttons = () => {
         components={
           <>
             <Button variant="contained" color="primary" label="primary" />
+            <Button variant="contained" color="secondary" label="secondary" />
             <Button variant="contained" color="default" label="default" />
             <Button variant="contained" color="error" label="error" />
           </>
@@ -260,7 +261,7 @@ export const Buttons = () => {
       <Usage
         title="animated icon"
         components={
-          <>
+          <Flex direction="row" wrap="wrap" gap={2}>
             <Button
               variant="contained"
               color="primary"
@@ -276,7 +277,16 @@ export const Buttons = () => {
             />
             <Button variant="contained" color="primary" label="Accept" endicon="check" />
             <Button variant="contained" color="primary" label="Sync" endicon="sync" />
-          </>
+            <Button
+              variant="contained"
+              color="primary"
+              label="Sparkles"
+              endicon="sparkles"
+            />
+            <Button variant="contained" color="primary" label="Dots" endicon="dots" />
+            <Button variant="contained" color="primary" label="Send" endicon="send" />
+            <Button variant="contained" color="primary" label="Copy" endicon="copy" />
+          </Flex>
         }
         onCopy={() =>
           navigator.clipboard.writeText(

@@ -25,6 +25,23 @@ export const ProgressBars = () => {
       />
 
       <Usage
+        title="secondary"
+        components={
+          <>
+            <ProgressBar value={0} color="secondary" w="200px" />
+            <ProgressBar value={50} color="secondary" w="200px" />
+            <ProgressBar value={100} color="secondary" w="200px" />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<ProgressBar value={0} color="secondary" w="200px" />`
+          )
+        }
+        orientation="vertical"
+      />
+
+      <Usage
         title="default"
         components={
           <>

@@ -7,6 +7,7 @@ import { Usage } from "../components/usage";
 export const Switchs = () => {
   const [on, setOn] = useState(false);
   const [primary, setPrimary] = useState(true);
+  const [secondary, setSecondary] = useState(true);
   const [defaultColor, setDefaultColor] = useState(true);
   const [error, setError] = useState(true);
 
@@ -32,6 +33,12 @@ export const Switchs = () => {
               color="primary"
               value={primary}
               onChange={(isOn) => setPrimary(isOn)}
+            />
+
+            <Switch
+              color="secondary"
+              value={secondary}
+              onChange={(isOn) => setSecondary(isOn)}
             />
 
             <Switch

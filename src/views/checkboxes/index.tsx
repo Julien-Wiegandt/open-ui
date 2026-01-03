@@ -17,6 +17,7 @@ export const Checkboxes = () => {
         components={
           <>
             <Checkbox color="primary" label="Primary" />
+            <Checkbox color="secondary" label="Secondary" />
             <Checkbox color="default" label="Default" />
             <Checkbox color="error" label="Error" />
           </>

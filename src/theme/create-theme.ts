@@ -1,17 +1,31 @@
-import type { Radius, Theme } from "./types";
+import { isColorPalette, type ColorPalette, type Radius, type Theme } from "./types";
 import { generateColorPalette } from "./utils/colors";
+
+const getPalette = (color: string | ColorPalette, defaultColor: string): ColorPalette => {
+  if (isColorPalette(color)) {
+    return color;
+  }
+  const generated = generateColorPalette(color || defaultColor, 500);
+  return {
+    main: generated[500],
+    dark: generated[900],
+    light: generated[100],
+  };
+};
 
 export const createTheme = (props: {
   radius: Radius;
-  primary: string;
-  default?: string;
-  error?: string;
+  primary: string | ColorPalette;
+  secondary?: string | ColorPalette;
+  default?: string | ColorPalette;
+  error?: string | ColorPalette;
   titleFontFamily?: string;
   textFontFamily?: string;
 }): Theme => {
-  const primaryPalette = generateColorPalette(props.primary, 500);
-  const defaultPalette = generateColorPalette(props.default ?? "#000000", 500);
-  const errorPalette = generateColorPalette(props.error ?? "#e74c3c", 500);
+  const primaryPalette = getPalette(props.primary, "#000000");
+  const secondaryPalette = getPalette(props.secondary ?? "#000000", "#000000");
+  const defaultPalette = getPalette(props.default ?? "#000000", "#000000");
+  const errorPalette = getPalette(props.error ?? "#e74c3c", "#e74c3c");
 
   return {
     radius: props.radius,
@@ -22,21 +36,10 @@ export const createTheme = (props: {
       fontFamily: props.textFontFamily ?? "Poppins, sans-serif",
     },
     palette: {
-      primary: {
-        dark: primaryPalette[900],
-        main: primaryPalette[500],
-        light: primaryPalette[100],
-      },
-      default: {
-        dark: defaultPalette[900],
-        main: defaultPalette[500],
-        light: defaultPalette[100],
-      },
-      error: {
-        dark: errorPalette[900],
-        main: errorPalette[500],
-        light: errorPalette[100],
-      },
+      primary: primaryPalette,
+      secondary: secondaryPalette,
+      default: defaultPalette,
+      error: errorPalette,
     },
   };
 };

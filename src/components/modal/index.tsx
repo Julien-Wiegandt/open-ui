@@ -265,18 +265,20 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           >
             {children}
           </Flex>
-          <Flex
-            direction="row"
-            gap={2}
-            width="100%"
-            mt={"auto"}
-            py={sizeMap[props.size ?? "m"].footerPy}
-            px={sizeMap[props.size ?? "m"].footerPx}
-            align="center"
-            justify="end"
-          >
-            {props.footer}
-          </Flex>
+          {props.footer && (
+            <Flex
+              direction="row"
+              gap={2}
+              width="100%"
+              mt={"auto"}
+              py={sizeMap[props.size ?? "m"].footerPy}
+              px={sizeMap[props.size ?? "m"].footerPx}
+              align="center"
+              justify="end"
+            >
+              {props.footer}
+            </Flex>
+          )}
         </Flex>
       </Flex>
     );

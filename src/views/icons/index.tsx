@@ -2,7 +2,11 @@ import { Flex } from "@/components/flex";
 import { HamburgerIcon } from "@/components/icons";
 import { BellIcon } from "@/components/icons/bell";
 import { CheckIcon } from "@/components/icons/check";
+import { CopyIcon } from "@/components/icons/copy";
+import { DotsIcon } from "@/components/icons/dots";
 import { HeartIcon } from "@/components/icons/heart";
+import { SendHorizontalIcon } from "@/components/icons/send-horizontal";
+import { SparklesIcon } from "@/components/icons/sparkles";
 import { SyncIcon } from "@/components/icons/sync";
 import { Title } from "@/components/title";
 import { useState } from "react";
@@ -14,6 +18,10 @@ export const Icons = () => {
   const [heartIcon, setHeartIcon] = useState(true);
   const [bellIcon, setBellIcon] = useState(true);
   const [syncIcon, setSyncIcon] = useState(true);
+  const [sparklesIcon, setSparklesIcon] = useState(true);
+  const [dotsIcon, setDotsIcon] = useState(true);
+  const [copyIcon, setCopyIcon] = useState(false);
+  const [sendIcon, setSendIcon] = useState(true);
 
   return (
     <Flex gap={4}>
@@ -28,6 +36,10 @@ export const Icons = () => {
             <HeartIcon isLiked={true} />
             <BellIcon hasNotification={true} />
             <SyncIcon isSyncing={true} />
+            <SparklesIcon animated={false} />
+            <CopyIcon animated={false} />
+            <DotsIcon animated={false} />
+            <SendHorizontalIcon animated={false} />
           </>
         }
         orientation="horizontal"
@@ -91,6 +103,44 @@ export const Icons = () => {
                 setTimeout(() => {
                   setSyncIcon(true);
                 }, 50);
+              }}
+              style={{
+                cursor: "pointer",
+              }}
+            />
+            <SparklesIcon
+              animated={sparklesIcon}
+              onClick={() => {
+                setSparklesIcon(!sparklesIcon);
+              }}
+              style={{
+                cursor: "pointer",
+              }}
+            />
+            <DotsIcon
+              animated={dotsIcon}
+              onClick={() => {
+                setDotsIcon(!dotsIcon);
+              }}
+              style={{
+                cursor: "pointer",
+              }}
+            />
+            <SendHorizontalIcon
+              animated={sendIcon}
+              onClick={() => {
+                setSendIcon(!sendIcon);
+              }}
+              style={{
+                cursor: "pointer",
+              }}
+            />
+            <CopyIcon
+              isCopied={copyIcon}
+              animated
+              onClick={() => {
+                setCopyIcon(true);
+                setTimeout(() => setCopyIcon(false), 2000);
               }}
               style={{
                 cursor: "pointer",

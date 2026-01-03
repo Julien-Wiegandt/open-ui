@@ -16,11 +16,24 @@ import { Flex } from "../flex";
 import { HamburgerIcon, HeartIcon, SyncIcon } from "../icons";
 import { BellIcon } from "../icons/bell";
 import { CheckIcon } from "../icons/check";
+import { CopyIcon } from "../icons/copy";
+import { DotsIcon } from "../icons/dots";
+import { SendHorizontalIcon } from "../icons/send-horizontal";
+import { SparklesIcon } from "../icons/sparkles";
 import { Text, type TextProps } from "../text";
 import { useCombinedRefs } from "../utils/use-combined-refs";
 import { getVariantStyle, sizeMap, StyledButton } from "./style";
 
-export type Icon = "bell" | "check" | "hamburger" | "heart" | "sync";
+export type Icon =
+  | "bell"
+  | "check"
+  | "hamburger"
+  | "heart"
+  | "sync"
+  | "sparkles"
+  | "dots"
+  | "send"
+  | "copy";
 
 gsap.registerPlugin(SplitText);
 
@@ -51,6 +64,16 @@ const Icon = forwardRef<
         )}
         {icon === "sync" && (
           <SyncIcon isSyncing={animation} size={size} animated color={color} />
+        )}
+        {icon === "sparkles" && (
+          <SparklesIcon size={size} animated={animation} color={color} />
+        )}
+        {icon === "dots" && <DotsIcon size={size} animated={animation} color={color} />}
+        {icon === "send" && (
+          <SendHorizontalIcon size={size} animated={animation} color={color} />
+        )}
+        {icon === "copy" && (
+          <CopyIcon isCopied={animation} size={size} animated color={color} />
         )}
       </Flex>
     )
@@ -201,7 +224,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               ref={textRef}
               onSizeChange={handleTextSizeChange}
               width="100%"
-              mt="2px"
               align={props.align ?? "center"}
               size={sizeMap[props.size ?? "md"].fontSize}
               {...labelProps}

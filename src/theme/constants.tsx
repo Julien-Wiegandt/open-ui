@@ -13,7 +13,7 @@ export const radiusMap: Record<Radius, string> = {
 export const THEME: Theme = {
   radius: "lg",
   title: {
-    fontFamily: "Poppins",
+    fontFamily: "Inter",
   },
   text: {
     fontFamily: "Poppins",
@@ -23,6 +23,11 @@ export const THEME: Theme = {
       dark: "#162a55",
       main: "#166FEE",
       light: "#daeeff",
+    },
+    secondary: {
+      dark: "#7c420b",
+      main: "#ffbf00",
+      light: "#fffbc5",
     },
     default: { dark: "#000000", main: "#1e1e1e", light: "#d1d1d1" },
     error: {

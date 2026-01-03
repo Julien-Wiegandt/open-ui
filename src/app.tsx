@@ -12,6 +12,11 @@ import { Titles } from "./views/titles";
 import "@fontsource/poppins/400-italic.css";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/latin.css";
+
+import "@fontsource/inter/400-italic.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/index.css";
+
 import { useResponsive } from "./hooks/use-responsive";
 import { OpenUIProvider } from "./theme";
 import { THEME } from "./theme/constants";
