@@ -7,9 +7,11 @@ export type Elevation = 0 | 1 | 2 | 3 | 4 | 6 | 8;
 export type Color = "default" | "primary" | "secondary" | "error";
 
 export type ColorPalette = {
-  main: string;
+  darker: string;
   dark: string;
+  main: string;
   light: string;
+  lighter: string;
 };
 
 export type Palette = {

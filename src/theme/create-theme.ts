@@ -7,9 +7,11 @@ const getPalette = (color: string | ColorPalette, defaultColor: string): ColorPa
   }
   const generated = generateColorPalette(color || defaultColor, 500);
   return {
-    main: generated[500],
+    darker: generated[950],
     dark: generated[900],
+    main: generated[500],
     light: generated[100],
+    lighter: generated[50],
   };
 };
 

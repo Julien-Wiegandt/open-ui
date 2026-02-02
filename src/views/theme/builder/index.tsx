@@ -12,32 +12,9 @@ import { Button } from "@/components/button";
 import { Checkbox } from "@/components/checkbox";
 import { Chip } from "@/components/chip";
 import { Skeleton } from "@/components/skeleton";
-import {
-  GEMINI,
-  APPLE,
-  MICROSOFT,
-  NETFLIX,
-  AIRBNB,
-  INSTAGRAM,
-  X,
-  SPOTIFY,
-  DEEZER,
-  FONTS,
-  KEYPOP,
-} from "./constants";
+import { FONTS, KEYPOP } from "./constants";
 
-const THEMES = [
-  { key: "keypop", theme: KEYPOP },
-  { key: "gemini", theme: GEMINI },
-  { key: "spotify", theme: SPOTIFY },
-  { key: "deezer", theme: DEEZER },
-  { key: "apple", theme: APPLE },
-  { key: "microsoft", theme: MICROSOFT },
-  { key: "netflix", theme: NETFLIX },
-  { key: "airbnb", theme: AIRBNB },
-  { key: "instagram", theme: INSTAGRAM },
-  { key: "x", theme: X },
-];
+const THEMES = [{ key: "keypop", theme: KEYPOP }];
 
 export const ThemeBuilder = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -201,6 +178,13 @@ export const ThemeBuilder = () => {
               width="40px"
               height="40px"
               style={{
+                backgroundColor: theme.palette.primary.darker,
+              }}
+            />
+            <Flex
+              width="40px"
+              height="40px"
+              style={{
                 backgroundColor: theme.palette.primary.dark,
               }}
             />
@@ -218,8 +202,22 @@ export const ThemeBuilder = () => {
                 backgroundColor: theme.palette.primary.light,
               }}
             />
+            <Flex
+              width="40px"
+              height="40px"
+              style={{
+                backgroundColor: theme.palette.primary.lighter,
+              }}
+            />
           </Flex>
           <Flex direction="column" gap={1}>
+            <Flex
+              width="40px"
+              height="40px"
+              style={{
+                backgroundColor: theme.palette.secondary.darker,
+              }}
+            />
             <Flex
               width="40px"
               height="40px"
@@ -241,8 +239,22 @@ export const ThemeBuilder = () => {
                 backgroundColor: theme.palette.secondary.light,
               }}
             />
+            <Flex
+              width="40px"
+              height="40px"
+              style={{
+                backgroundColor: theme.palette.secondary.lighter,
+              }}
+            />
           </Flex>
           <Flex direction="column" gap={1}>
+            <Flex
+              width="40px"
+              height="40px"
+              style={{
+                backgroundColor: theme.palette.default.darker,
+              }}
+            />
             <Flex
               width="40px"
               height="40px"
@@ -264,8 +276,22 @@ export const ThemeBuilder = () => {
                 backgroundColor: theme.palette.default.light,
               }}
             />
+            <Flex
+              width="40px"
+              height="40px"
+              style={{
+                backgroundColor: theme.palette.default.lighter,
+              }}
+            />
           </Flex>
           <Flex direction="column" gap={1}>
+            <Flex
+              width="40px"
+              height="40px"
+              style={{
+                backgroundColor: theme.palette.error.darker,
+              }}
+            />
             <Flex
               width="40px"
               height="40px"
@@ -285,6 +311,13 @@ export const ThemeBuilder = () => {
               height="40px"
               style={{
                 backgroundColor: theme.palette.error.light,
+              }}
+            />
+            <Flex
+              width="40px"
+              height="40px"
+              style={{
+                backgroundColor: theme.palette.error.lighter,
               }}
             />
           </Flex>
