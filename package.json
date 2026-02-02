@@ -1,7 +1,7 @@
 {
   "name": "@julien-wiegandt/open-ui",
   "private": false,
-  "version": "0.1.66",
+  "version": "0.1.67",
   "description": "The best open source react UI library",
   "type": "module",
   "main": "./dist/open-ui.umd.cjs",
@@ -17,6 +17,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource/space-mono": "^5.2.9",
     "@gsap/react": "^2.1.2",
     "gsap": "^3.13.0",
     "react": "^19.1.1",
@@ -25,8 +27,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
-    "@fontsource/poppins": "^5.2.6",
+    "@fontsource/epilogue": "^5.2.6",
     "@fontsource/inter": "^5.2.8",
+    "@fontsource/lilita-one": "^5.2.6",
+    "@fontsource/poppins": "^5.2.6",
     "@types/node": "^24.3.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",

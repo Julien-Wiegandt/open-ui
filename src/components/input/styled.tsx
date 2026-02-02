@@ -25,8 +25,8 @@ export const StyledInput = styled.input<InputProps>`
       type === "color"
         ? "transparent"
         : error
-        ? ({ theme }) => theme.palette.error.main
-        : ({ theme, color }) => theme.palette[color ?? "default"].main};
+          ? ({ theme }) => theme.palette.error.main
+          : ({ theme, color }) => theme.palette[color ?? "default"].main};
   ${({ m, mb, ml, mr, mt, mx, my }: MarginProps) =>
     getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
   ${({ p, pb, pl, pr, pt, px, py }: PaddingProps) =>
@@ -49,6 +49,7 @@ export const StyledInput = styled.input<InputProps>`
   &::-webkit-color-swatch-wrapper {
     padding: 0;
     border-radius: ${({ theme }) => radiusMap[theme.radius]};
+    cursor: pointer;
   }
 
   &::-webkit-color-swatch {

@@ -17,6 +17,25 @@ import "@fontsource/inter/400-italic.css";
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/index.css";
 
+import "@fontsource/lilita-one/400.css";
+import "@fontsource/lilita-one/index.css";
+
+import "@fontsource/epilogue/400-italic.css";
+import "@fontsource/epilogue/400.css";
+import "@fontsource/epilogue/index.css";
+
+import "@fontsource-variable/inter/index.css";
+import "@fontsource-variable/inter/wght.css";
+import "@fontsource-variable/inter/wght-italic.css";
+
+import "@fontsource/space-mono/index.css";
+import "@fontsource/space-mono/400.css";
+import "@fontsource/space-mono/400-italic.css";
+
+import "@fontsource/inter/index.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/400-italic.css";
+
 import { useResponsive } from "./hooks/use-responsive";
 import { OpenUIProvider } from "./theme";
 import { THEME } from "./theme/constants";
@@ -34,6 +53,7 @@ import { Selects } from "./views/selects";
 import { Skeletons } from "./views/skeletons";
 import { Switchs } from "./views/switchs";
 import { Toasts } from "./views/toasts";
+import { ThemeBuilder } from "./views/theme/builder";
 
 const App = () => {
   const navigate = useNavigate();
@@ -69,9 +89,25 @@ const App = () => {
           <img src="/open-ui.png" alt="open-ui" height="36px" />
           <Title level={3}>open-ui</Title>
         </Flex>
-        <Flex direction={isMobileOrTablet ? "column" : "row"} width="100%" mt="68px">
-          <Flex p={2} width="15%">
+        <Flex
+          direction={isMobileOrTablet ? "column" : "row"}
+          width="100%"
+          mt="68px"
+        >
+          <Flex p={2} width="180px">
             <Text size="15" mb={1}>
+              Theme
+            </Text>
+            <Button
+              label="Builder"
+              variant="text"
+              align="left"
+              color="default"
+              onClick={() => {
+                navigate("/theme-builder");
+              }}
+            />
+            <Text size="15" mt={1} mb={1}>
               Components
             </Text>
             <Button
@@ -239,8 +275,10 @@ const App = () => {
             />
           </Flex>
           <Flex
-            p={6}
-            width="85%"
+            pl={2}
+            pr={5}
+            py={2}
+            width="calc(100vw - 180px)"
             style={{
               height: "calc(100vh - 68px)",
               overflowY: "auto",
@@ -248,6 +286,7 @@ const App = () => {
             }}
           >
             <Routes>
+              <Route path="/theme-builder" element={<ThemeBuilder />} />
               <Route path="/color-picker" element={<ColorPickers />} />
               <Route path="/checkbox" element={<Checkboxes />} />
               <Route path="/title" element={<Titles />} />

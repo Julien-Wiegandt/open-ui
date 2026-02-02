@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import gsap from "gsap";
-import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { useTheme } from "styled-components";
 import { Flex } from "../flex";
 import { Text } from "../text";
@@ -39,6 +45,7 @@ const DefaultOption = ({
       onClick={() => handleChange && option && handleChange(option)}
       px={1.5}
       py={1}
+      justify="center"
       height="37px"
       hoverstyle={{
         backgroundColor: theme.palette.primary.light,
@@ -64,12 +71,12 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
             key: props.placeholder,
             label: props.placeholder,
           }
-        : undefined)
+        : undefined),
   );
   const [open, setOpen] = useState(false);
-  const [selectOptionHeight, setSelectOptionHeight] = useState<number | undefined>(
-    undefined
-  );
+  const [selectOptionHeight, setSelectOptionHeight] = useState<
+    number | undefined
+  >(undefined);
 
   const selectContainerRef = useRef<HTMLDivElement>(null);
   const selectOptionRef = useRef<HTMLDivElement>(null);
@@ -125,7 +132,12 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
   };
 
   return (
-    <Flex ref={selectContainerRef} direction="column" width="100%" justify="start">
+    <Flex
+      ref={selectContainerRef}
+      direction="column"
+      width="100%"
+      justify="start"
+    >
       {(props.label || props.required) && (
         <Flex
           direction="row"
@@ -146,7 +158,11 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
         ref={selectOptionRef}
         elevation={1}
         onClick={() => setOpen(!open)}
-        style={{ position: "relative", cursor: "pointer", ...props.selectOptionStyle }}
+        style={{
+          position: "relative",
+          cursor: "pointer",
+          ...props.selectOptionStyle,
+        }}
       >
         {props.CustomOption ? (
           <props.CustomOption option={selectedValue} />
@@ -164,10 +180,14 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
             left: "0",
             ...(!props.orientation || props.orientation === "down"
               ? {
-                  top: selectOptionHeight ? `${selectOptionHeight + 1}px` : "37px",
+                  top: selectOptionHeight
+                    ? `${selectOptionHeight + 1}px`
+                    : "37px",
                 }
               : {
-                  bottom: selectOptionHeight ? `${selectOptionHeight + 1}px` : "37px",
+                  bottom: selectOptionHeight
+                    ? `${selectOptionHeight + 1}px`
+                    : "37px",
                 }),
             visibility: "hidden",
             zIndex: 1,
@@ -186,7 +206,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
               <props.CustomOption option={option} handleChange={handleChange} />
             ) : (
               <DefaultOption option={option} handleChange={handleChange} />
-            )
+            ),
           )}
         </Flex>
       </Flex>

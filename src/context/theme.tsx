@@ -5,7 +5,7 @@ import { createContext, useMemo, useState } from "react";
 
 export type IThemeContext = {
   theme: Theme;
-  setTheme: (index: number) => void;
+  setTheme: ({index, theme}: {index?: number, theme?: Theme}) => void;
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -22,10 +22,10 @@ export const ThemeContextProvider = (params: {
 
   const [activeTheme, setActiveTheme] = useState<Theme>(params.themes[0]);
 
-  const setTheme = (index: number) => {
-    const theme = params.themes[index];
-    if (!theme) throw new Error("Theme not found");
-    setActiveTheme(theme);
+  const setTheme = ({index, theme}: {index?: number, theme?: Theme}) => {
+    const newTheme = index ? params.themes[index] : theme;
+    if (!newTheme) throw new Error("Theme not found");
+    setActiveTheme(newTheme);
   };
 
   const memoizedValue: IThemeContext = useMemo(
