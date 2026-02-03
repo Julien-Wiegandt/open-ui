@@ -60,7 +60,8 @@ export const Toasts = () => {
               variant="contained"
               onClick={() =>
                 addToast({
-                  title: "Bonjour !",
+                  title:
+                    "Le savais-tu ? Cliquer ne fait malheureusement pas perdre de calories.",
                   icon: <ExampleIcon />,
                   color: "error",
                 })
@@ -70,7 +71,9 @@ export const Toasts = () => {
         }
         orientation="horizontal"
         onCopy={() =>
-          navigator.clipboard.writeText(`<Toast title="Account created successfully" />`)
+          navigator.clipboard.writeText(
+            `<Toast title="Account created successfully" />`,
+          )
         }
       />
       <Usage
@@ -94,7 +97,7 @@ export const Toasts = () => {
             />
             <Toast
               icon={<ExampleIcon />}
-              title="Account created successfully"
+              title="Le savais-tu ? Cliquer ne fait malheureusement pas perdre de calories."
               color="error"
             />
           </>

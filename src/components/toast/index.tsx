@@ -91,7 +91,7 @@ export const Toast = forwardRef<HTMLDivElement, Omit<ToastProps, "id">>(
               </Flex>
             )}
             {props.title && (
-              <Text size="14" p={1.5}>
+              <Text size="14" px={1.5}>
                 {props.title}
               </Text>
             )}
@@ -99,7 +99,7 @@ export const Toast = forwardRef<HTMLDivElement, Omit<ToastProps, "id">>(
         )}
       </StyledToast>
     );
-  }
+  },
 );
 
 Toast.displayName = "Toast";
