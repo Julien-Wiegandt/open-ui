@@ -68,7 +68,7 @@ const App = () => {
           durationInSeconds: 10,
           maxToastDisplay: 5,
           closable: false,
-          placement: "bottom-right",
+          placement: "top-right",
         },
       }}
     >

@@ -1,3 +1,4 @@
+import { KEYPOP } from "@/views/theme/builder/constants";
 import type { Radius, Theme } from "./types";
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -10,45 +11,7 @@ export const radiusMap: Record<Radius, string> = {
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const THEME: Theme = {
-  radius: "lg",
-  title: {
-    fontFamily: "Inter",
-  },
-  text: {
-    fontFamily: "Poppins",
-  },
-  palette: {
-    primary: {
-      dark: "#162a55",
-      main: "#166FEE",
-      light: "#daeeff",
-      darker: "#162a55",
-      lighter: "#daeeff",
-    },
-    secondary: {
-      dark: "#7c420b",
-      main: "#ffbf00",
-      light: "#fffbc5",
-      darker: "#7c420b",
-      lighter: "#fffbc5",
-    },
-    default: {
-      dark: "#000000",
-      main: "#1e1e1e",
-      light: "#d1d1d1",
-      darker: "#000000",
-      lighter: "#d1d1d1",
-    },
-    error: {
-      dark: "#43110c",
-      main: "#e74c3c",
-      light: "#fcd0cc",
-      darker: "#43110c",
-      lighter: "#fcd0cc",
-    },
-  },
-};
+export const THEME: Theme = KEYPOP;
 
 export const ExampleIcon = () => (
   <svg

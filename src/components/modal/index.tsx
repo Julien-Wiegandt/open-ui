@@ -107,12 +107,20 @@ export type ModalProps = {
   onClose?: () => void;
   closeOnClickOutside?: boolean;
   bodyStyle?: React.CSSProperties;
+  close?: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
   (
-    { isOpen, fullScreen, children, style, closeOnClickOutside = true, ...props },
-    ref
+    {
+      isOpen,
+      fullScreen,
+      children,
+      style,
+      closeOnClickOutside = true,
+      ...props
+    },
+    ref,
   ) => {
     const theme = useTheme();
     const { breakpoint } = useResponsive();
@@ -142,13 +150,19 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             .fromTo(
               scope.current,
               { autoAlpha: 0 },
-              { autoAlpha: 1, duration: 0.3, ease: "power2.inOut" }
+              { autoAlpha: 1, duration: 0.3, ease: "power2.inOut" },
             )
             .fromTo(
               ".modal-content",
               { autoAlpha: 0, scale: 0.95, y: -20 },
-              { autoAlpha: 1, scale: 1, y: 0, duration: 0.3, ease: "power2.out" },
-              "-=0.2"
+              {
+                autoAlpha: 1,
+                scale: 1,
+                y: 0,
+                duration: 0.3,
+                ease: "power2.out",
+              },
+              "-=0.2",
             );
         } else {
           gsap
@@ -165,20 +179,24 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
             .to(
               scope.current,
               { autoAlpha: 0, duration: 0.2, ease: "power2.inOut" },
-              "-=0.1"
+              "-=0.1",
             );
         }
       },
-      { dependencies: [isOpen, isMounted], scope: scope }
+      { dependencies: [isOpen, isMounted], scope: scope },
     );
 
     const bodyStyle: React.CSSProperties = {
       zIndex: 999999,
       width: fullScreen ? "100vw" : sizeMap[props.size ?? "m"].width,
       height: fullScreen ? "100vh" : "fit-content",
-      minWidth: fullScreen ? "100vw" : sizeMap[props.size ?? "m"].minWidth[breakpoint],
+      minWidth: fullScreen
+        ? "100vw"
+        : sizeMap[props.size ?? "m"].minWidth[breakpoint],
       maxHeight: fullScreen ? "100vh" : sizeMap[props.size ?? "m"].maxHeight,
-      borderRadius: fullScreen ? "0px" : `min(24px, ${radiusMap[theme.radius]})`,
+      borderRadius: fullScreen
+        ? "0px"
+        : `min(24px, ${radiusMap[theme.radius]})`,
       backgroundColor: "#FFFFFF",
       position: "relative",
       ...style,
@@ -212,7 +230,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
           elevation={3}
           style={bodyStyle}
         >
-          {props.onClose && (
+          {props.onClose && !props.close && (
             <Button
               variant="text"
               color="default"
@@ -224,7 +242,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke={getColorBasedOnBackground(
-                    bodyStyle.backgroundColor ?? "#FFFFFF"
+                    bodyStyle.backgroundColor ?? "#FFFFFF",
                   )}
                   stroke-width="2"
                   stroke-linecap="round"
@@ -243,6 +261,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               }}
             />
           )}
+          {props.onClose && props.close}
           {props.title && (
             <Flex
               direction="row"
@@ -284,7 +303,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     );
 
     return portal ? ReactDOM.createPortal(modal, portal) : null;
-  }
+  },
 );
 
 Modal.displayName = "Modal";

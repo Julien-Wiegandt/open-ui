@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/checkbox";
 import { Chip } from "@/components/chip";
 import { Skeleton } from "@/components/skeleton";
 import { FONTS, KEYPOP } from "./constants";
+import { Color } from "./components/color";
 
 const THEMES = [{ key: "keypop", theme: KEYPOP }];
 
@@ -174,152 +175,32 @@ export const ThemeBuilder = () => {
         <Divider color="gray" />
         <Flex direction="row" gap={3}>
           <Flex direction="column" gap={1}>
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.primary.darker,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.primary.dark,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.primary.main,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.primary.light,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.primary.lighter,
-              }}
-            />
+            <Color color={theme.palette.primary.darker} />
+            <Color color={theme.palette.primary.dark} />
+            <Color color={theme.palette.primary.main} />
+            <Color color={theme.palette.primary.light} />
+            <Color color={theme.palette.primary.lighter} />
           </Flex>
           <Flex direction="column" gap={1}>
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.secondary.darker,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.secondary.dark,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.secondary.main,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.secondary.light,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.secondary.lighter,
-              }}
-            />
+            <Color color={theme.palette.secondary.darker} />
+            <Color color={theme.palette.secondary.dark} />
+            <Color color={theme.palette.secondary.main} />
+            <Color color={theme.palette.secondary.light} />
+            <Color color={theme.palette.secondary.lighter} />
           </Flex>
           <Flex direction="column" gap={1}>
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.default.darker,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.default.dark,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.default.main,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.default.light,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.default.lighter,
-              }}
-            />
+            <Color color={theme.palette.default.darker} />
+            <Color color={theme.palette.default.dark} />
+            <Color color={theme.palette.default.main} />
+            <Color color={theme.palette.default.light} />
+            <Color color={theme.palette.default.lighter} />
           </Flex>
           <Flex direction="column" gap={1}>
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.error.darker,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.error.dark,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.error.main,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.error.light,
-              }}
-            />
-            <Flex
-              width="40px"
-              height="40px"
-              style={{
-                backgroundColor: theme.palette.error.lighter,
-              }}
-            />
+            <Color color={theme.palette.error.darker} />
+            <Color color={theme.palette.error.dark} />
+            <Color color={theme.palette.error.main} />
+            <Color color={theme.palette.error.light} />
+            <Color color={theme.palette.error.lighter} />
           </Flex>
         </Flex>
         <Title level={4} mt={2}>
