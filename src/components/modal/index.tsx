@@ -258,6 +258,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                 top: "0px",
                 right: "0px",
                 cursor: "pointer",
+                zIndex: 999999 + 1,
               }}
             />
           )}
