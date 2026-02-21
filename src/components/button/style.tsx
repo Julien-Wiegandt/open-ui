@@ -1,65 +1,69 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { radiusMap } from "@/theme/constants";
+import { getPalette } from "@/theme/create-theme";
 import type { Color, Theme } from "@/theme/types";
 import styled from "styled-components";
 import type { ButtonProps } from ".";
 import { getMarginsCSS, getPaddingCSS, toRem } from "../common";
 import type { TextProps } from "../text";
-import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getVariantStyle = ({
   color,
   theme,
 }: {
-  color: Color;
+  color: Color | string;
   theme: Theme;
-}): Record<string, any> => ({
-  contained: {
-    bgColor: theme.palette[color].main,
-    border: `2px solid transparent`,
-    color: getColorBasedOnBackground(theme.palette[color].main),
-    onHover: {
-      opacity: 0.75,
+}): Record<string, any> => {
+  const isStringColor =
+    typeof color === "string" &&
+    !["default", "primary", "secondary", "error"].includes(color);
+  const palette = isStringColor
+    ? getPalette(color)
+    : theme.palette[color as Color];
+  return {
+    contained: {
+      bgColor: palette.main,
+      border: `2px solid transparent`,
+      onHover: {
+        opacity: 0.75,
+      },
+      onActive: {
+        transform: `scale(0.95)`,
+      },
     },
-    onActive: {
-      transform: `scale(0.95)`,
+    outlined: {
+      bgColor: "transparent",
+      border: `2px solid ${palette.main}`,
+      onHover: {
+        opacity: 0.75,
+      },
+      onActive: {
+        transform: `scale(0.95)`,
+      },
     },
-  },
-  outlined: {
-    bgColor: "transparent",
-    border: `2px solid ${theme.palette[color].main}`,
-    color: theme.palette[color].main,
-    onHover: {
-      opacity: 0.75,
+    text: {
+      bgColor: "transparent",
+      border: `2px solid transparent`,
+      onActive: {
+        transform: `scale(0.95)`,
+      },
+      onHover: {
+        backgroundColor: `${palette.main}22`,
+      },
     },
-    onActive: {
-      transform: `scale(0.95)`,
+    soft: {
+      bgColor: `${palette.main}22`,
+      border: `2px solid transparent`,
+      onHover: {
+        opacity: 0.75,
+      },
+      onActive: {
+        transform: `scale(0.95)`,
+      },
     },
-  },
-  text: {
-    bgColor: "transparent",
-    border: `2px solid transparent`,
-    color: theme.palette[color].main,
-    onActive: {
-      transform: `scale(0.95)`,
-    },
-    onHover: {
-      backgroundColor: `${theme.palette[color].main}22`,
-    },
-  },
-  soft: {
-    bgColor: `${theme.palette[color].main}22`,
-    border: `2px solid transparent`,
-    color: theme.palette[color].main,
-    onHover: {
-      opacity: 0.75,
-    },
-    onActive: {
-      transform: `scale(0.95)`,
-    },
-  },
-});
+  };
+};
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const sizeMap: Record<
@@ -120,33 +124,53 @@ export const StyledButton = styled.button<ButtonProps>`
   width: ${({ w }) => w ?? "auto"};
 
   height: ${({ h, size }) =>
-    h ?? sizeMap[size ?? "md"].height ? `${sizeMap[size ?? "md"].height}px` : undefined};
+    (h ?? sizeMap[size ?? "md"].height)
+      ? `${sizeMap[size ?? "md"].height}px`
+      : undefined};
   overflow: hidden;
 
   background-color: ${({ bgcolor, variant, color, theme }) =>
-    bgcolor ?? getVariantStyle({ color, theme })[variant].bgColor};
+    bgcolor ??
+    getVariantStyle({ color: color ?? "default", theme })[
+      variant ?? "contained"
+    ].bgColor};
   border: ${({ variant, color, theme }) =>
-    getVariantStyle({ color, theme })[variant].border};
+    getVariantStyle({ color: color ?? "default", theme })[
+      variant ?? "contained"
+    ].border};
   border-radius: ${({ theme, radius }) =>
     radius ? radiusMap[radius] : radiusMap[theme.radius]};
-  ${({ m, mb, ml, mr, mt, mx, my }) => getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
-  ${({ p, pb, pl, pr, pt, px, py }) => getPaddingCSS({ p, pb, pl, pr, pt, px, py })};
+  ${({ m, mb, ml, mr, mt, mx, my }) =>
+    getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
+  ${({ p, pb, pl, pr, pt, px, py }) =>
+    getPaddingCSS({ p, pb, pl, pr, pt, px, py })};
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
   position: relative;
-  color: ${({ color, variant, theme }) =>
-    getVariantStyle({ color, theme })[variant].color};
 
-  ${({ variant, color, theme, active }) =>
-    active && getVariantStyle({ color, theme })[variant].onHover}
+  ${({ variant, color, theme, active, activeStyle }) =>
+    active &&
+    (activeStyle
+      ? activeStyle
+      : {
+          ...getVariantStyle({ color: color ?? "default", theme })[
+            variant ?? "contained"
+          ].onHover,
+        })}
 
   @media (hover: hover) {
     &:hover {
-      ${({ variant, color, theme }) => getVariantStyle({ color, theme })[variant].onHover}
+      ${({ variant, color, theme }) =>
+        getVariantStyle({ color: color ?? "default", theme })[
+          variant ?? "contained"
+        ].onHover}
       opacity: ${({ disabled }) => disabled && 0.6};
     }
   }
 
   &:active {
-    ${({ variant, color, theme }) => getVariantStyle({ color, theme })[variant].onActive}
+    ${({ variant, color, theme }) =>
+      getVariantStyle({ color: color ?? "default", theme })[
+        variant ?? "contained"
+      ].onActive}
   }
 `;

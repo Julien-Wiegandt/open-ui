@@ -5,6 +5,7 @@ import { useTheme } from "styled-components";
 import { Button } from "../button";
 import { Flex, type FlexProps } from "../flex";
 import { Text } from "../text";
+import { resolveColor } from "../utils/resolve-color";
 import { StyledToast } from "./style";
 
 /**
@@ -14,7 +15,7 @@ import { StyledToast } from "./style";
 
 export type ToastProps = {
   id: string;
-  color?: Color;
+  color?: Color | string;
   title?: string;
   icon?: React.ReactNode;
   duration?: number;
@@ -84,14 +85,14 @@ export const Toast = forwardRef<HTMLDivElement, Omit<ToastProps, "id">>(
               <Flex
                 p={1.5}
                 style={{
-                  backgroundColor: `${theme.palette[props.color ?? "default"].light}44`,
+                  backgroundColor: `${resolveColor(props.color ?? "default", theme).light}44`,
                 }}
               >
                 {props.icon}
               </Flex>
             )}
             {props.title && (
-              <Text size="14" px={1.5}>
+              <Text size="14" px={1.5} py={props.icon ? 0 : 1.5}>
                 {props.title}
               </Text>
             )}

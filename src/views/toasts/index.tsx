@@ -1,6 +1,5 @@
 import { Button } from "@/components/button";
 import { Flex } from "@/components/flex";
-import { Text } from "@/components/text";
 import { Title } from "@/components/title";
 import { Toast } from "@/components/toast";
 import { ToastContext } from "@/context/toast";
@@ -67,6 +66,16 @@ export const Toasts = () => {
                 })
               }
             />
+            <Button
+              color="#08d2bbff"
+              label="custom"
+              variant="contained"
+              onClick={() =>
+                addToast({
+                  title: "No icon provided",
+                })
+              }
+            />
           </>
         }
         orientation="horizontal"
@@ -100,18 +109,11 @@ export const Toasts = () => {
               title="Le savais-tu ? Cliquer ne fait malheureusement pas perdre de calories."
               color="error"
             />
-          </>
-        }
-        orientation="vertical"
-        onCopy={() => navigator.clipboard.writeText(``)}
-      />
-      <Usage
-        title="custom"
-        components={
-          <>
-            <Toast>
-              <Text>Account created successfully</Text>
-            </Toast>
+            <Toast
+              icon={<ExampleIcon />}
+              title="Custom color"
+              color="#08d2bbff"
+            />
           </>
         }
         orientation="vertical"

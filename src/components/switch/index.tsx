@@ -2,11 +2,13 @@ import type { Color } from "@/theme/types";
 import gsap from "gsap";
 import { forwardRef, useLayoutEffect, useRef, useState } from "react";
 import { useTheme } from "styled-components";
+import { resolveColor } from "../utils/resolve-color";
+import { useCombinedRefs } from "../utils/use-combined-refs";
 
 export type SwitchProps = {
   value?: boolean;
   size?: number;
-  color?: Color;
+  color?: Color | string;
   onChange?: (isOn: boolean) => void;
 } & Omit<React.SVGAttributes<SVGSVGElement>, "onChange">;
 
@@ -16,8 +18,11 @@ export const Switch = forwardRef<SVGSVGElement, SwitchProps>(
     const [isOn, setIsOn] = useState(value ?? false);
     const knobRef = useRef<SVGCircleElement>(null);
     const bgRef = useRef<SVGRectElement>(null);
+    const svgInternalRef = useRef<SVGSVGElement>(null);
+    const svgRef = useCombinedRefs(ref, svgInternalRef);
     const width = size;
     const height = size / 1.75;
+    const palette = resolveColor(color ?? "default", theme);
 
     useLayoutEffect(() => {
       const timeline = gsap.timeline({
@@ -27,13 +32,31 @@ export const Switch = forwardRef<SVGSVGElement, SwitchProps>(
       if (isOn) {
         timeline
           .to(knobRef.current, { cx: width - height / 2 })
-          .to(bgRef.current, { fill: theme.palette[color ?? "default"].main }, "<");
+          .to(bgRef.current, { fill: palette.main }, "<")
+          .to(
+            svgInternalRef.current,
+            {
+              filter: `drop-shadow(0px 1px 4px ${palette.main}88)`,
+              duration: 0.3,
+              ease: "power2.out",
+            },
+            "<",
+          );
       } else {
         timeline
           .to(knobRef.current, { cx: height / 2 })
-          .to(bgRef.current, { fill: "#d1d5db" }, "<");
+          .to(bgRef.current, { fill: palette.light }, "<")
+          .to(
+            svgInternalRef.current,
+            {
+              filter: "drop-shadow(0px 1px 2px rgba(0,0,0,0.15))",
+              duration: 0.3,
+              ease: "power2.out",
+            },
+            "<",
+          );
       }
-    }, [isOn, color, width, height, theme.palette]);
+    }, [isOn, color, width, height, theme]);
 
     const handleMouseDown = () => {
       gsap.to(knobRef.current, {
@@ -56,7 +79,7 @@ export const Switch = forwardRef<SVGSVGElement, SwitchProps>(
 
     return (
       <svg
-        ref={ref}
+        ref={svgRef}
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`}
@@ -72,6 +95,10 @@ export const Switch = forwardRef<SVGSVGElement, SwitchProps>(
         {...props}
         style={{
           cursor: "pointer",
+          overflow: "visible",
+          filter: isOn
+            ? `drop-shadow(0px 1px 4px ${palette.main}88)`
+            : "drop-shadow(0px 1px 2px rgba(0,0,0,0.15))",
           ...props.style,
         }}
       >
@@ -80,7 +107,7 @@ export const Switch = forwardRef<SVGSVGElement, SwitchProps>(
           width={width}
           height={height}
           rx={height / 2}
-          fill={isOn ? theme.palette[color ?? "default"].main : "#d1d5db"}
+          fill={isOn ? palette.main : palette.light}
         />
         <circle
           ref={knobRef}
@@ -91,5 +118,5 @@ export const Switch = forwardRef<SVGSVGElement, SwitchProps>(
         />
       </svg>
     );
-  }
+  },
 );

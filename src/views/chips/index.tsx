@@ -21,7 +21,7 @@ export const Chips = () => {
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Chip color="primary" label="contained" variant="contained" />`
+            `<Chip color="primary" label="contained" variant="contained" />`,
           )
         }
       />
@@ -34,11 +34,12 @@ export const Chips = () => {
             <Chip color="secondary" label="secondary" variant="contained" />
             <Chip color="default" label="default" variant="contained" />
             <Chip color="error" label="error" variant="contained" />
+            <Chip color="#22d348ff" label="custom" variant="contained" />
           </>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Chip color="primary" label="primary" variant="contained" />`
+            `<Chip color="primary" label="primary" variant="contained" />`,
           )
         }
       />
@@ -47,14 +48,19 @@ export const Chips = () => {
         title="sizes"
         components={
           <>
-            <Chip color="primary" label="sm" variant="contained" size="sm" />
-            <Chip color="primary" label="md" variant="contained" size="md" />
-            <Chip color="primary" label="lg" variant="contained" size="lg" />
+            <Chip color="primary" label="small" size="sm" variant="contained" />
+            <Chip
+              color="primary"
+              label="medium"
+              size="md"
+              variant="contained"
+            />
+            <Chip color="primary" label="large" size="lg" variant="contained" />
           </>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Chip color="primary" label="sm" variant="contained" size="sm" />`
+            `<Chip color="primary" label="small" size="sm" variant="contained" />`,
           )
         }
       />
@@ -63,16 +69,26 @@ export const Chips = () => {
         title="radius"
         components={
           <>
-            <Chip color="primary" label="none" variant="contained" radius="none" />
-            <Chip color="primary" label="sm" variant="contained" radius="sm" />
-            <Chip color="primary" label="md" variant="contained" radius="md" />
-            <Chip color="primary" label="lg" variant="contained" radius="lg" />
-            <Chip color="primary" label="full" variant="contained" radius="full" />
+            <Chip
+              color="primary"
+              label="none"
+              radius="none"
+              variant="contained"
+            />
+            <Chip color="primary" label="sm" radius="sm" variant="contained" />
+            <Chip color="primary" label="md" radius="md" variant="contained" />
+            <Chip color="primary" label="lg" radius="lg" variant="contained" />
+            <Chip
+              color="primary"
+              label="full"
+              radius="full"
+              variant="contained"
+            />
           </>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Chip color="primary" label="none" variant="contained" radius="none" />`
+            `<Chip color="primary" label="none" radius="none" variant="contained" />`,
           )
         }
       />
@@ -83,60 +99,74 @@ export const Chips = () => {
           <>
             <Chip
               color="primary"
+              variant="soft"
               startIcon={<ExampleIcon />}
               label="start icon"
-              variant="contained"
             />
             <Chip
               color="primary"
+              variant="outlined"
               label="end icon"
               endIcon={<ExampleIcon />}
-              variant="contained"
             />
             <Chip
-              color="primary"
+              color="secondary"
+              variant="contained"
               startIcon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
+                  width="16"
+                  height="16"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                  <path d="m9 12 2 2 4-4" />
+                  <path d="M12 2v20M2 12h20" />
                 </svg>
               }
-              variant="contained"
+              label="Add"
             />
           </>
         }
         onCopy={() =>
-          navigator.clipboard.writeText(`<Chip
-              color="primary"
-              startIcon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                  <path d="m9 12 2 2 4-4" />
-                </svg>
-              }
-              label="start icon"
+          navigator.clipboard.writeText(
+            `<Chip color="primary" variant="contained" startIcon={<Icon />} label="Label" />`,
+          )
+        }
+      />
+
+      <Usage
+        title="custom styling"
+        components={
+          <>
+            <Chip
+              color="default"
+              label="Custom font color"
+              fontColor="#ff00ff"
+              variant="outlined"
+            />
+            <Chip
+              color="#000"
+              bgcolor="#eee"
+              label="Custom background"
               variant="contained"
-            />`)
+            />
+            <Chip
+              color="primary"
+              label="Disabled"
+              disabled
+              variant="contained"
+              style={{ opacity: 0.5, cursor: "not-allowed" }}
+            />
+          </>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Chip label="Custom" fontColor="#ff00ff" variant="outlined" />`,
+          )
         }
       />
     </Flex>

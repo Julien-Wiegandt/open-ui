@@ -5,13 +5,23 @@ import type { CheckboxProps } from ".";
 import { getMarginsCSS } from "../common";
 import type { TextProps } from "../text";
 import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
+import { resolveColor } from "../utils/resolve-color";
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const getCheckboxStyle = ({ color, theme }: { color: Color; theme: Theme }) => ({
-  borderColor: theme.palette[color].main,
-  bgColor: theme.palette[color].main,
-  checkColor: getColorBasedOnBackground(theme.palette[color].main),
-});
+export const getCheckboxStyle = ({
+  color,
+  theme,
+}: {
+  color: Color | string;
+  theme: Theme;
+}) => {
+  const palette = resolveColor(color, theme);
+  return {
+    borderColor: palette.main,
+    bgColor: palette.main,
+    checkColor: getColorBasedOnBackground(palette.main),
+  };
+};
 
 const radiusMap = {
   none: "0px",
@@ -64,7 +74,8 @@ export const StyledCheckboxContainer = styled.label<
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
   user-select: none;
-  ${({ m, mb, ml, mr, mt, mx, my }) => getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
+  ${({ m, mb, ml, mr, mt, mx, my }) =>
+    getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
 `;
 
 export const StyledCheckbox = styled.div<
@@ -79,10 +90,13 @@ export const StyledCheckbox = styled.div<
   height: ${({ size }) => sizeMap[size ?? "md"].size}px;
 
   background-color: ${({ color, theme, checked }) =>
-    checked ? getCheckboxStyle({ color, theme }).bgColor : "transparent"};
+    checked
+      ? getCheckboxStyle({ color: color ?? "default", theme }).bgColor
+      : "transparent"};
 
   border: 2px solid
-    ${({ color, theme }) => getCheckboxStyle({ color, theme }).borderColor};
+    ${({ color, theme }) =>
+      getCheckboxStyle({ color: color ?? "default", theme }).borderColor};
 
   border-radius: ${({ theme, radius }) =>
     radius ? radiusMap[radius] : radiusMap[theme.radius]};
@@ -93,7 +107,7 @@ export const StyledCheckbox = styled.div<
     ${StyledCheckboxContainer}:hover & {
       ${({ disabled, color, theme, checked }) =>
         !disabled &&
-        `background-color: ${checked ? "transparent" : theme.palette[color].main}11;`}
+        `background-color: ${checked ? "transparent" : resolveColor(color ?? "default", theme).main}11;`}
     }
   }
 

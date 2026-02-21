@@ -3,36 +3,43 @@ import type { Color, Theme } from "@/theme/types";
 import styled from "styled-components";
 import type { ChipStyleProps } from ".";
 import { getMarginsCSS, getPaddingCSS, toRem } from "../common";
+import { resolveColor } from "../utils/resolve-color";
 
 const getVariantStyle = ({
   color,
   theme,
 }: {
-  color: Color;
+  color: Color | string;
   theme: Theme;
-}): Record<string, any> => ({
-  contained: {
-    bgColor: theme.palette[color].main,
-    color: "#FFFFFF",
-  },
-  outlined: {
-    bgColor: "#FFFFFF",
-    border: `2px solid ${theme.palette[color].main}`,
-    color: theme.palette[color].main,
-  },
-  text: {
-    bgColor: "transparent",
-    color: theme.palette[color].main,
-  },
-  soft: {
-    bgColor: `${theme.palette[color].main}22`,
-    border: `2px solid transparent`,
-    color: theme.palette[color].main,
-  },
-});
+}): Record<string, any> => {
+  const palette = resolveColor(color, theme);
+  return {
+    contained: {
+      bgColor: palette.main,
+      color: "#FFFFFF",
+    },
+    outlined: {
+      bgColor: "#FFFFFF",
+      border: `2px solid ${palette.main}`,
+      color: palette.main,
+    },
+    text: {
+      bgColor: "transparent",
+      color: palette.main,
+    },
+    soft: {
+      bgColor: `${palette.main}22`,
+      border: `2px solid transparent`,
+      color: palette.main,
+    },
+  };
+};
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const sizeMap: Record<NonNullable<ChipStyleProps["size"]>, { padding: string }> = {
+export const sizeMap: Record<
+  NonNullable<ChipStyleProps["size"]>,
+  { padding: string }
+> = {
   sm: {
     padding: "3px 0.25rem",
   },
@@ -54,15 +61,25 @@ export const StyledChip = styled.div<ChipStyleProps>`
   width: fit-content;
   height: fit-content;
   background-color: ${({ bgcolor, variant, color, theme }) =>
-    bgcolor ?? getVariantStyle({ color, theme })[variant].bgColor};
+    bgcolor ??
+    getVariantStyle({ color: color ?? "default", theme })[
+      variant ?? "contained"
+    ].bgColor};
   border: ${({ variant, color, theme }) =>
-    getVariantStyle({ color, theme })[variant].border};
+    getVariantStyle({ color: color ?? "default", theme })[
+      variant ?? "contained"
+    ].border};
   border-radius: ${({ radius, theme }) =>
     radius ? radiusMap[radius] : radiusMap[theme.radius]};
-  ${({ m, mb, ml, mr, mt, mx, my }) => getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
-  ${({ p, pb, pl, pr, pt, px, py }) => getPaddingCSS({ p, pb, pl, pr, pt, px, py })};
+  ${({ m, mb, ml, mr, mt, mx, my }) =>
+    getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
+  ${({ p, pb, pl, pr, pt, px, py }) =>
+    getPaddingCSS({ p, pb, pl, pr, pt, px, py })};
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
   position: relative;
   color: ${({ fontColor, color, variant, theme }) =>
-    fontColor ?? getVariantStyle({ color, theme })[variant].color};
+    fontColor ??
+    getVariantStyle({ color: color ?? "default", theme })[
+      variant ?? "contained"
+    ].color};
 `;

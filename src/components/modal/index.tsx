@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { useTheme } from "styled-components";
 import { Button } from "../button";
 import { Flex } from "../flex";
-import { Title } from "../title";
+import { Title, type TitleProps } from "../title";
 
 import { useResponsive } from "@/hooks/use-responsive";
 import { useGSAP } from "@gsap/react";
@@ -100,6 +100,7 @@ export type ModalProps = {
   isOpen: boolean;
   fullScreen?: boolean;
   title?: React.ReactNode;
+  titleProps?: Omit<TitleProps, "children">;
   size?: "xs" | "s" | "m" | "l" | "xl";
   children?: React.ReactNode;
   footer?: React.ReactNode;
@@ -108,6 +109,7 @@ export type ModalProps = {
   closeOnClickOutside?: boolean;
   bodyStyle?: React.CSSProperties;
   close?: React.ReactNode;
+  closeStyle?: React.CSSProperties;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
@@ -259,6 +261,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                 right: "0px",
                 cursor: "pointer",
                 zIndex: 999999 + 1,
+                ...props.closeStyle,
               }}
             />
           )}
@@ -272,7 +275,13 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
               align="center"
               justify="between"
             >
-              <Title level={4}>{props.title}</Title>
+              {React.isValidElement(props.title) ? (
+                props.title
+              ) : (
+                <Title level={4} {...props.titleProps}>
+                  {props.title}
+                </Title>
+              )}
             </Flex>
           )}
           <Flex

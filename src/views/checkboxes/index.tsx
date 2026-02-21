@@ -20,10 +20,13 @@ export const Checkboxes = () => {
             <Checkbox color="secondary" label="Secondary" />
             <Checkbox color="default" label="Default" />
             <Checkbox color="error" label="Error" />
+            <Checkbox color="#22d348ff" label="Custom" />
           </>
         }
         onCopy={() =>
-          navigator.clipboard.writeText(`<Checkbox color="primary" label="Primary" />`)
+          navigator.clipboard.writeText(
+            `<Checkbox color="primary" label="Primary" />`,
+          )
         }
       />
 
@@ -38,7 +41,7 @@ export const Checkboxes = () => {
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Checkbox color="primary" size="sm" label="Small" />`
+            `<Checkbox color="primary" size="sm" label="Small" />`,
           )
         }
       />
@@ -56,7 +59,7 @@ export const Checkboxes = () => {
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Checkbox color="primary" label="None" radius="none" />`
+            `<Checkbox color="primary" label="None" radius="none" />`,
           )
         }
       />
@@ -65,13 +68,21 @@ export const Checkboxes = () => {
         title="label position"
         components={
           <>
-            <Checkbox color="primary" label="Label on right" labelPosition="right" />
-            <Checkbox color="primary" label="Label on left" labelPosition="left" />
+            <Checkbox
+              color="primary"
+              label="Label on right"
+              labelPosition="right"
+            />
+            <Checkbox
+              color="primary"
+              label="Label on left"
+              labelPosition="left"
+            />
           </>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Checkbox color="primary" label="Label on right" labelPosition="right" />`
+            `<Checkbox color="primary" label="Label on right" labelPosition="right" />`,
           )
         }
       />
@@ -96,7 +107,7 @@ export const Checkboxes = () => {
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Checkbox color="primary" label="Controlled" checked={checked} onChange={setChecked} />`
+            `<Checkbox color="primary" label="Controlled" checked={checked} onChange={setChecked} />`,
           )
         }
       />
@@ -105,7 +116,10 @@ export const Checkboxes = () => {
         title="uncontrolled"
         components={
           <>
-            <Checkbox color="primary" label="Uncontrolled (default unchecked)" />
+            <Checkbox
+              color="primary"
+              label="Uncontrolled (default unchecked)"
+            />
             <Checkbox
               color="primary"
               label="Uncontrolled (default checked)"
@@ -115,7 +129,7 @@ export const Checkboxes = () => {
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Checkbox color="primary" label="Uncontrolled" defaultChecked />`
+            `<Checkbox color="primary" label="Uncontrolled" defaultChecked />`,
           )
         }
       />
@@ -125,12 +139,17 @@ export const Checkboxes = () => {
         components={
           <>
             <Checkbox color="primary" label="Disabled unchecked" disabled />
-            <Checkbox color="primary" label="Disabled checked" disabled checked />
+            <Checkbox
+              color="primary"
+              label="Disabled checked"
+              disabled
+              checked
+            />
           </>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Checkbox color="primary" label="Disabled" disabled />`
+            `<Checkbox color="primary" label="Disabled" disabled />`,
           )
         }
       />
@@ -144,7 +163,9 @@ export const Checkboxes = () => {
             <Checkbox color="error" />
           </>
         }
-        onCopy={() => navigator.clipboard.writeText(`<Checkbox color="primary" />`)}
+        onCopy={() =>
+          navigator.clipboard.writeText(`<Checkbox color="primary" />`)
+        }
       />
     </Flex>
   );

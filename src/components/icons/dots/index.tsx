@@ -1,5 +1,13 @@
 import gsap from "gsap";
-import { forwardRef, useLayoutEffect, useRef } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
+import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
 
 export type DotsIconProps = {
   size?: number;
@@ -10,13 +18,26 @@ export type DotsIconProps = {
 } & React.SVGAttributes<SVGSVGElement>;
 
 export const DotsIcon = forwardRef<SVGSVGElement, DotsIconProps>(
-  (
-    { size = 24, strokeWidth = 2, animated = true, color = "currentColor", ...props },
-    ref
-  ) => {
+  ({ size = 24, strokeWidth = 2, animated = true, color, ...props }, ref) => {
+    const svgRef = useRef<SVGSVGElement | null>(null);
     const dot1Ref = useRef<SVGCircleElement>(null);
     const dot2Ref = useRef<SVGCircleElement>(null);
     const dot3Ref = useRef<SVGCircleElement>(null);
+    const [autoColor, setAutoColor] = useState("currentColor");
+
+    useEffect(() => {
+      if (color) return;
+      const element = svgRef.current?.parentElement;
+      if (!element) return;
+      try {
+        const bgColor = getRecursiveBgColor(element);
+        setAutoColor(getColorBasedOnBackground(bgColor));
+      } catch {
+        // Fallback silencieux
+      }
+    });
+
+    const resolvedColor = color ?? autoColor;
 
     useLayoutEffect(() => {
       if (!animated) {
@@ -63,12 +84,18 @@ export const DotsIcon = forwardRef<SVGSVGElement, DotsIconProps>(
 
     return (
       <svg
-        ref={ref}
+        ref={(node) => {
+          svgRef.current = node;
+          if (typeof ref === "function") ref(node);
+          else if (ref)
+            (ref as React.MutableRefObject<SVGSVGElement | null>).current =
+              node;
+        }}
         width={size}
         height={size}
         viewBox="0 0 24 24"
         fill="none"
-        stroke={color}
+        stroke={resolvedColor}
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -79,10 +106,10 @@ export const DotsIcon = forwardRef<SVGSVGElement, DotsIconProps>(
           ...props.style,
         }}
       >
-        <circle ref={dot1Ref} cx="5" cy="12" r="1" fill={color} />
-        <circle ref={dot2Ref} cx="12" cy="12" r="1" fill={color} />
-        <circle ref={dot3Ref} cx="19" cy="12" r="1" fill={color} />
+        <circle ref={dot1Ref} cx="5" cy="12" r="1" fill={resolvedColor} />
+        <circle ref={dot2Ref} cx="12" cy="12" r="1" fill={resolvedColor} />
+        <circle ref={dot3Ref} cx="19" cy="12" r="1" fill={resolvedColor} />
       </svg>
     );
-  }
+  },
 );

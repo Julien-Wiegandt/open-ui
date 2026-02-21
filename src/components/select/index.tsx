@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useTheme } from "styled-components";
 import { Flex } from "../flex";
-import { Text } from "../text";
+import { Text, type TextProps } from "../text";
 
 export type SelectOption = { key: string; label: string; data?: any };
 
@@ -20,6 +20,7 @@ export type SelectProps = {
   onChange?: (value: SelectOption) => void;
   label?: string;
   required?: boolean;
+  labelProps?: TextProps;
   placeholder?: string;
   orientation?: "up" | "down";
   hideScrollbar?: boolean;
@@ -27,8 +28,8 @@ export type SelectProps = {
     option?: SelectOption;
     handleChange?: (option: SelectOption) => void;
   }) => React.ReactNode;
-  selectOptionStyle?: React.CSSProperties;
-  optionContainerStyle?: React.CSSProperties;
+  triggerStyle?: React.CSSProperties;
+  dropdownStyle?: React.CSSProperties;
 };
 
 const DefaultOption = ({
@@ -146,7 +147,11 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
           mb="4px"
           style={{ minHeight: "1.2em" }}
         >
-          {props.label && <Text size="12">{props.label}</Text>}
+          {props.label && (
+            <Text size="12" {...props.labelProps}>
+              {props.label}
+            </Text>
+          )}
           {props.required && (
             <Text color={theme.palette.error.main} size="12">
               *
@@ -161,7 +166,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
         style={{
           position: "relative",
           cursor: "pointer",
-          ...props.selectOptionStyle,
+          ...props.triggerStyle,
         }}
       >
         {props.CustomOption ? (
@@ -198,7 +203,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props) => {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
             }),
-            ...props.optionContainerStyle,
+            ...props.dropdownStyle,
           }}
         >
           {props.options.map((option) =>

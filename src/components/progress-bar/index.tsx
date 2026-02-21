@@ -3,9 +3,10 @@ import { useEffect, useRef } from "react";
 import { useTheme } from "styled-components";
 
 import { gsap } from "gsap";
+import { resolveColor } from "../utils/resolve-color";
 
 export type ProgressBarProps = {
-  color: Color;
+  color: Color | string;
   value: number;
   animationDurationInSeconds?: number;
   h?: string;
@@ -33,15 +34,17 @@ export const ProgressBar = ({
     }
   }, [value, animationDurationInSeconds]);
 
+  const palette = resolveColor(color, theme);
+
   return (
     <div
       style={{
         width: w ?? "100%",
         position: "relative",
-        backgroundColor: theme.palette[color].light,
+        backgroundColor: palette.light,
         borderRadius: "8px",
         height: h ?? "8px",
-        border: `2px solid ${theme.palette[color].light}`,
+        border: `2px solid ${palette.light}`,
       }}
     >
       <div
@@ -52,7 +55,7 @@ export const ProgressBar = ({
           left: "0",
           height: "100%",
           width: "0%",
-          backgroundColor: theme.palette[color].main,
+          backgroundColor: palette.main,
           borderRadius: "8px",
         }}
       ></div>

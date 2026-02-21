@@ -1,20 +1,8 @@
-/* eslint-disable prefer-const */
-type RGB = { r: number; g: number; b: number };
-type HSL = { h: number; s: number; l: number };
+export type RGB = { r: number; g: number; b: number };
+export type RGBA = RGB & { a: number };
+export type HSL = { h: number; s: number; l: number };
 
-function hexToRgb(hex: string): RGB {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  if (!result) {
-    throw new Error("Invalid HEX color");
-  }
-  return {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16),
-  };
-}
-
-function rgbToHsl({ r, g, b }: RGB): HSL {
+export function rgbToHsl({ r, g, b }: RGB): HSL {
   r /= 255;
   g /= 255;
   b /= 255;
@@ -43,7 +31,7 @@ function rgbToHsl({ r, g, b }: RGB): HSL {
   return { h, s, l };
 }
 
-function hslToRgb({ h, s, l }: HSL): RGB {
+export function hslToRgb({ h, s, l }: HSL): RGB {
   let r, g, b;
 
   if (s === 0) {
@@ -71,14 +59,100 @@ function hslToRgb({ h, s, l }: HSL): RGB {
   };
 }
 
-function rgbToHex({ r, g, b }: RGB): string {
+export function rgbToHex({ r, g, b }: RGB): string {
   const toHex = (c: number) => ("0" + c.toString(16)).slice(-2);
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
+export function hexToRgb(hex: string): RGBA {
+  const clean = hex.replace(/^#/, "");
+
+  const expanded =
+    clean.length === 3
+      ? clean
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : clean;
+
+  const full = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i.exec(
+    expanded,
+  );
+  if (!full) throw new Error(`Invalid HEX color: "${hex}"`);
+
+  return {
+    r: parseInt(full[1], 16),
+    g: parseInt(full[2], 16),
+    b: parseInt(full[3], 16),
+    a: full[4] !== undefined ? parseInt(full[4], 16) / 255 : 1,
+  };
+}
+
+export function parseRgbString(color: string): RGBA {
+  const match =
+    /^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*([\d.]+))?\s*\)$/i.exec(
+      color.trim(),
+    );
+  if (!match) throw new Error(`Invalid RGB/RGBA color: "${color}"`);
+  return {
+    r: Math.round(Number(match[1])),
+    g: Math.round(Number(match[2])),
+    b: Math.round(Number(match[3])),
+    a: match[4] !== undefined ? Number(match[4]) : 1,
+  };
+}
+
+export function parseHslString(color: string): RGBA {
+  const match =
+    /^hsla?\(\s*([\d.]+)\s*,\s*([\d.]+)%\s*,\s*([\d.]+)%(?:\s*,\s*([\d.]+))?\s*\)$/i.exec(
+      color.trim(),
+    );
+  if (!match) throw new Error(`Invalid HSL/HSLA color: "${color}"`);
+
+  const hsl: HSL = {
+    h: Number(match[1]) / 360,
+    s: Number(match[2]) / 100,
+    l: Number(match[3]) / 100,
+  };
+  const rgb = hslToRgb(hsl);
+  return { ...rgb, a: match[4] !== undefined ? Number(match[4]) : 1 };
+}
+
+export function parseColorToRgb(color: string): RGBA {
+  const trimmed = color.trim();
+
+  if (/^#|^[0-9a-f]{3}([0-9a-f]{3}([0-9a-f]{2})?)?$/i.test(trimmed)) {
+    return hexToRgb(trimmed);
+  }
+
+  if (/^rgba?\s*\(/i.test(trimmed)) {
+    return parseRgbString(trimmed);
+  }
+
+  if (/^hsla?\s*\(/i.test(trimmed)) {
+    return parseHslString(trimmed);
+  }
+
+  throw new Error(
+    `Unsupported color format: "${color}". ` +
+      `Expected hex (#rgb, #rrggbb, #rrggbbaa), rgb(), rgba(), hsl(), or hsla().`,
+  );
+}
+
 export function generateColorPalette(
-  baseColorHex: string,
-  baseShadeKey: 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950 = 600
+  baseColor: string,
+  baseShadeKey:
+    | 50
+    | 100
+    | 200
+    | 300
+    | 400
+    | 500
+    | 600
+    | 700
+    | 800
+    | 900
+    | 950 = 600,
 ): { [shade: string]: string } {
   const lightnessMap = {
     50: 0.95,
@@ -94,7 +168,7 @@ export function generateColorPalette(
     950: 0.1,
   };
 
-  const baseRgb = hexToRgb(baseColorHex);
+  const baseRgb = parseColorToRgb(baseColor);
   const baseHsl = rgbToHsl(baseRgb);
 
   const palette: { [shade: string]: string } = {};
@@ -111,7 +185,7 @@ export function generateColorPalette(
     palette[shade] = rgbToHex(hslToRgb(newHsl));
   }
 
-  palette[baseShadeKey.toString()] = baseColorHex;
+  palette[baseShadeKey.toString()] = rgbToHex(baseRgb);
 
   return palette;
 }

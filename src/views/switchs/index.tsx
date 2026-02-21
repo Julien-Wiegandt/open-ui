@@ -10,13 +10,14 @@ export const Switchs = () => {
   const [secondary, setSecondary] = useState(true);
   const [defaultColor, setDefaultColor] = useState(true);
   const [error, setError] = useState(true);
+  const [custom, setCustom] = useState(true);
 
   return (
     <Flex gap={4}>
       <Title level={2}>Switch</Title>
 
       <Usage
-        title="simple"
+        title="base"
         components={
           <>
             <Switch />
@@ -25,8 +26,9 @@ export const Switchs = () => {
         orientation="horizontal"
         onCopy={() => navigator.clipboard.writeText(`<Switch />`)}
       />
+
       <Usage
-        title="color"
+        title="colors"
         components={
           <>
             <Switch
@@ -34,24 +36,47 @@ export const Switchs = () => {
               value={primary}
               onChange={(isOn) => setPrimary(isOn)}
             />
-
             <Switch
               color="secondary"
               value={secondary}
               onChange={(isOn) => setSecondary(isOn)}
             />
-
             <Switch
               color="default"
               value={defaultColor}
               onChange={(isOn) => setDefaultColor(isOn)}
             />
-            <Switch color="error" value={error} onChange={(isOn) => setError(isOn)} />
+            <Switch
+              color="error"
+              value={error}
+              onChange={(isOn) => setError(isOn)}
+            />
+            <Switch
+              color="#08d2bbff"
+              value={custom}
+              onChange={(isOn) => setCustom(isOn)}
+            />
           </>
         }
         orientation="horizontal"
-        onCopy={() => navigator.clipboard.writeText(`<Switch color="primary" />>`)}
+        onCopy={() =>
+          navigator.clipboard.writeText(`<Switch color="primary" />`)
+        }
       />
+
+      <Usage
+        title="sizes"
+        components={
+          <>
+            <Switch size={32} />
+            <Switch size={48} />
+            <Switch size={64} />
+          </>
+        }
+        orientation="horizontal"
+        onCopy={() => navigator.clipboard.writeText(`<Switch size={48} />`)}
+      />
+
       <Usage
         title="controlled"
         components={
@@ -62,7 +87,7 @@ export const Switchs = () => {
         orientation="horizontal"
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Switch value={on} onChange={(isOn) => setOn(isOn)} />`
+            `<Switch value={on} onChange={(isOn) => setOn(isOn)} />`,
           )
         }
       />

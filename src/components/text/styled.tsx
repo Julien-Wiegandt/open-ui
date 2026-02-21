@@ -4,7 +4,10 @@ import type { TextProps } from ".";
 import { getMarginsCSS, getPaddingCSS } from "../common";
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const getFontSize = (size: TextProps["size"], breakpoint: Breakpoint) => {
+export const getFontSize = (
+  size: TextProps["size"],
+  breakpoint: Breakpoint,
+) => {
   if (breakpoint === "sm") {
     return `${Number(size) / (8 / 7)}px`;
   }
@@ -31,8 +34,10 @@ export const StyledText = styled.p<TextProps & { breakpoint: Breakpoint }>`
   font-family: ${({ theme }) => theme.text.fontFamily};
   margin: 0;
   color: ${({ color }) => color};
-  ${({ m, mb, ml, mr, mt, mx, my }) => getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
-  ${({ p, pb, pl, pr, pt, px, py }) => getPaddingCSS({ p, pb, pl, pr, pt, px, py })};
+  ${({ m, mb, ml, mr, mt, mx, my }) =>
+    getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
+  ${({ p, pb, pl, pr, pt, px, py }) =>
+    getPaddingCSS({ p, pb, pl, pr, pt, px, py })};
   font-weight: ${({ weight }) => getFontWeight(weight)};
   font-size: ${({ size, breakpoint }) => size && getFontSize(size, breakpoint)};
   width: ${({ width }) => width};

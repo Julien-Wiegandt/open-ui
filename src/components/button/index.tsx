@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Color, Radius, Variant } from "@/theme/types";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
@@ -6,11 +5,10 @@ import React, {
   forwardRef,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
-import { useTheme } from "styled-components";
+
 import type { MarginProps, PaddingProps } from "../common/types";
 import { Flex } from "../flex";
 import { HamburgerIcon, HeartIcon, SyncIcon } from "../icons";
@@ -21,8 +19,12 @@ import { DotsIcon } from "../icons/dots";
 import { SendHorizontalIcon } from "../icons/send-horizontal";
 import { SparklesIcon } from "../icons/sparkles";
 import { Text, type TextProps } from "../text";
+import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
+import { getRecursiveBgColor } from "../utils/get-recursive-bg-color";
 import { useCombinedRefs } from "../utils/use-combined-refs";
-import { getVariantStyle, sizeMap, StyledButton } from "./style";
+import { sizeMap, StyledButton } from "./style";
+
+import { useComponentTheme } from "@/hooks/use-component-theme";
 
 export type Icon =
   | "bell"
@@ -39,41 +41,40 @@ gsap.registerPlugin(SplitText);
 
 const Icon = forwardRef<
   HTMLDivElement,
-  { icon: ButtonProps["starticon"]; animation: boolean; color: string; size: number }
->(({ icon, animation, color, size }, ref) => {
+  {
+    icon: ButtonProps["starticon"];
+    animation: boolean;
+    size: number;
+  }
+>(({ icon, animation, size }, ref) => {
   return (
     icon && (
       <Flex ref={ref} align="center" justify="center">
         {typeof icon !== "string" && icon}
         {icon === "bell" && (
-          <BellIcon hasNotification={animation} size={size} color={color} animated />
+          <BellIcon hasNotification={animation} size={size} animated />
         )}
         {icon === "check" && (
-          <CheckIcon
-            isVisible={animation}
-            size={size}
-            animated={animation}
-            color={color}
-          />
+          <CheckIcon isVisible={animation} size={size} animated={animation} />
         )}
         {icon === "hamburger" && (
-          <HamburgerIcon isOpen={animation} size={size} animated color={color} />
+          <HamburgerIcon isOpen={animation} size={size} animated />
         )}
         {icon === "heart" && (
-          <HeartIcon isLiked={animation} size={size} animated color={color} />
+          <HeartIcon isLiked={animation} size={size} animated />
         )}
         {icon === "sync" && (
-          <SyncIcon isSyncing={animation} size={size} animated color={color} />
+          <SyncIcon isSyncing={animation} size={size} animated />
         )}
         {icon === "sparkles" && (
-          <SparklesIcon size={size} animated={animation} color={color} />
+          <SparklesIcon size={size} animated={animation} />
         )}
-        {icon === "dots" && <DotsIcon size={size} animated={animation} color={color} />}
+        {icon === "dots" && <DotsIcon size={size} animated={animation} />}
         {icon === "send" && (
-          <SendHorizontalIcon size={size} animated={animation} color={color} />
+          <SendHorizontalIcon size={size} animated={animation} />
         )}
         {icon === "copy" && (
-          <CopyIcon isCopied={animation} size={size} animated color={color} />
+          <CopyIcon isCopied={animation} size={size} animated />
         )}
       </Flex>
     )
@@ -81,9 +82,9 @@ const Icon = forwardRef<
 });
 
 export type ButtonProps = {
-  // required
-  color: Color;
-  variant: Variant;
+  // optional with theme defaults
+  color?: Color | string;
+  variant?: Variant;
   // optional
   label?: string;
   starticon?: React.ReactNode | Icon;
@@ -95,6 +96,7 @@ export type ButtonProps = {
   gap?: string | number;
   loading?: boolean;
   active?: boolean;
+  activeStyle?: React.CSSProperties;
   align?: "left" | "center" | "right";
   w?: string;
   h?: string;
@@ -104,8 +106,15 @@ export type ButtonProps = {
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ onClick, loading: loadingProp, labelProps, ...props }, ref) => {
-    const theme = useTheme();
+  (originalProps, ref) => {
+    const {
+      onClick,
+      loading: loadingProp,
+      labelProps,
+      ...mergedProps
+    } = useComponentTheme("button", originalProps);
+
+    const { color = "default", variant = "contained", ...props } = mergedProps;
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const textRef = useRef<HTMLParagraphElement>(null);
@@ -114,9 +123,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const [internalLoading, setInternalLoading] = useState(false);
     const [endAnimation, setEndAnimation] = useState(false);
     const [animation, setAnimation] = useState(false);
-    const [animationEndWidth, setAnimationEndWidth] = useState<number | undefined>(
-      undefined
-    );
+    const [animationEndWidth, setAnimationEndWidth] = useState<
+      number | undefined
+    >(undefined);
 
     // Mode contrôlé si loadingProp est défini, sinon mode non-contrôlé
     const isControlled = loadingProp !== undefined;
@@ -129,6 +138,29 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ["heart", "hamburger"].includes(props.endicon));
 
     const combinedRef = useCombinedRefs(ref, buttonRef);
+
+    const [labelColor, setLabelColor] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+      if (labelProps?.color) return;
+      const btn = buttonRef.current;
+      if (!btn) return;
+      try {
+        const bgColor = getComputedStyle(btn).backgroundColor;
+        const alphaMatch = bgColor.match(
+          /rgba\([^,]+,[^,]+,[^,]+,\s*([\d.]+)\)/,
+        );
+        const alpha = alphaMatch ? parseFloat(alphaMatch[1]) : 1;
+        const isEffectivelyTransparent =
+          bgColor === "rgba(0, 0, 0, 0)" ||
+          bgColor === "transparent" ||
+          alpha < 0.5;
+        const resolvedBg = isEffectivelyTransparent
+          ? getRecursiveBgColor(btn.parentElement ?? btn)
+          : bgColor;
+        setLabelColor(getColorBasedOnBackground(resolvedBg));
+      } catch {}
+    });
 
     useEffect(() => {
       if (textRef.current) {
@@ -157,7 +189,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     useEffect(() => {
       if (starticonRef.current && props.starticon && !props.endicon) {
-        setAnimationEndWidth(starticonRef.current.getBoundingClientRect().width);
+        setAnimationEndWidth(
+          starticonRef.current.getBoundingClientRect().width,
+        );
       }
     }, [props.starticon, props.endicon]);
 
@@ -167,12 +201,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       }
     }, [props.endicon]);
 
-    const variant = useMemo(
-      () => getVariantStyle({ color: props.color, theme }),
-      [props.color, theme]
-    );
-
-    const handleButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleButtonClick = async (
+      event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
       // En mode non-contrôlé, gérer le loading automatiquement
       if (!isControlled) setInternalLoading(true);
 
@@ -196,13 +227,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           setAnimationEndWidth(size.width);
         }
       },
-      [props.starticon, props.endicon, endAnimation]
+      [props.starticon, props.endicon, endAnimation],
     );
 
     return (
       <StyledButton
         ref={combinedRef}
         onClick={handleButtonClick}
+        variant={variant}
+        color={color}
         {...props}
         disabled={loading || props.disabled}
       >
@@ -211,7 +244,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             ref={starticonRef}
             icon={props.starticon}
             animation={animation}
-            color={getVariantStyle({ color: props.color, theme })[props.variant].color}
             size={sizeMap[props.size ?? "md"].height ?? 24}
           />
         )}
@@ -226,16 +258,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               width="100%"
               align={props.align ?? "center"}
               size={sizeMap[props.size ?? "md"].fontSize}
+              color={labelColor}
               {...labelProps}
             >
               {props.label}
             </Text>
           )}
         {endAnimation && (
-          <Flex align="center" justify="center" width={`${animationEndWidth}px`}>
+          <Flex
+            align="center"
+            justify="center"
+            width={`${animationEndWidth}px`}
+          >
             <CheckIcon
               isVisible={endAnimation}
-              color={variant[props.variant].color}
               size={sizeMap[props.size ?? "md"].height ?? 24}
               animated
             />
@@ -246,13 +282,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             ref={endiconRef}
             icon={props.endicon}
             animation={animation}
-            color={getVariantStyle({ color: props.color, theme })[props.variant].color}
             size={sizeMap[props.size ?? "md"].height ?? 24}
           />
         )}
       </StyledButton>
     );
-  }
+  },
 );
 
 Button.displayName = "Button";

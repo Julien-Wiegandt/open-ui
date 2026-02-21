@@ -13,6 +13,7 @@ export const Modals = () => {
   const [isLargeModalOpen, setIsLargeModalOpen] = useState(false);
   const [isExtraLargeModalOpen, setIsExtraLargeModalOpen] = useState(false);
   const [isFullScreenModalOpen, setIsFullScreenModalOpen] = useState(false);
+  const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
 
   const Footer = () => (
     <>
@@ -52,14 +53,15 @@ export const Modals = () => {
       >
         <Flex width="100%" height="100%">
           <Text size="16" align="justify">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus
-            non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
-            porttitor quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-            hendrerit risus, sed porttitor quam. Magna exercitation reprehenderit magna
-            aute tempor cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
-            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem aliqua
-            enim laboris do dolor eiusmod.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+            pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+            hendrerit risus, sed porttitor quam. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Nullam pulvinar risus non risus
+            hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
+            porttitor quam. Magna exercitation reprehenderit magna aute tempor
+            cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
+            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem
+            aliqua enim laboris do dolor eiusmod.
           </Text>
         </Flex>
       </Modal>
@@ -77,14 +79,15 @@ export const Modals = () => {
       >
         <Flex width="100%" height="100%">
           <Text size="16" align="justify">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus
-            non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
-            porttitor quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-            hendrerit risus, sed porttitor quam. Magna exercitation reprehenderit magna
-            aute tempor cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
-            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem aliqua
-            enim laboris do dolor eiusmod.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+            pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+            hendrerit risus, sed porttitor quam. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Nullam pulvinar risus non risus
+            hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
+            porttitor quam. Magna exercitation reprehenderit magna aute tempor
+            cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
+            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem
+            aliqua enim laboris do dolor eiusmod.
           </Text>
         </Flex>
       </Modal>
@@ -102,14 +105,15 @@ export const Modals = () => {
       >
         <Flex width="100%" height="100%">
           <Text size="16" align="justify">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus
-            non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
-            porttitor quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-            hendrerit risus, sed porttitor quam. Magna exercitation reprehenderit magna
-            aute tempor cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
-            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem aliqua
-            enim laboris do dolor eiusmod.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+            pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+            hendrerit risus, sed porttitor quam. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Nullam pulvinar risus non risus
+            hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
+            porttitor quam. Magna exercitation reprehenderit magna aute tempor
+            cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
+            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem
+            aliqua enim laboris do dolor eiusmod.
           </Text>
         </Flex>
       </Modal>
@@ -127,14 +131,15 @@ export const Modals = () => {
       >
         <Flex width="100%" height="100%">
           <Text size="16" align="justify">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus
-            non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
-            porttitor quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-            hendrerit risus, sed porttitor quam. Magna exercitation reprehenderit magna
-            aute tempor cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
-            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem aliqua
-            enim laboris do dolor eiusmod.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+            pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+            hendrerit risus, sed porttitor quam. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Nullam pulvinar risus non risus
+            hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
+            porttitor quam. Magna exercitation reprehenderit magna aute tempor
+            cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
+            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem
+            aliqua enim laboris do dolor eiusmod.
           </Text>
         </Flex>
       </Modal>
@@ -152,14 +157,15 @@ export const Modals = () => {
       >
         <Flex width="100%" height="100%">
           <Text size="16" align="justify">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus
-            non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
-            porttitor quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-            hendrerit risus, sed porttitor quam. Magna exercitation reprehenderit magna
-            aute tempor cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
-            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem aliqua
-            enim laboris do dolor eiusmod.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+            pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+            hendrerit risus, sed porttitor quam. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Nullam pulvinar risus non risus
+            hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
+            porttitor quam. Magna exercitation reprehenderit magna aute tempor
+            cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
+            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem
+            aliqua enim laboris do dolor eiusmod.
           </Text>
         </Flex>
       </Modal>
@@ -177,14 +183,48 @@ export const Modals = () => {
       >
         <Flex width="100%" height="100%">
           <Text size="16" align="justify">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus
-            non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
-            porttitor quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-            hendrerit risus, sed porttitor quam. Magna exercitation reprehenderit magna
-            aute tempor cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
-            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem aliqua
-            enim laboris do dolor eiusmod.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+            pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+            hendrerit risus, sed porttitor quam. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Nullam pulvinar risus non risus
+            hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
+            porttitor quam. Magna exercitation reprehenderit magna aute tempor
+            cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
+            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem
+            aliqua enim laboris do dolor eiusmod.
+          </Text>
+        </Flex>
+      </Modal>
+    );
+  };
+
+  const CustomModal = () => {
+    return (
+      <Modal
+        isOpen={isCustomModalOpen}
+        title="Create your account"
+        onClose={() => setIsCustomModalOpen(false)}
+        close={
+          <Button
+            color="error"
+            label="close"
+            variant="contained"
+            onClick={() => setIsCustomModalOpen(false)}
+          />
+        }
+        footer={<Footer />}
+      >
+        <Flex width="100%" height="100%">
+          <Text size="16" align="justify">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+            pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+            hendrerit risus, sed porttitor quam. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit. Nullam pulvinar risus non risus
+            hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed
+            porttitor quam. Magna exercitation reprehenderit magna aute tempor
+            cupidatat consequat elit dolor adipisicing. Mollit dolor eiusmod
+            sunt ex incididunt cillum quis. Velit duis sit officia eiusmod Lorem
+            aliqua enim laboris do dolor eiusmod.
           </Text>
         </Flex>
       </Modal>
@@ -200,6 +240,7 @@ export const Modals = () => {
       <LargeModal />
       <ExtraLargeModal />
       <FullScreenModal />
+      <CustomModal />
 
       <Usage
         title="usage"
@@ -329,6 +370,20 @@ export const Modals = () => {
         </Flex>
       </Modal>`)
         }
+      />
+      <Usage
+        title="custom"
+        components={
+          <>
+            <Button
+              color="default"
+              variant="contained"
+              label="custom"
+              onClick={() => setIsCustomModalOpen(true)}
+            />
+          </>
+        }
+        onCopy={() => navigator.clipboard.writeText(``)}
       />
     </Flex>
   );

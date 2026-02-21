@@ -1,5 +1,13 @@
 import gsap from "gsap";
-import { forwardRef, useLayoutEffect, useRef } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
+import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
 
 export type SyncIconProps = {
   isSyncing?: boolean;
@@ -16,13 +24,29 @@ export const SyncIcon = forwardRef<SVGSVGElement, SyncIconProps>(
       size = 24,
       strokeWidth = 2,
       animated = false,
-      color = "currentColor",
+      color,
       ...props
     },
-    ref
+    ref,
   ) => {
+    const svgRef = useRef<SVGSVGElement | null>(null);
     const iconRef = useRef<SVGGElement | null>(null);
     const prevIsSyncingRef = useRef<boolean>(isSyncing);
+    const [autoColor, setAutoColor] = useState("currentColor");
+
+    useEffect(() => {
+      if (color) return;
+      const element = svgRef.current?.parentElement;
+      if (!element) return;
+      try {
+        const bgColor = getRecursiveBgColor(element);
+        setAutoColor(getColorBasedOnBackground(bgColor));
+      } catch {
+        // Fallback silencieux
+      }
+    });
+
+    const resolvedColor = color ?? autoColor;
 
     useLayoutEffect(() => {
       if (!animated) return;
@@ -56,13 +80,19 @@ export const SyncIcon = forwardRef<SVGSVGElement, SyncIconProps>(
       prevIsSyncingRef.current = isSyncing;
 
       return () => {
-        if (element) gsap.killTweensOf(element);
+        if (iconRef.current) gsap.killTweensOf(iconRef.current);
       };
     }, [isSyncing, animated]);
 
     return (
       <svg
-        ref={ref}
+        ref={(node) => {
+          svgRef.current = node;
+          if (typeof ref === "function") ref(node);
+          else if (ref)
+            (ref as React.MutableRefObject<SVGSVGElement | null>).current =
+              node;
+        }}
         width={size}
         height={size}
         viewBox="0 0 24 24"
@@ -73,7 +103,7 @@ export const SyncIcon = forwardRef<SVGSVGElement, SyncIconProps>(
         <g ref={iconRef}>
           <path
             d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
-            stroke={color}
+            stroke={resolvedColor}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -81,5 +111,5 @@ export const SyncIcon = forwardRef<SVGSVGElement, SyncIconProps>(
         </g>
       </svg>
     );
-  }
+  },
 );

@@ -1,5 +1,13 @@
 import gsap from "gsap";
-import { forwardRef, useLayoutEffect, useRef } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
+import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
 
 export type SparklesIconProps = {
   size?: number;
@@ -10,23 +18,40 @@ export type SparklesIconProps = {
 } & React.SVGAttributes<SVGSVGElement>;
 
 export const SparklesIcon = forwardRef<SVGSVGElement, SparklesIconProps>(
-  (
-    { size = 24, strokeWidth = 2, animated = true, color = "currentColor", ...props },
-    ref
-  ) => {
+  ({ size = 24, strokeWidth = 2, animated = true, color, ...props }, ref) => {
+    const svgRef = useRef<SVGSVGElement | null>(null);
     const mainSparkleRef = useRef<SVGPathElement>(null);
     const topSparkleRef = useRef<SVGGElement>(null);
     const bottomSparkleRef = useRef<SVGGElement>(null);
+    const [autoColor, setAutoColor] = useState("currentColor");
+
+    useEffect(() => {
+      if (color) return;
+      const element = svgRef.current?.parentElement;
+      if (!element) return;
+      try {
+        const bgColor = getRecursiveBgColor(element);
+        setAutoColor(getColorBasedOnBackground(bgColor));
+      } catch {
+        // Fallback silencieux
+      }
+    });
+
+    const resolvedColor = color ?? autoColor;
 
     useLayoutEffect(() => {
       if (!animated) {
         gsap.set(
-          [mainSparkleRef.current, topSparkleRef.current, bottomSparkleRef.current],
+          [
+            mainSparkleRef.current,
+            topSparkleRef.current,
+            bottomSparkleRef.current,
+          ],
           {
             scale: 1,
             opacity: 1,
             rotation: 0,
-          }
+          },
         );
         return;
       }
@@ -73,12 +98,18 @@ export const SparklesIcon = forwardRef<SVGSVGElement, SparklesIconProps>(
 
     return (
       <svg
-        ref={ref}
+        ref={(node) => {
+          svgRef.current = node;
+          if (typeof ref === "function") ref(node);
+          else if (ref)
+            (ref as React.MutableRefObject<SVGSVGElement | null>).current =
+              node;
+        }}
         width={size}
         height={size}
         viewBox="0 0 24 24"
         fill="none"
-        stroke={color}
+        stroke={resolvedColor}
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -108,5 +139,5 @@ export const SparklesIcon = forwardRef<SVGSVGElement, SparklesIconProps>(
         </g>
       </svg>
     );
-  }
+  },
 );

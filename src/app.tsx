@@ -25,16 +25,16 @@ import "@fontsource/epilogue/400.css";
 import "@fontsource/epilogue/index.css";
 
 import "@fontsource-variable/inter/index.css";
-import "@fontsource-variable/inter/wght.css";
 import "@fontsource-variable/inter/wght-italic.css";
+import "@fontsource-variable/inter/wght.css";
 
-import "@fontsource/space-mono/index.css";
-import "@fontsource/space-mono/400.css";
 import "@fontsource/space-mono/400-italic.css";
+import "@fontsource/space-mono/400.css";
+import "@fontsource/space-mono/index.css";
 
-import "@fontsource/inter/index.css";
-import "@fontsource/inter/400.css";
 import "@fontsource/inter/400-italic.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/index.css";
 
 import { useResponsive } from "./hooks/use-responsive";
 import { OpenUIProvider } from "./theme";
@@ -45,6 +45,7 @@ import { ColorPickers } from "./views/color-picker";
 import { Dividers } from "./views/dividers";
 import { Flexs } from "./views/flexs";
 import { Icons } from "./views/icons";
+import { Images } from "./views/images";
 import { Inputs } from "./views/inputs";
 import { Modals } from "./views/modals";
 import { Popovers } from "./views/popover";
@@ -52,8 +53,9 @@ import { ProgressBars } from "./views/progress-bars";
 import { Selects } from "./views/selects";
 import { Skeletons } from "./views/skeletons";
 import { Switchs } from "./views/switchs";
-import { Toasts } from "./views/toasts";
 import { ThemeBuilder } from "./views/theme/builder";
+import { Toasts } from "./views/toasts";
+import { Tooltips } from "./views/tooltips";
 
 const App = () => {
   const navigate = useNavigate();
@@ -174,6 +176,15 @@ const App = () => {
               }}
             />
             <Button
+              label="Image"
+              variant="text"
+              align="left"
+              color="default"
+              onClick={() => {
+                navigate("/image");
+              }}
+            />
+            <Button
               label="Input"
               variant="text"
               align="left"
@@ -265,6 +276,15 @@ const App = () => {
               }}
             />
             <Button
+              label="Tooltip"
+              variant="text"
+              align="left"
+              color="default"
+              onClick={() => {
+                navigate("/tooltip");
+              }}
+            />
+            <Button
               label="Toast"
               variant="text"
               align="left"
@@ -294,6 +314,7 @@ const App = () => {
               <Route path="/button" element={<Buttons />} />
               <Route path="/divider" element={<Dividers />} />
               <Route path="/icons" element={<Icons />} />
+              <Route path="/image" element={<Images />} />
               <Route path="/input" element={<Inputs />} />
               <Route path="/modal" element={<Modals />} />
               <Route path="/textarea" element={<TextAreas />} />
@@ -304,6 +325,7 @@ const App = () => {
               <Route path="/select" element={<Selects />} />
               <Route path="/switch" element={<Switchs />} />
               <Route path="/toast" element={<Toasts />} />
+              <Route path="/tooltip" element={<Tooltips />} />
               <Route path="/skeleton" element={<Skeletons />} />
             </Routes>
           </Flex>

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import type { InputProps } from ".";
 import { getMarginsCSS, getPaddingCSS, getScrollbarCSS } from "../common";
 import type { MarginProps, PaddingProps } from "../common/types";
+import { resolveColor } from "../utils/resolve-color";
 
 export const StyledInput = styled.input<InputProps>`
   all: unset;
@@ -13,7 +14,7 @@ export const StyledInput = styled.input<InputProps>`
   align-items: center;
   text-align: left;
 
-  color: ${({ theme, color }) => theme.palette[color ?? "default"].main};
+  color: ${({ theme, color }) => resolveColor(color ?? "default", theme).main};
 
   background-color: white;
   border-radius: ${({ theme }) => radiusMap[theme.radius]};
@@ -26,7 +27,7 @@ export const StyledInput = styled.input<InputProps>`
         ? "transparent"
         : error
           ? ({ theme }) => theme.palette.error.main
-          : ({ theme, color }) => theme.palette[color ?? "default"].main};
+          : ({ theme, color }) => resolveColor(color ?? "default", theme).main};
   ${({ m, mb, ml, mr, mt, mx, my }: MarginProps) =>
     getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
   ${({ p, pb, pl, pr, pt, px, py }: PaddingProps) =>

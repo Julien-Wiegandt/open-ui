@@ -3,6 +3,7 @@ import styled from "styled-components";
 import type { TextAreaProps } from ".";
 import { getMarginsCSS, getPaddingCSS, getScrollbarCSS } from "../common";
 import type { MarginProps, PaddingProps } from "../common/types";
+import { resolveColor } from "../utils/resolve-color";
 
 export const StyledTextArea = styled.textarea<TextAreaProps>`
   all: unset;
@@ -13,7 +14,7 @@ export const StyledTextArea = styled.textarea<TextAreaProps>`
   align-items: center;
   text-align: left;
 
-  color: ${({ theme, color }) => theme.palette[color ?? "default"].main};
+  color: ${({ theme, color }) => resolveColor(color ?? "default", theme).main};
   background-color: white;
   border-radius: min(16px, ${({ theme }) => radiusMap[theme.radius]});
   padding: 8px 12px;
@@ -21,8 +22,10 @@ export const StyledTextArea = styled.textarea<TextAreaProps>`
   ${getScrollbarCSS()};
 
   border: 1px solid
-    ${({ error, theme }) =>
-      error ? theme.palette.error.main : theme.palette.primary.dark};
+    ${({ error, theme, color }) =>
+      error
+        ? theme.palette.error.main
+        : resolveColor(color ?? "default", theme).main};
   ${({ m, mb, ml, mr, mt, mx, my }: MarginProps) =>
     getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
   ${({ p, pb, pl, pr, pt, px, py }: PaddingProps) =>

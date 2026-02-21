@@ -12,10 +12,11 @@ import React, {
 import { createPortal } from "react-dom"; // Importé
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
+import { resolveColor } from "../utils/resolve-color";
 import { StyledPopover } from "./style";
 
 export type PopoverStyleProps = {
-  color: Color;
+  color: Color | string;
   content: React.ReactNode;
   children: React.ReactNode;
   visible?: boolean;
@@ -57,7 +58,8 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 
     useEffect(() => {
       if (childrenRef?.current && props.visible) {
-        const { clientHeight: height, clientWidth: width } = childrenRef.current;
+        const { clientHeight: height, clientWidth: width } =
+          childrenRef.current;
         setChildrenSize({ height, width });
       }
     }, [childrenRef?.current, props.visible]);
@@ -170,11 +172,13 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
     }, [props.visible]);
 
     const mergedRef = (node: HTMLElement) => {
-      (childrenRef as React.MutableRefObject<HTMLElement | null>).current = node;
+      (childrenRef as React.MutableRefObject<HTMLElement | null>).current =
+        node;
 
       if (isValidElement(children)) {
-        const originalRef = (children as React.ReactElement & { ref?: React.Ref<any> })
-          .ref;
+        const originalRef = (
+          children as React.ReactElement & { ref?: React.Ref<any> }
+        ).ref;
 
         if (typeof originalRef === "function") {
           originalRef(node);
@@ -200,7 +204,11 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
             left: `${popoverPosition.left}px`,
             zIndex: memoizedProps.zIndex,
             opacity: `${
-              props.visible && popoverSize.height !== 0 && popoverSize.width !== 0 ? 1 : 0
+              props.visible &&
+              popoverSize.height !== 0 &&
+              popoverSize.width !== 0
+                ? 1
+                : 0
             }`,
             transition: "opacity 0.25s ease",
           }}
@@ -213,12 +221,18 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
             height: "8px",
             display: `${props.visible ? "block" : "none"}`,
             opacity: `${
-              props.visible && popoverSize.height !== 0 && popoverSize.width !== 0 ? 1 : 0
+              props.visible &&
+              popoverSize.height !== 0 &&
+              popoverSize.width !== 0
+                ? 1
+                : 0
             }`,
             transition: "opacity 0.25s ease",
             zIndex: `${(memoizedProps.zIndex ?? 9) - 1}`,
             backgroundColor: `${
-              props.arrowcolor ?? props.bgcolor ?? theme.palette[props.color].light
+              props.arrowcolor ??
+              props.bgcolor ??
+              resolveColor(props.color, theme).light
             }`,
             rotate: "45deg",
             position: "absolute",
@@ -235,7 +249,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
         {props.visible && createPortal(popoverContent, document.body)}
       </>
     );
-  }
+  },
 );
 
 Popover.displayName = "Popover";

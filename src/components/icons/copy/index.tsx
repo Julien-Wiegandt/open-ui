@@ -1,5 +1,13 @@
 import gsap from "gsap";
-import { forwardRef, useLayoutEffect, useRef } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
+import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
 
 export type CopyIconProps = {
   isCopied?: boolean;
@@ -12,19 +20,28 @@ export type CopyIconProps = {
 
 export const CopyIcon = forwardRef<SVGSVGElement, CopyIconProps>(
   (
-    {
-      isCopied,
-      size = 24,
-      strokeWidth = 2,
-      animated = true,
-      color = "currentColor",
-      ...props
-    },
-    ref
+    { isCopied, size = 24, strokeWidth = 2, animated = true, color, ...props },
+    ref,
   ) => {
+    const svgRef = useRef<SVGSVGElement | null>(null);
     const frontRef = useRef<SVGRectElement>(null);
     const backRef = useRef<SVGPathElement>(null);
     const prevIsCopied = useRef(isCopied);
+    const [autoColor, setAutoColor] = useState("currentColor");
+
+    useEffect(() => {
+      if (color) return;
+      const element = svgRef.current?.parentElement;
+      if (!element) return;
+      try {
+        const bgColor = getRecursiveBgColor(element);
+        setAutoColor(getColorBasedOnBackground(bgColor));
+      } catch {
+        // Fallback silencieux
+      }
+    });
+
+    const resolvedColor = color ?? autoColor;
 
     useLayoutEffect(() => {
       if (!animated) {
@@ -75,12 +92,18 @@ export const CopyIcon = forwardRef<SVGSVGElement, CopyIconProps>(
 
     return (
       <svg
-        ref={ref}
+        ref={(node) => {
+          svgRef.current = node;
+          if (typeof ref === "function") ref(node);
+          else if (ref)
+            (ref as React.MutableRefObject<SVGSVGElement | null>).current =
+              node;
+        }}
         width={size}
         height={size}
         viewBox="0 0 24 24"
         fill="none"
-        stroke={color}
+        stroke={resolvedColor}
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -91,7 +114,10 @@ export const CopyIcon = forwardRef<SVGSVGElement, CopyIconProps>(
           ...props.style,
         }}
       >
-        <path ref={backRef} d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+        <path
+          ref={backRef}
+          d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+        />
         <rect
           ref={frontRef}
           width="14"
@@ -104,5 +130,5 @@ export const CopyIcon = forwardRef<SVGSVGElement, CopyIconProps>(
         />
       </svg>
     );
-  }
+  },
 );

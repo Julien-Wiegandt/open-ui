@@ -4,10 +4,6 @@ import { useState } from "react";
 import { Button } from "../../components/button";
 import { Usage } from "../components/usage";
 
-{
-  /* <Usage title="" components={<></>} />; */
-}
-
 export const Buttons = () => {
   const [show, setShow] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -26,7 +22,7 @@ export const Buttons = () => {
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Button variant="contained" color="primary" label="contained" />`
+            `<Button variant="contained" color="primary" label="contained" />`,
           )
         }
       />
@@ -38,11 +34,12 @@ export const Buttons = () => {
             <Button variant="contained" color="secondary" label="secondary" />
             <Button variant="contained" color="default" label="default" />
             <Button variant="contained" color="error" label="error" />
+            <Button variant="contained" color="#22d348ff" label="custom" />
           </>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Button variant="contained" color="primary" label="primary" />`
+            `<Button variant="contained" color="primary" label="primary" />`,
           )
         }
       />
@@ -50,14 +47,29 @@ export const Buttons = () => {
         title="sizes"
         components={
           <>
-            <Button variant="contained" color="primary" size="sm" label="small" />
-            <Button variant="contained" color="primary" size="md" label="medium" />
-            <Button variant="contained" color="primary" size="lg" label="large" />
+            <Button
+              variant="contained"
+              color="primary"
+              size="sm"
+              label="small"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              size="md"
+              label="medium"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              size="lg"
+              label="large"
+            />
           </>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Button variant="contained" color="primary" size="sm" label="small" />`
+            `<Button variant="contained" color="primary" size="sm" label="small" />`,
           )
         }
       />
@@ -65,16 +77,41 @@ export const Buttons = () => {
         title="radius"
         components={
           <>
-            <Button variant="contained" color="primary" label="none" radius="none" />
-            <Button variant="contained" color="primary" label="sm" radius="sm" />
-            <Button variant="contained" color="primary" label="md" radius="md" />
-            <Button variant="contained" color="primary" label="lg" radius="lg" />
-            <Button variant="contained" color="primary" label="full" radius="full" />
+            <Button
+              variant="contained"
+              color="primary"
+              label="none"
+              radius="none"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              label="sm"
+              radius="sm"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              label="md"
+              radius="md"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              label="lg"
+              radius="lg"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              label="full"
+              radius="full"
+            />
           </>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Button variant="contained" color="primary" label="none" radius="none" />`
+            `<Button variant="contained" color="primary" label="none" radius="none" />`,
           )
         }
       />
@@ -173,7 +210,7 @@ export const Buttons = () => {
                   <path d="M12 5v14" />
                 </svg>
               }
-            />`
+            />`,
           )
         }
       />
@@ -211,7 +248,7 @@ export const Buttons = () => {
               onClick={async () => {
                 await new Promise((resolve) => setTimeout(resolve, 5000));
               }}
-            />`
+            />`,
           )
         }
       />
@@ -254,7 +291,7 @@ export const Buttons = () => {
               onClick={async () => {
                 await new Promise((resolve) => setTimeout(resolve, 5000));
               }}
-            />`
+            />`,
           )
         }
       />
@@ -268,29 +305,59 @@ export const Buttons = () => {
               label="Notifications"
               endicon="bell"
             />
-            <Button variant="contained" color="primary" label="Like" endicon="heart" />
+            <Button
+              variant="contained"
+              color="primary"
+              label="Like"
+              endicon="heart"
+            />
             <Button
               variant="contained"
               color="primary"
               label="Menu"
               endicon="hamburger"
             />
-            <Button variant="contained" color="primary" label="Accept" endicon="check" />
-            <Button variant="contained" color="primary" label="Sync" endicon="sync" />
+            <Button
+              variant="contained"
+              color="primary"
+              label="Accept"
+              endicon="check"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              label="Sync"
+              endicon="sync"
+            />
             <Button
               variant="contained"
               color="primary"
               label="Sparkles"
               endicon="sparkles"
             />
-            <Button variant="contained" color="primary" label="Dots" endicon="dots" />
-            <Button variant="contained" color="primary" label="Send" endicon="send" />
-            <Button variant="contained" color="primary" label="Copy" endicon="copy" />
+            <Button
+              variant="contained"
+              color="primary"
+              label="Dots"
+              endicon="dots"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              label="Send"
+              endicon="send"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              label="Copy"
+              endicon="copy"
+            />
           </Flex>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<Button variant="contained" color="primary" label="instant" endicon="bell" />`
+            `<Button variant="contained" color="primary" label="instant" endicon="bell" />`,
           )
         }
       />

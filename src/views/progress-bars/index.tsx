@@ -6,69 +6,56 @@ import { Usage } from "../components/usage";
 export const ProgressBars = () => {
   return (
     <Flex gap={4}>
-      <Title level={2}>Progressbar</Title>
+      <Title level={2}>ProgressBar</Title>
+
       <Usage
-        title="primary"
+        title="base"
         components={
-          <>
-            <ProgressBar value={0} color="primary" w="200px" />
-            <ProgressBar value={50} color="primary" w="200px" />
-            <ProgressBar value={100} color="primary" w="200px" />
-          </>
+          <Flex direction="column" gap={2} width="300px">
+            <ProgressBar value={25} color="primary" />
+            <ProgressBar value={50} color="primary" />
+            <ProgressBar value={75} color="primary" />
+          </Flex>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<ProgressBar value={0} color="primary" w="200px" />`
+            `<ProgressBar value={50} color="primary" />`,
           )
         }
         orientation="vertical"
       />
 
       <Usage
-        title="secondary"
+        title="colors"
         components={
-          <>
-            <ProgressBar value={0} color="secondary" w="200px" />
-            <ProgressBar value={50} color="secondary" w="200px" />
-            <ProgressBar value={100} color="secondary" w="200px" />
-          </>
+          <Flex direction="column" gap={2} width="300px">
+            <ProgressBar value={60} color="primary" />
+            <ProgressBar value={60} color="secondary" />
+            <ProgressBar value={60} color="default" />
+            <ProgressBar value={60} color="error" />
+            <ProgressBar value={60} color="#22d348ff" />
+          </Flex>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<ProgressBar value={0} color="secondary" w="200px" />`
+            `<ProgressBar value={60} color="secondary" />`,
           )
         }
         orientation="vertical"
       />
 
       <Usage
-        title="default"
+        title="sizes"
         components={
-          <>
-            <ProgressBar value={0} color="default" w="200px" />
-            <ProgressBar value={50} color="default" w="200px" />
-            <ProgressBar value={100} color="default" w="200px" />
-          </>
+          <Flex direction="column" gap={2} width="100%">
+            <ProgressBar value={40} color="primary" h="4px" w="100px" />
+            <ProgressBar value={40} color="primary" h="8px" w="200px" />
+            <ProgressBar value={40} color="primary" h="16px" w="300px" />
+          </Flex>
         }
         onCopy={() =>
           navigator.clipboard.writeText(
-            `<ProgressBar value={0} color="default" w="200px" />`
-          )
-        }
-        orientation="vertical"
-      />
-      <Usage
-        title="error"
-        components={
-          <>
-            <ProgressBar value={0} color="error" w="200px" />
-            <ProgressBar value={50} color="error" w="200px" />
-            <ProgressBar value={100} color="error" w="200px" />
-          </>
-        }
-        onCopy={() =>
-          navigator.clipboard.writeText(
-            `<ProgressBar value={0} color="error" w="200px" />`
+            `<ProgressBar value={40} color="primary" h="16px" w="300px" />`,
           )
         }
         orientation="vertical"

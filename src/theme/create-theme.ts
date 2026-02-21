@@ -1,11 +1,16 @@
-import { isColorPalette, type ColorPalette, type Radius, type Theme } from "./types";
+import {
+  isColorPalette,
+  type ColorPalette,
+  type Radius,
+  type Theme,
+} from "./types";
 import { generateColorPalette } from "./utils/colors";
 
-const getPalette = (color: string | ColorPalette, defaultColor: string): ColorPalette => {
+export const getPalette = (color: string | ColorPalette): ColorPalette => {
   if (isColorPalette(color)) {
     return color;
   }
-  const generated = generateColorPalette(color || defaultColor, 500);
+  const generated = generateColorPalette(color, 500);
   return {
     darker: generated[950],
     dark: generated[900],
@@ -23,11 +28,12 @@ export const createTheme = (props: {
   error?: string | ColorPalette;
   titleFontFamily?: string;
   textFontFamily?: string;
+  components?: Theme["components"];
 }): Theme => {
-  const primaryPalette = getPalette(props.primary, "#000000");
-  const secondaryPalette = getPalette(props.secondary ?? "#000000", "#000000");
-  const defaultPalette = getPalette(props.default ?? "#000000", "#000000");
-  const errorPalette = getPalette(props.error ?? "#e74c3c", "#e74c3c");
+  const primaryPalette = getPalette(props.primary);
+  const secondaryPalette = getPalette(props.secondary ?? "#000000");
+  const defaultPalette = getPalette(props.default ?? "#000000");
+  const errorPalette = getPalette(props.error ?? "#e74c3c");
 
   return {
     radius: props.radius,
@@ -43,5 +49,6 @@ export const createTheme = (props: {
       default: defaultPalette,
       error: errorPalette,
     },
+    components: props.components,
   };
 };

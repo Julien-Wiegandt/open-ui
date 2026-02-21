@@ -5,7 +5,13 @@ import { useContext } from "react";
 import { ThemeProvider } from "styled-components";
 import type { Theme } from "./types";
 
-const ApplyStyledComponentsTheme = ({ children }: { children: React.ReactNode }) => {
+export * from "./utils/colors";
+
+const ApplyStyledComponentsTheme = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const { theme } = useContext(ThemeContext);
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };

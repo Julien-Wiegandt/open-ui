@@ -13,9 +13,11 @@ import {
   StyledCheckboxContainer,
 } from "./style";
 
+import { useComponentTheme } from "@/hooks/use-component-theme";
+
 export type CheckboxProps = {
   // required
-  color: Color;
+  color?: Color | string;
   // optional
   label?: string;
   checked?: boolean;
@@ -31,8 +33,10 @@ export type CheckboxProps = {
   Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "onChange">;
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  (
-    {
+  (originalProps, ref) => {
+    const theme = useTheme();
+    const mergedProps = useComponentTheme("checkbox", originalProps);
+    const {
       checked: checkedProp,
       defaultChecked = false,
       onChange,
@@ -40,15 +44,12 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       labelProps,
       labelPosition = "right",
       size = "md",
+      color = "default",
       ...props
-    },
-    ref
-  ) => {
-    const theme = useTheme();
+    } = mergedProps;
     const inputRef = React.useRef<HTMLInputElement>(null);
     const combinedRef = useCombinedRefs(ref, inputRef);
 
-    // Mode contrôlé si checkedProp est défini, sinon mode non-contrôlé
     const isControlled = checkedProp !== undefined;
     const [internalChecked, setInternalChecked] = useState(defaultChecked);
     const checked = isControlled ? checkedProp : internalChecked;
@@ -86,7 +87,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         )}
 
         <StyledCheckbox
-          color={props.color}
+          color={color}
           size={size}
           radius={props.radius}
           checked={checked}
@@ -104,7 +105,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           <Flex align="center" justify="center">
             <CheckIcon
               isVisible={checked}
-              color={getCheckboxStyle({ color: props.color, theme }).checkColor}
+              color={getCheckboxStyle({ color, theme }).checkColor}
               size={checkboxSize.iconSize}
               animated
             />
@@ -118,7 +119,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         )}
       </StyledCheckboxContainer>
     );
-  }
+  },
 );
 
 Checkbox.displayName = "Checkbox";

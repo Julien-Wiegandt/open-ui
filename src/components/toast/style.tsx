@@ -2,6 +2,7 @@ import styled from "styled-components";
 import type { ToastProps } from ".";
 import { Flex } from "../flex";
 import { shadowMap } from "../flex/style";
+import { resolveColor } from "../utils/resolve-color";
 
 export const StyledToast = styled(Flex)<Omit<ToastProps, "id">>`
   box-shadow: ${() => shadowMap[2]};
@@ -13,6 +14,7 @@ export const StyledToast = styled(Flex)<Omit<ToastProps, "id">>`
   max-width: 400px;
 
   svg {
-    stroke: ${({ theme, color }) => theme.palette[color ?? "default"].main};
+    stroke: ${({ theme, color }) =>
+      resolveColor(color ?? "default", theme).main};
   }
 `;
