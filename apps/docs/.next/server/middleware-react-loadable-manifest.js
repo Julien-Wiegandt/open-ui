@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST='{"app/page.tsx -> ./Documentation":{"id":2609,"files":["static/chunks/25c8a87d.b1ed02698e8f4cbd.js","static/chunks/110-cbbb4c04cefaf9dd.js","static/chunks/415.fae976ee2ec5268a.js","static/chunks/609.4525111a65cd3429.js"]}}';
