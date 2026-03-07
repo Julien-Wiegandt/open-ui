@@ -1,6 +1,25 @@
-/* eslint-disable react-refresh/only-export-components */
 import StyledComponentsRegistry from "@/lib/registry";
 import type { Metadata } from "next";
+
+// Font source variable Inter
+import "@fontsource-variable/inter/index.css";
+// Font source Inter (Standard)
+import "@fontsource/inter/index.css";
+// Font source Space Mono
+import "@fontsource/space-mono/index.css";
+import "@fontsource/space-mono/700.css";
+// Font source IBM Plex Mono
+import "@fontsource/ibm-plex-mono/index.css";
+import "@fontsource/ibm-plex-mono/700.css";
+// Font source Lilita One
+import "@fontsource/lilita-one/index.css";
+// Font source Epilogue
+import "@fontsource/epilogue/index.css";
+// Font source Poppins
+import "@fontsource/poppins/index.css";
+import "@fontsource/poppins/700.css";
+
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "open-ui - Documentation",
