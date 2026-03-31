@@ -142,7 +142,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const labelColor = useAutoContrastColor(
       buttonRef,
-      !!originalProps.color || !!labelProps?.color,
+      !!labelProps?.color,
     );
 
     useEffect(() => {
@@ -241,8 +241,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               width="100%"
               align={props.align ?? "center"}
               size={sizeMap[props.size ?? "md"].fontSize}
-              color={labelColor}
               {...labelProps}
+              color={labelProps?.color ?? labelColor}
             >
               {props.label}
             </Text>
