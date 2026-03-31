@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useAutoContrast } from "../../../context/theme";
 import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
 import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
 
@@ -26,6 +27,7 @@ export const HamburgerIcon = forwardRef<SVGSVGElement, HamburgerIconProps>(
     { isOpen, size = 24, strokeWidth = 2, animated = false, color, ...props },
     ref,
   ) => {
+    const autoContrast = useAutoContrast();
     const svgRef = useRef<SVGSVGElement | null>(null);
     const lineOneRef = useRef<SVGPathElement>(null);
     const lineTwoRef = useRef<SVGPathElement>(null);
@@ -33,7 +35,7 @@ export const HamburgerIcon = forwardRef<SVGSVGElement, HamburgerIconProps>(
     const [autoColor, setAutoColor] = useState("currentColor");
 
     useEffect(() => {
-      if (color) return;
+      if (!autoContrast || color) return;
       const element = svgRef.current?.parentElement;
       if (!element) return;
       try {

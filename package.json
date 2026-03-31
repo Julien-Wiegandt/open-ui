@@ -13,7 +13,10 @@
     "dev:docs": "npm run dev -w apps/docs",
     "build:docs": "npm run build -w apps/docs",
     "build": "npm run build:ui && npm run build:docs",
-    "lint": "npm run lint -w packages/ui"
+    "lint": "npm run lint -w packages/ui",
+    "release": "npm run build:ui && npm version patch --no-git-tag-version -w packages/ui && npm publish -w packages/ui",
+    "release:minor": "npm run build:ui && npm version minor --no-git-tag-version -w packages/ui && npm publish -w packages/ui",
+    "release:major": "npm run build:ui && npm version major --no-git-tag-version -w packages/ui && npm publish -w packages/ui"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

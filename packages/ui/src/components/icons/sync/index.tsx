@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useAutoContrast } from "../../../context/theme";
 import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
 import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
 
@@ -31,13 +32,14 @@ export const SyncIcon = forwardRef<SVGSVGElement, SyncIconProps>(
     },
     ref,
   ) => {
+    const autoContrast = useAutoContrast();
     const svgRef = useRef<SVGSVGElement | null>(null);
     const iconRef = useRef<SVGGElement | null>(null);
     const prevIsSyncingRef = useRef<boolean>(isSyncing);
     const [autoColor, setAutoColor] = useState("currentColor");
 
     useEffect(() => {
-      if (color) return;
+      if (!autoContrast || color) return;
       const element = svgRef.current?.parentElement;
       if (!element) return;
       try {

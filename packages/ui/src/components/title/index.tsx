@@ -3,6 +3,7 @@
 import { useResponsive } from "../../hooks/use-responsive";
 import type { Color } from "../../theme/types";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useAutoContrast } from "../../context/theme";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
 import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
@@ -23,6 +24,7 @@ const THEME_COLOR_KEYS = ["default", "primary", "secondary", "error"];
 export const Title = ({ children, color, ...props }: TitleProps) => {
   const theme = useTheme();
   const { breakpoint } = useResponsive();
+  const autoContrast = useAutoContrast();
   const internalRef = useRef<HTMLHeadingElement | null>(null);
   const [autoColor, setAutoColor] = useState<string | undefined>(undefined);
 
@@ -33,7 +35,7 @@ export const Title = ({ children, color, ...props }: TitleProps) => {
     : autoColor;
 
   useEffect(() => {
-    if (color) return;
+    if (!autoContrast || color) return;
     const element = internalRef.current;
     if (!element) return;
     try {

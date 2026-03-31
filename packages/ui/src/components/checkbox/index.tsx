@@ -1,5 +1,6 @@
 "use client";
 
+import { useAutoContrast } from "../../context/theme";
 import type { Color, Radius } from "../../theme/types";
 import React, { forwardRef, useState } from "react";
 import { useTheme } from "styled-components";
@@ -37,6 +38,7 @@ export type CheckboxProps = {
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   (originalProps, ref) => {
     const theme = useTheme();
+    const autoContrast = useAutoContrast();
     const mergedProps = useComponentTheme("checkbox", originalProps);
     const {
       checked: checkedProp,
@@ -107,7 +109,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           <Flex align="center" justify="center">
             <CheckIcon
               isVisible={checked}
-              color={getCheckboxStyle({ color, theme }).checkColor}
+              color={autoContrast ? getCheckboxStyle({ color, theme }).checkColor : undefined}
               size={checkboxSize.iconSize}
               animated
             />

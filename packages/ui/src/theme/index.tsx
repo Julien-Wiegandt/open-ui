@@ -1,10 +1,10 @@
 "use client";
 
-import { ThemeContext, ThemeContextProvider } from "../context/theme";
-import { ToastContextProvider, type ToastSettings } from "../context/toast";
 import type React from "react";
 import { useContext } from "react";
 import { ThemeProvider } from "styled-components";
+import { ThemeContext, ThemeContextProvider } from "../context/theme";
+import { ToastContextProvider, type ToastSettings } from "../context/toast";
 import type { Theme } from "./types";
 
 export * from "./utils/colors";
@@ -27,10 +27,11 @@ export const OpenUIProvider = ({
   themes: Theme[];
   settings?: {
     toasts?: ToastSettings;
+    autoContrast?: boolean;
   };
 }) => {
   return (
-    <ThemeContextProvider themes={themes}>
+    <ThemeContextProvider themes={themes} autoContrast={settings?.autoContrast}>
       <ApplyStyledComponentsTheme>
         <ToastContextProvider settings={settings?.toasts}>
           <div id="modal"></div>

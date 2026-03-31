@@ -21,6 +21,7 @@ import { DotsIcon } from "../icons/dots";
 import { SendHorizontalIcon } from "../icons/send-horizontal";
 import { SparklesIcon } from "../icons/sparkles";
 import { Text, type TextProps } from "../text";
+import { useAutoContrast } from "../../context/theme";
 import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
 import { getRecursiveBgColor } from "../utils/get-recursive-bg-color";
 import { useCombinedRefs } from "../utils/use-combined-refs";
@@ -122,6 +123,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const textRef = useRef<HTMLParagraphElement>(null);
     const starticonRef = useRef<HTMLDivElement>(null);
     const endiconRef = useRef<HTMLDivElement>(null);
+    const autoContrast = useAutoContrast();
     const [internalLoading, setInternalLoading] = useState(false);
     const [endAnimation, setEndAnimation] = useState(false);
     const [animation, setAnimation] = useState(false);
@@ -144,7 +146,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const [labelColor, setLabelColor] = useState<string | undefined>(undefined);
 
     useEffect(() => {
-      if (labelProps?.color) return;
+      if (!autoContrast || labelProps?.color) return;
       const btn = buttonRef.current;
       if (!btn) return;
       try {

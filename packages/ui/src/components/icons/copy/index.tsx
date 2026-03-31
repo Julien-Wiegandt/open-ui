@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useAutoContrast } from "../../../context/theme";
 import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
 import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
 
@@ -25,6 +26,7 @@ export const CopyIcon = forwardRef<SVGSVGElement, CopyIconProps>(
     { isCopied, size = 24, strokeWidth = 2, animated = true, color, ...props },
     ref,
   ) => {
+    const autoContrast = useAutoContrast();
     const svgRef = useRef<SVGSVGElement | null>(null);
     const frontRef = useRef<SVGRectElement>(null);
     const backRef = useRef<SVGPathElement>(null);
@@ -32,7 +34,7 @@ export const CopyIcon = forwardRef<SVGSVGElement, CopyIconProps>(
     const [autoColor, setAutoColor] = useState("currentColor");
 
     useEffect(() => {
-      if (color) return;
+      if (!autoContrast || color) return;
       const element = svgRef.current?.parentElement;
       if (!element) return;
       try {

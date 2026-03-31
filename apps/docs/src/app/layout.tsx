@@ -18,6 +18,11 @@ import "@fontsource/epilogue/index.css";
 // Font source Poppins
 import "@fontsource/poppins/index.css";
 import "@fontsource/poppins/700.css";
+// Font source Allura
+import "@fontsource/allura/index.css";
+// Font source Bodoni Moda
+import "@fontsource/bodoni-moda/index.css";
+import "@fontsource/bodoni-moda/700.css";
 
 import "./globals.css";
 

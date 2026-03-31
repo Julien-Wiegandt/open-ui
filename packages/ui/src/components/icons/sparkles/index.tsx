@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useAutoContrast } from "../../../context/theme";
 import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
 import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
 
@@ -21,6 +22,7 @@ export type SparklesIconProps = {
 
 export const SparklesIcon = forwardRef<SVGSVGElement, SparklesIconProps>(
   ({ size = 24, strokeWidth = 2, animated = true, color, ...props }, ref) => {
+    const autoContrast = useAutoContrast();
     const svgRef = useRef<SVGSVGElement | null>(null);
     const mainSparkleRef = useRef<SVGPathElement>(null);
     const topSparkleRef = useRef<SVGGElement>(null);
@@ -28,7 +30,7 @@ export const SparklesIcon = forwardRef<SVGSVGElement, SparklesIconProps>(
     const [autoColor, setAutoColor] = useState("currentColor");
 
     useEffect(() => {
-      if (color) return;
+      if (!autoContrast || color) return;
       const element = svgRef.current?.parentElement;
       if (!element) return;
       try {

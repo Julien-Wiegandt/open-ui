@@ -77,6 +77,12 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
           }
         : undefined),
   );
+
+  useEffect(() => {
+    if (props.value) {
+      setSelectedValue(props.value);
+    }
+  }, [props.value]);
   const [open, setOpen] = useState(false);
   const [selectOptionHeight, setSelectOptionHeight] = useState<
     number | undefined

@@ -10,6 +10,7 @@ import { Title, type TitleProps } from "../title";
 
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { useAutoContrast } from "../../context/theme";
 import { useResponsive } from "../../hooks/use-responsive";
 import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
 
@@ -127,6 +128,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     ref,
   ) => {
     const theme = useTheme();
+    const autoContrast = useAutoContrast();
     const { breakpoint } = useResponsive();
 
     const [portal, setPortal] = useState<HTMLElement | null>(null);
@@ -245,9 +247,9 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
                   height="24"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke={getColorBasedOnBackground(
+                  stroke={autoContrast ? getColorBasedOnBackground(
                     bodyStyle.backgroundColor ?? "#FFFFFF",
-                  )}
+                  ) : "currentColor"}
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"

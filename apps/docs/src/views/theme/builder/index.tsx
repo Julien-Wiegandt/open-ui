@@ -1,15 +1,31 @@
 "use client";
 
-import { Button, Checkbox, Chip, Divider, Flex, Input, ProgressBar, Select, Skeleton, ThemeContext, Title, createTheme } from "@julien-wiegandt/open-ui";
+import {
+  Button,
+  Checkbox,
+  Chip,
+  Divider,
+  Flex,
+  Input,
+  ProgressBar,
+  Select,
+  Skeleton,
+  ThemeContext,
+  Title,
+  createTheme,
+} from "@julien-wiegandt/open-ui";
 import { Color } from "./components/color";
 
 import { useContext, useState } from "react";
 
 import type { Radius } from "@julien-wiegandt/open-ui";
 
-import { FONTS, KEYPOP } from "./constants";
+import { EM, FONTS, KEYPOP } from "./constants";
 
-const THEMES = [{ key: "keypop", theme: KEYPOP }];
+const THEMES = [
+  { key: "keypop", theme: KEYPOP },
+  { key: "em", theme: EM },
+];
 
 export const ThemeBuilder = () => {
   const { theme, setTheme } = useContext(ThemeContext);
