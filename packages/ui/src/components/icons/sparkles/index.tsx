@@ -3,14 +3,10 @@
 import gsap from "gsap";
 import {
   forwardRef,
-  useEffect,
   useLayoutEffect,
   useRef,
-  useState,
 } from "react";
-import { useAutoContrast } from "../../../context/theme";
-import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
-import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
+import { useAutoContrastColor } from "../../utils/use-auto-contrast-color";
 
 export type SparklesIconProps = {
   size?: number;
@@ -22,26 +18,13 @@ export type SparklesIconProps = {
 
 export const SparklesIcon = forwardRef<SVGSVGElement, SparklesIconProps>(
   ({ size = 24, strokeWidth = 2, animated = true, color, ...props }, ref) => {
-    const autoContrast = useAutoContrast();
     const svgRef = useRef<SVGSVGElement | null>(null);
     const mainSparkleRef = useRef<SVGPathElement>(null);
     const topSparkleRef = useRef<SVGGElement>(null);
     const bottomSparkleRef = useRef<SVGGElement>(null);
-    const [autoColor, setAutoColor] = useState("currentColor");
+    const autoColor = useAutoContrastColor(svgRef, !!color);
 
-    useEffect(() => {
-      if (!autoContrast || color) return;
-      const element = svgRef.current?.parentElement;
-      if (!element) return;
-      try {
-        const bgColor = getRecursiveBgColor(element);
-        setAutoColor(getColorBasedOnBackground(bgColor));
-      } catch {
-        // Fallback silencieux
-      }
-    });
-
-    const resolvedColor = color ?? autoColor;
+    const resolvedColor = color ?? autoColor ?? "currentColor";
 
     useLayoutEffect(() => {
       if (!animated) {

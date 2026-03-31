@@ -3,14 +3,10 @@
 import gsap from "gsap";
 import {
   forwardRef,
-  useEffect,
   useLayoutEffect,
   useRef,
-  useState,
 } from "react";
-import { useAutoContrast } from "../../../context/theme";
-import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
-import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
+import { useAutoContrastColor } from "../../utils/use-auto-contrast-color";
 
 export type SyncIconProps = {
   isSyncing?: boolean;
@@ -32,25 +28,12 @@ export const SyncIcon = forwardRef<SVGSVGElement, SyncIconProps>(
     },
     ref,
   ) => {
-    const autoContrast = useAutoContrast();
     const svgRef = useRef<SVGSVGElement | null>(null);
     const iconRef = useRef<SVGGElement | null>(null);
     const prevIsSyncingRef = useRef<boolean>(isSyncing);
-    const [autoColor, setAutoColor] = useState("currentColor");
+    const autoColor = useAutoContrastColor(svgRef, !!color);
 
-    useEffect(() => {
-      if (!autoContrast || color) return;
-      const element = svgRef.current?.parentElement;
-      if (!element) return;
-      try {
-        const bgColor = getRecursiveBgColor(element);
-        setAutoColor(getColorBasedOnBackground(bgColor));
-      } catch {
-        // Fallback silencieux
-      }
-    });
-
-    const resolvedColor = color ?? autoColor;
+    const resolvedColor = color ?? autoColor ?? "currentColor";
 
     useLayoutEffect(() => {
       if (!animated) return;

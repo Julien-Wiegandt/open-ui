@@ -2,12 +2,10 @@
 
 import { useResponsive } from "../../hooks/use-responsive";
 import type { Color } from "../../theme/types";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useAutoContrast } from "../../context/theme";
+import { useMemo, useRef } from "react";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
-import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
-import { getRecursiveBgColor } from "../utils/get-recursive-bg-color";
+import { useAutoContrastColor } from "../utils/use-auto-contrast-color";
 import { resolveColor } from "../utils/resolve-color";
 import { StyledTitle } from "./style";
 
@@ -24,27 +22,14 @@ const THEME_COLOR_KEYS = ["default", "primary", "secondary", "error"];
 export const Title = ({ children, color, ...props }: TitleProps) => {
   const theme = useTheme();
   const { breakpoint } = useResponsive();
-  const autoContrast = useAutoContrast();
   const internalRef = useRef<HTMLHeadingElement | null>(null);
-  const [autoColor, setAutoColor] = useState<string | undefined>(undefined);
+  const autoColor = useAutoContrastColor(internalRef, !!color);
 
   const resolvedColor = color
     ? THEME_COLOR_KEYS.includes(color)
       ? resolveColor(color, theme).main
       : color
     : autoColor;
-
-  useEffect(() => {
-    if (!autoContrast || color) return;
-    const element = internalRef.current;
-    if (!element) return;
-    try {
-      const bgColor = getRecursiveBgColor(element);
-      setAutoColor(getColorBasedOnBackground(bgColor));
-    } catch {
-      // Fallback silencieux si la couleur ne peut pas être déterminée
-    }
-  });
 
   const memoizedProps = useMemo(() => {
     const defaultProps = {

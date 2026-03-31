@@ -1,6 +1,5 @@
 "use client";
 
-import type { Color, Radius, Variant } from "../../theme/types";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import React, {
@@ -10,6 +9,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import type { Color, Radius, Variant } from "../../theme/types";
 
 import type { MarginProps, PaddingProps } from "../common/types";
 import { Flex } from "../flex";
@@ -21,9 +21,7 @@ import { DotsIcon } from "../icons/dots";
 import { SendHorizontalIcon } from "../icons/send-horizontal";
 import { SparklesIcon } from "../icons/sparkles";
 import { Text, type TextProps } from "../text";
-import { useAutoContrast } from "../../context/theme";
-import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
-import { getRecursiveBgColor } from "../utils/get-recursive-bg-color";
+import { useAutoContrastColor } from "../utils/use-auto-contrast-color";
 import { useCombinedRefs } from "../utils/use-combined-refs";
 import { sizeMap, StyledButton } from "./style";
 
@@ -123,7 +121,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const textRef = useRef<HTMLParagraphElement>(null);
     const starticonRef = useRef<HTMLDivElement>(null);
     const endiconRef = useRef<HTMLDivElement>(null);
-    const autoContrast = useAutoContrast();
     const [internalLoading, setInternalLoading] = useState(false);
     const [endAnimation, setEndAnimation] = useState(false);
     const [animation, setAnimation] = useState(false);
@@ -143,28 +140,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const combinedRef = useCombinedRefs(ref, buttonRef);
 
-    const [labelColor, setLabelColor] = useState<string | undefined>(undefined);
-
-    useEffect(() => {
-      if (!autoContrast || labelProps?.color) return;
-      const btn = buttonRef.current;
-      if (!btn) return;
-      try {
-        const bgColor = getComputedStyle(btn).backgroundColor;
-        const alphaMatch = bgColor.match(
-          /rgba\([^,]+,[^,]+,[^,]+,\s*([\d.]+)\)/,
-        );
-        const alpha = alphaMatch ? parseFloat(alphaMatch[1]) : 1;
-        const isEffectivelyTransparent =
-          bgColor === "rgba(0, 0, 0, 0)" ||
-          bgColor === "transparent" ||
-          alpha < 0.5;
-        const resolvedBg = isEffectivelyTransparent
-          ? getRecursiveBgColor(btn.parentElement ?? btn)
-          : bgColor;
-        setLabelColor(getColorBasedOnBackground(resolvedBg));
-      } catch {}
-    });
+    const labelColor = useAutoContrastColor(
+      buttonRef,
+      !!originalProps.color || !!labelProps?.color,
+    );
 
     useEffect(() => {
       if (textRef.current) {
@@ -241,7 +220,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         variant={variant}
         color={color}
         {...props}
-        disabled={loading || props.disabled}
+        disabled={props.disabled ?? loading}
       >
         {!endAnimation && (
           <Icon

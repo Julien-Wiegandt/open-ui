@@ -2,12 +2,10 @@
 
 import { useResponsive } from "../../hooks/use-responsive";
 import type { Color } from "../../theme/types";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import { useAutoContrast } from "../../context/theme";
+import { forwardRef, useEffect, useRef } from "react";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
-import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
-import { getRecursiveBgColor } from "../utils/get-recursive-bg-color";
+import { useAutoContrastColor } from "../utils/use-auto-contrast-color";
 import { resolveColor } from "../utils/resolve-color";
 import { useCombinedRefs } from "../utils/use-combined-refs";
 import { StyledText } from "./styled";
@@ -52,9 +50,8 @@ export const Text = forwardRef<HTMLParagraphElement, TextProps>(
   ({ children, onSizeChange, color, ...props }, ref) => {
     const theme = useTheme();
     const { breakpoint } = useResponsive();
-    const autoContrast = useAutoContrast();
     const internalRef = useRef<HTMLParagraphElement | null>(null);
-    const [autoColor, setAutoColor] = useState<string | undefined>(undefined);
+    const autoColor = useAutoContrastColor(internalRef, !!color);
 
     const resolvedColor = color
       ? THEME_COLOR_KEYS.includes(color)
@@ -82,18 +79,6 @@ export const Text = forwardRef<HTMLParagraphElement, TextProps>(
         observer.unobserve(element);
       };
     }, [onSizeChange]);
-
-    useEffect(() => {
-      if (!autoContrast || color) return;
-      const element = internalRef.current;
-      if (!element) return;
-      try {
-        const bgColor = getRecursiveBgColor(element);
-        setAutoColor(getColorBasedOnBackground(bgColor));
-      } catch {
-        // Fallback silencieux si la couleur ne peut pas être déterminée
-      }
-    });
 
     const combinedRef = useCombinedRefs(ref, internalRef);
 

@@ -5,14 +5,10 @@
 import gsap from "gsap";
 import {
   forwardRef,
-  useEffect,
   useLayoutEffect,
   useRef,
-  useState,
 } from "react";
-import { useAutoContrast } from "../../../context/theme";
-import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
-import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
+import { useAutoContrastColor } from "../../utils/use-auto-contrast-color";
 
 export type BellIconProps = {
   hasNotification: boolean;
@@ -35,24 +31,11 @@ export const BellIcon = forwardRef<SVGSVGElement, BellIconProps>(
     },
     ref,
   ) => {
-    const autoContrast = useAutoContrast();
     const svgRef = useRef<SVGSVGElement | null>(null);
     const bellRef = useRef<SVGGElement>(null);
-    const [autoColor, setAutoColor] = useState("currentColor");
+    const autoColor = useAutoContrastColor(svgRef, !!color);
 
-    useEffect(() => {
-      if (!autoContrast || color) return;
-      const element = svgRef.current?.parentElement;
-      if (!element) return;
-      try {
-        const bgColor = getRecursiveBgColor(element);
-        setAutoColor(getColorBasedOnBackground(bgColor));
-      } catch {
-        // Fallback silencieux
-      }
-    });
-
-    const resolvedColor = color ?? autoColor;
+    const resolvedColor = color ?? autoColor ?? "currentColor";
     const prevHasNotification = useRef(hasNotification);
 
     useLayoutEffect(() => {

@@ -5,14 +5,10 @@
 import gsap from "gsap";
 import {
   forwardRef,
-  useEffect,
   useLayoutEffect,
   useRef,
-  useState,
 } from "react";
-import { useAutoContrast } from "../../../context/theme";
-import { getColorBasedOnBackground } from "../../utils/get-color-based-on-background";
-import { getRecursiveBgColor } from "../../utils/get-recursive-bg-color";
+import { useAutoContrastColor } from "../../utils/use-auto-contrast-color";
 
 export type HeartIconProps = {
   isLiked: boolean;
@@ -28,24 +24,11 @@ export const HeartIcon = forwardRef<SVGSVGElement, HeartIconProps>(
     { isLiked, size = 24, strokeWidth = 2, animated = false, color, ...props },
     ref,
   ) => {
-    const autoContrast = useAutoContrast();
     const svgRef = useRef<SVGSVGElement | null>(null);
     const heartRef = useRef<SVGPathElement>(null);
-    const [autoColor, setAutoColor] = useState("#FF4500");
+    const autoColor = useAutoContrastColor(svgRef, !!color);
 
-    useEffect(() => {
-      if (!autoContrast || color) return;
-      const element = svgRef.current?.parentElement;
-      if (!element) return;
-      try {
-        const bgColor = getRecursiveBgColor(element);
-        setAutoColor(getColorBasedOnBackground(bgColor));
-      } catch {
-        // Fallback silencieux
-      }
-    });
-
-    const resolvedColor = color ?? autoColor;
+    const resolvedColor = color ?? autoColor ?? "#FF4500";
 
     useLayoutEffect(() => {
       if (!animated) {
