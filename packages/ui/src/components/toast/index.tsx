@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { useTheme } from "styled-components";
 import { useResponsive } from "../../hooks/use-responsive";
 import type { Color, Theme } from "../../theme/types";
@@ -8,9 +8,33 @@ import { Button } from "../button";
 import { Flex, type FlexProps } from "../flex";
 import { Text } from "../text";
 import { resolveColor } from "../utils/resolve-color";
-
+import { useAutoContrastColor } from "../utils/use-auto-contrast-color";
 
 import { StyledToast } from "./style";
+
+// Sub-component: auto-contrasts icon color against its tinted background
+const IconContainer = ({
+  resolvedBgColor,
+  iconNode,
+}: {
+  resolvedBgColor: string;
+  iconNode: React.ReactNode;
+}) => {
+  const iconRef = useRef<HTMLDivElement>(null);
+  const autoColor = useAutoContrastColor(iconRef, false, resolvedBgColor);
+  return (
+    <Flex
+      ref={iconRef}
+      p={1.5}
+      style={{
+        backgroundColor: resolvedBgColor,
+        color: autoColor ?? "currentColor",
+      }}
+    >
+      {iconNode}
+    </Flex>
+  );
+};
 
 /**
  * TODO:
@@ -87,17 +111,10 @@ export const Toast = forwardRef<HTMLDivElement, Omit<ToastProps, "id">>(
             }}
           >
             {props.icon && (
-              <Flex
-                p={1.5}
-                style={{
-                  backgroundColor: `${
-                    resolveColor(props.color ?? "default", theme as Theme).light
-                  }44`,
-
-                }}
-              >
-                {props.icon}
-              </Flex>
+              <IconContainer
+                resolvedBgColor={`${resolveColor(props.color ?? "default", theme as Theme).light}44`}
+                iconNode={props.icon}
+              />
             )}
             {props.title && (
               <Text size="14" px={1.5} py={props.icon ? 0 : 1.5}>

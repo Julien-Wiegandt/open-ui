@@ -70,7 +70,6 @@ export const ThemeBuilder = () => {
           height: "90vh",
         }}
       >
-
         <Flex direction="row" justify="between" align="center">
           <Title level={2}>Theme Builder</Title>
           <Chip label={theme.mode ?? "light"} color="primary" variant="soft" />
@@ -424,4 +423,3 @@ export const ThemeBuilder = () => {
     </Flex>
   );
 };
-

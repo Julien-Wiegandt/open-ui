@@ -1,10 +1,9 @@
-"use client";
-
 import styled from "styled-components";
 import { radiusMap } from "../../theme/constants";
 import type { Color, Radius, Theme, Variant } from "../../theme/types";
 import { Flex } from "../flex";
 import { resolveColor } from "../utils/resolve-color";
+import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
 
 export type DropdownSize = "sm" | "md" | "lg";
 
@@ -67,7 +66,7 @@ export const StyledDropdownContainer = styled(Flex)<StyledDropdownContainerProps
         return palette.main;
       case "contained":
       default:
-        return "white";
+        return getColorBasedOnBackground(palette.main);
     }
   }};
   border: ${({ variant, color, theme }) => {

@@ -1,10 +1,11 @@
 "use client";
 
-import { radiusMap } from "../../theme/constants";
-import type { Color, Theme } from "../../theme/types";
 import styled from "styled-components";
 import type { ChipStyleProps } from ".";
+import { radiusMap } from "../../theme/constants";
+import type { Color, Theme } from "../../theme/types";
 import { getMarginsCSS, getPaddingCSS, toRem } from "../common";
+import { getColorBasedOnBackground } from "../utils/get-color-based-on-background";
 import { resolveColor } from "../utils/resolve-color";
 
 const getVariantStyle = ({
@@ -18,7 +19,7 @@ const getVariantStyle = ({
   return {
     contained: {
       bgColor: palette.main,
-      color: "#FFFFFF",
+      color: getColorBasedOnBackground(palette.main),
     },
     outlined: {
       bgColor: "#FFFFFF",
@@ -84,5 +85,4 @@ export const StyledChip = styled.div<ChipStyleProps>`
     getVariantStyle({ color: color ?? "default", theme: theme as Theme })[
       variant ?? "contained"
     ].color};
-
 `;

@@ -1,11 +1,12 @@
 "use client";
 
-import type { Color, Radius, Theme } from "../../theme/types";
+import type { Color, Theme } from "../../theme/types";
 import gsap from "gsap";
 import { forwardRef, useLayoutEffect, useRef, useState } from "react";
 import { useTheme } from "styled-components";
 import { resolveColor } from "../utils/resolve-color";
 import { useCombinedRefs } from "../utils/use-combined-refs";
+import { useAutoContrastColor } from "../utils/use-auto-contrast-color";
 
 export type SwitchProps = {
   value?: boolean;
@@ -25,6 +26,12 @@ export const Switch = forwardRef<SVGSVGElement, SwitchProps>(
     const width = size;
     const height = size / 1.75;
     const palette = resolveColor(color ?? "default", theme as Theme);
+
+    const knobColor = useAutoContrastColor(
+      bgRef,
+      false,
+      isOn ? palette.main : palette.light,
+    );
 
     useLayoutEffect(() => {
       const timeline = gsap.timeline({
@@ -116,7 +123,7 @@ export const Switch = forwardRef<SVGSVGElement, SwitchProps>(
           cx={isOn ? width - height / 2 : height / 2}
           cy={height / 2}
           r={height / 2 - 3}
-          fill="white"
+          fill={knobColor ?? "white"}
         />
       </svg>
     );

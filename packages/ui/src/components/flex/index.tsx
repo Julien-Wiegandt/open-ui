@@ -1,10 +1,12 @@
 "use client";
 
 import type { Color, Elevation } from "../../theme/types";
-import { forwardRef, useMemo } from "react";
+import { forwardRef, useMemo, useRef } from "react";
 import type { Styles } from "styled-components/dist/types";
 import type { MarginProps, PaddingProps } from "../common/types";
 import { SlyledFlex } from "./style";
+import { useAutoContrastColor } from "../utils/use-auto-contrast-color";
+import { useCombinedRefs } from "../utils/use-combined-refs";
 
 export type FlexDirection = "row" | "column" | "row-reverse" | "column-reverse";
 
@@ -41,6 +43,11 @@ export type FlexProps = {
 
 export const Flex = forwardRef<HTMLDivElement, FlexProps>(
   ({ children, ...props }, ref) => {
+    const internalRef = useRef<HTMLDivElement>(null);
+    const combinedRef = useCombinedRefs(ref, internalRef);
+
+    const autoContrastColor = useAutoContrastColor(internalRef, !!props.color);
+
     const memoizedProps = useMemo(() => {
       const defaultProps = {
         display: "flex",
@@ -53,7 +60,11 @@ export const Flex = forwardRef<HTMLDivElement, FlexProps>(
     }, [props]);
 
     return (
-      <SlyledFlex ref={ref} {...memoizedProps}>
+      <SlyledFlex
+        ref={combinedRef}
+        {...memoizedProps}
+        color={props.color ?? autoContrastColor}
+      >
         {children}
       </SlyledFlex>
     );

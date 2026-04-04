@@ -16,7 +16,6 @@ export function useAutoContrastColor(
     initialBgColor ? getColorBasedOnBackground(initialBgColor) : undefined,
   );
 
-
   useLayoutEffect(() => {
     if (disabled) return;
 
@@ -29,7 +28,6 @@ export function useAutoContrastColor(
         if (!el) return;
         const bgColor = getRecursiveBgColor(el as HTMLElement);
         const resolvedColor = getColorBasedOnBackground(bgColor);
-        console.log(`[AutoContrast] theme=${theme.mode} bg=${bgColor} -> text=${resolvedColor}`);
         setColor(resolvedColor);
       } catch (e) {
         console.error("[AutoContrast] error:", e);
@@ -58,9 +56,6 @@ export function useAutoContrastColor(
       timers.forEach(clearTimeout);
     };
   }, [disabled, theme]);
-
-
-
 
   return disabled ? undefined : color;
 }

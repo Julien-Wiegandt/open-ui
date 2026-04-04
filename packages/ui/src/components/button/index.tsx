@@ -50,11 +50,12 @@ const Icon = forwardRef<
     icon: ButtonProps["starticon"];
     animation: boolean;
     size: number;
+    color?: string;
   }
->(({ icon, animation, size }, ref) => {
+>(({ icon, animation, size, color }, ref) => {
   return (
     icon && (
-      <Flex ref={ref} align="center" justify="center">
+      <Flex ref={ref} align="center" justify="center" style={{ color: color ?? "currentColor" }}>
         {typeof icon !== "string" && icon}
         {icon === "bell" && (
           <BellIcon hasNotification={animation} size={size} animated />
@@ -238,6 +239,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             icon={props.starticon}
             animation={animation}
             size={sizeMap[props.size ?? "md"].height ?? 24}
+            color={variant === "contained" ? labelColor : undefined}
           />
         )}
         {props.label &&
@@ -279,6 +281,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             icon={props.endicon}
             animation={animation}
             size={sizeMap[props.size ?? "md"].height ?? 24}
+            color={variant === "contained" ? labelColor : undefined}
           />
         )}
       </StyledButton>

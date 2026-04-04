@@ -1,9 +1,11 @@
 import type { Color, Radius, Variant } from "../../theme/types";
-import React, { forwardRef } from "react";
+import React, { forwardRef, useRef } from "react";
 import { sizeMap } from "../button/style";
 import type { MarginProps, PaddingProps } from "../common/types";
 import { Text } from "../text";
 import { StyledChip } from "./style";
+import { useAutoContrastColor } from "../utils/use-auto-contrast-color";
+import { useCombinedRefs } from "../utils/use-combined-refs";
 
 import { useComponentTheme } from "../../hooks/use-component-theme";
 
@@ -40,12 +42,18 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
       ...props
     } = mergedProps;
 
+    const chipRef = useRef<HTMLDivElement>(null);
+    const combinedRef = useCombinedRefs(ref, chipRef);
+
+    const contrastColor = useAutoContrastColor(chipRef, !!props.fontColor);
+
     return (
       <StyledChip
-        ref={ref}
+        ref={combinedRef}
         size={size}
         color={color}
         variant={variant}
+        fontColor={props.fontColor ?? contrastColor}
         {...props}
       >
         {startIcon}

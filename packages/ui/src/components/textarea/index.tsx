@@ -1,13 +1,14 @@
 "use client";
+import { useAutoContrastColor } from "../utils/use-auto-contrast-color";
+import { useCombinedRefs } from "../utils/use-combined-refs";
 
 import type { Color, Theme } from "../../theme/types";
 
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
 import { Flex } from "../flex";
 import { Text, type TextProps } from "../text";
-import { resolveColor } from "../utils/resolve-color";
 import { StyledTextArea } from "./styled";
 
 
@@ -43,6 +44,14 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       ...rest
     } = mergedProps;
 
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    const combinedRef = useCombinedRefs(ref, textAreaRef);
+
+    const contrastColor = useAutoContrastColor(
+      textAreaRef,
+      !!labelProps?.color,
+    );
+
     return (
       <Flex direction="column" style={containerStyle}>
         {(label || required) && (
@@ -56,9 +65,8 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             {label && (
               <Text
                 color={
-                  error
-                    ? theme.palette.error.main
-                    : resolveColor(color ?? "default", theme as Theme).main
+                  labelProps?.color ??
+                  (error ? theme.palette.error.main : contrastColor)
                 }
                 size="12"
                 {...labelProps}
@@ -73,7 +81,12 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             )}
           </Flex>
         )}
-        <StyledTextArea ref={ref} error={error} {...rest} />
+        <StyledTextArea
+          ref={combinedRef}
+          error={error}
+          style={{ color: contrastColor, ...rest.style }}
+          {...rest}
+        />
         {error && (
           <Text
             color={theme.palette.error.main}

@@ -1,12 +1,13 @@
 "use client";
 
-import type { Color, Theme } from "../../theme/types";
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { useTheme } from "styled-components";
+import type { Color, Theme } from "../../theme/types";
 import type { MarginProps, PaddingProps } from "../common/types";
 import { Flex } from "../flex";
 import { Text, type TextProps } from "../text";
-import { resolveColor } from "../utils/resolve-color";
+import { useAutoContrastColor } from "../utils/use-auto-contrast-color";
+import { useCombinedRefs } from "../utils/use-combined-refs";
 import { StyledInput } from "./styled";
 
 import { useComponentTheme } from "../../hooks/use-component-theme";
@@ -39,6 +40,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       color = "default",
       ...rest
     } = mergedProps;
+    const inputRef = useRef<HTMLInputElement>(null);
+    const combinedRef = useCombinedRefs(ref, inputRef);
+
+    const contrastColor = useAutoContrastColor(inputRef, !!labelProps?.color);
+
     return (
       <Flex direction="column" style={containerStyle}>
         {(label || required) && (
@@ -53,11 +59,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               <Text
                 key={label}
                 {...{
-                  color: error
-                    ? theme.palette.error.main
-                    : resolveColor(color ?? "default", theme as Theme).main,
+                  color:
+                    labelProps?.color ??
+                    (error ? theme.palette.error.main : contrastColor),
                 }}
-
                 size="12"
                 {...labelProps}
               >
@@ -71,7 +76,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
           </Flex>
         )}
-        <StyledInput ref={ref} error={error} color={color} {...rest} />
+        <StyledInput
+          ref={combinedRef}
+          error={error}
+          color={color}
+          style={{ color: contrastColor, ...rest.style }}
+          {...rest}
+        />
         {error && (
           <Text
             color={theme.palette.error.main}
