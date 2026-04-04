@@ -1,6 +1,7 @@
 "use client";
 
-import type { Color } from "../../theme/types";
+import type { Color, Theme } from "../../theme/types";
+
 import { forwardRef } from "react";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
@@ -8,6 +9,7 @@ import { Flex } from "../flex";
 import { Text, type TextProps } from "../text";
 import { resolveColor } from "../utils/resolve-color";
 import { StyledTextArea } from "./styled";
+
 
 import { useComponentTheme } from "../../hooks/use-component-theme";
 
@@ -27,7 +29,8 @@ export type TextAreaProps = {
 
 export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   (originalProps, ref) => {
-    const theme = useTheme();
+    const theme = useTheme() as Theme;
+
     const mergedProps = useComponentTheme("textarea", originalProps);
     const {
       label,
@@ -52,11 +55,11 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           >
             {label && (
               <Text
-                {...{
-                  color: error
+                color={
+                  error
                     ? theme.palette.error.main
-                    : resolveColor(color ?? "default", theme).main,
-                }}
+                    : resolveColor(color ?? "default", theme as Theme).main
+                }
                 size="12"
                 {...labelProps}
               >

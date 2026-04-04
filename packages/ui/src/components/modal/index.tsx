@@ -4,7 +4,11 @@ import React, { forwardRef, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useTheme } from "styled-components";
 import { radiusMap } from "../../theme/constants";
+import type { Theme } from "../../theme/types";
+
+import { resolveThemeColor } from "../common";
 import { Button } from "../button";
+
 import { Flex } from "../flex";
 import { Title, type TitleProps } from "../title";
 
@@ -113,7 +117,10 @@ export type ModalProps = {
   bodyStyle?: React.CSSProperties;
   close?: React.ReactNode;
   closeStyle?: React.CSSProperties;
+  bgcolor?: string;
+  color?: string;
 } & React.HTMLAttributes<HTMLDivElement>;
+
 
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
   (
@@ -127,7 +134,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
     },
     ref,
   ) => {
-    const theme = useTheme();
+    const theme = useTheme() as Theme;
     const autoContrast = useAutoContrast();
     const { breakpoint } = useResponsive();
 
@@ -203,10 +210,18 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
       borderRadius: fullScreen
         ? "0px"
         : `min(24px, ${radiusMap[theme.radius]})`,
-      backgroundColor: "#FFFFFF",
+      backgroundColor: resolveThemeColor(
+        props.bgcolor ?? theme.semantic.background,
+        theme,
+      ),
+      color: resolveThemeColor(
+        props.color ?? theme.semantic.foreground,
+        theme,
+      ),
       position: "relative",
       ...style,
     };
+
 
     const modal = (
       <Flex

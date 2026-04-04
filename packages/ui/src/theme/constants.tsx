@@ -11,6 +11,7 @@ export const radiusMap: Record<Radius, string> = {
 };
 
 export const KEYPOP: Theme = createTheme({
+  mode: "dark",
   radius: "none",
   titleFontFamily: "Inter Variable",
   textFontFamily: "Space Mono",

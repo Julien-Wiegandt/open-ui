@@ -3,11 +3,13 @@
 import { forwardRef } from "react";
 import { useTheme } from "styled-components";
 import { useResponsive } from "../../hooks/use-responsive";
-import type { Color } from "../../theme/types";
+import type { Color, Theme } from "../../theme/types";
 import { Button } from "../button";
 import { Flex, type FlexProps } from "../flex";
 import { Text } from "../text";
 import { resolveColor } from "../utils/resolve-color";
+
+
 import { StyledToast } from "./style";
 
 /**
@@ -30,7 +32,8 @@ export type ToastProps = {
 
 export const Toast = forwardRef<HTMLDivElement, Omit<ToastProps, "id">>(
   ({ children, style, ...props }, ref) => {
-    const theme = useTheme();
+    const theme = useTheme() as Theme;
+
     const { isMobile } = useResponsive();
 
     return (
@@ -87,7 +90,10 @@ export const Toast = forwardRef<HTMLDivElement, Omit<ToastProps, "id">>(
               <Flex
                 p={1.5}
                 style={{
-                  backgroundColor: `${resolveColor(props.color ?? "default", theme).light}44`,
+                  backgroundColor: `${
+                    resolveColor(props.color ?? "default", theme as Theme).light
+                  }44`,
+
                 }}
               >
                 {props.icon}

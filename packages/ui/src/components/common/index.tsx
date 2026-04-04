@@ -59,3 +59,20 @@ export const getScrollbarCSS = () => {
   }
   `;
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const resolveThemeColor = (color: any, theme: any) => {
+  if (!color) return undefined;
+  if (["default", "primary", "secondary", "error"].includes(color)) {
+    return theme.palette[color].main;
+  }
+  if (
+    ["foreground", "background", "surface", "muted", "border", "shadow"].includes(
+      color,
+    )
+  ) {
+    return theme.semantic[color];
+  }
+  return color;
+};
+

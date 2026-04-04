@@ -93,15 +93,15 @@ export const StyledCheckbox = styled.div<
 
   background-color: ${({ color, theme, checked }) =>
     checked
-      ? getCheckboxStyle({ color: color ?? "default", theme }).bgColor
+      ? getCheckboxStyle({ color: color ?? "default", theme: theme as Theme }).bgColor
       : "transparent"};
 
   border: 2px solid
     ${({ color, theme }) =>
-      getCheckboxStyle({ color: color ?? "default", theme }).borderColor};
+      getCheckboxStyle({ color: color ?? "default", theme: theme as Theme }).borderColor};
 
   border-radius: ${({ theme, radius }) =>
-    radius ? radiusMap[radius] : radiusMap[theme.radius]};
+    radius ? radiusMap[radius] : radiusMap[(theme as Theme).radius]};
 
   transition: all 0.2s ease;
 
@@ -109,9 +109,14 @@ export const StyledCheckbox = styled.div<
     ${StyledCheckboxContainer}:hover & {
       ${({ disabled, color, theme, checked }) =>
         !disabled &&
-        `background-color: ${checked ? "transparent" : resolveColor(color ?? "default", theme).main}11;`}
+        `background-color: ${
+          checked
+            ? "transparent"
+            : resolveColor(color ?? "default", theme as Theme).main
+        }11;`}
     }
   }
+
 
   ${StyledCheckboxContainer}:active & {
     transform: ${({ disabled }) => !disabled && "scale(0.95)"};

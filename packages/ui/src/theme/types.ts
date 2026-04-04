@@ -34,9 +34,20 @@ type Text = {
   fontFamily: string;
 };
 
+export type SemanticPalette = {
+  foreground: string;
+  background: string;
+  surface: string;
+  muted: string;
+  border: string;
+  shadow: string;
+};
+
 export type Theme = {
+  mode?: "dark" | "light";
   radius: Radius;
   palette: Palette;
+  semantic: SemanticPalette;
   title: Text;
   text: Text;
   components?: {
@@ -44,6 +55,7 @@ export type Theme = {
     checkbox?: Record<string, any>;
     chip?: Record<string, any>;
     divider?: Record<string, any>;
+    dropdown?: Record<string, any>;
     flex?: Record<string, any>;
     image?: Record<string, any>;
     input?: Record<string, any>;
@@ -60,3 +72,4 @@ export type Theme = {
     tooltip?: Record<string, any>;
   };
 };
+

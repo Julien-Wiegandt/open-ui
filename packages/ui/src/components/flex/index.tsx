@@ -1,6 +1,6 @@
 "use client";
 
-import type { Elevation } from "../../theme/types";
+import type { Color, Elevation } from "../../theme/types";
 import { forwardRef, useMemo } from "react";
 import type { Styles } from "styled-components/dist/types";
 import type { MarginProps, PaddingProps } from "../common/types";
@@ -32,9 +32,12 @@ export type FlexProps = {
   minWidth?: string;
   minheight?: string;
   hoverstyle?: Styles<object>;
+  bgcolor?: Color | string;
+  color?: Color | string;
 } & MarginProps &
   PaddingProps &
   Omit<React.HTMLAttributes<HTMLDivElement>, "content">;
+
 
 export const Flex = forwardRef<HTMLDivElement, FlexProps>(
   ({ children, ...props }, ref) => {

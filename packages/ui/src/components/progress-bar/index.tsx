@@ -1,6 +1,6 @@
 "use client";
 
-import type { Color } from "../../theme/types";
+import type { Color, Theme } from "../../theme/types";
 import { useEffect, useRef } from "react";
 import { useTheme } from "styled-components";
 
@@ -22,7 +22,7 @@ export const ProgressBar = ({
   w,
   animationDurationInSeconds,
 }: ProgressBarProps) => {
-  const theme = useTheme();
+  const theme = useTheme() as Theme;
 
   const progressBarRef = useRef<HTMLDivElement>(null);
 
@@ -36,7 +36,7 @@ export const ProgressBar = ({
     }
   }, [value, animationDurationInSeconds]);
 
-  const palette = resolveColor(color, theme);
+  const palette = resolveColor(color, theme as Theme);
 
   return (
     <div

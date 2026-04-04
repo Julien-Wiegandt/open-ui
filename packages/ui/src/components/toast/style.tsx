@@ -4,6 +4,7 @@ import styled from "styled-components";
 import type { ToastProps } from ".";
 import { Flex } from "../flex";
 import { shadowMap } from "../flex/style";
+import type { Theme } from "../../theme/types";
 import { resolveColor } from "../utils/resolve-color";
 
 export const StyledToast = styled(Flex)<Omit<ToastProps, "id">>`
@@ -17,6 +18,7 @@ export const StyledToast = styled(Flex)<Omit<ToastProps, "id">>`
 
   svg {
     stroke: ${({ theme, color }) =>
-      resolveColor(color ?? "default", theme).main};
+      resolveColor(color ?? "default", theme as Theme).main};
   }
+
 `;

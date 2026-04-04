@@ -1,6 +1,5 @@
 "use client";
 
-import type { Color, Radius, Variant } from "../../theme/types";
 import React, {
   cloneElement,
   forwardRef,
@@ -12,8 +11,11 @@ import React, {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
+import type { Color, Radius, Variant } from "../../theme/types";
 import type { MarginProps, PaddingProps } from "../common/types";
+import type { TextProps } from "../text";
 import { Text } from "../text";
+import type { TooltipSize } from "./style";
 import { StyledTooltip } from "./style";
 
 import { useComponentTheme } from "../../hooks/use-component-theme";
@@ -27,6 +29,8 @@ export type TooltipProps = {
   gap?: number;
   bgcolor?: string;
   radius?: Radius;
+  size?: TooltipSize;
+  labelProps?: Omit<TextProps, "children">;
   zIndex?: number;
 } & MarginProps &
   PaddingProps &
@@ -53,6 +57,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
         zIndex: 100,
         color: "primary" as Color,
         variant: "contained" as Variant,
+        size: "md" as TooltipSize,
       };
       return {
         ...defaultProps,
@@ -178,6 +183,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
         variant={memoizedProps.variant}
         bgcolor={memoizedProps.bgcolor}
         radius={memoizedProps.radius}
+        size={memoizedProps.size}
         style={{
           position: "absolute",
           top: `${tooltipPosition.top}px`,
@@ -189,10 +195,16 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
               : 0
           }`,
           transition: "opacity 0.2s ease",
+          ...memoizedProps.style,
         }}
       >
         {typeof label === "string" ? (
-          <Text size="12" weight="medium" color="inherit">
+          <Text
+            weight="medium"
+            color="inherit"
+            style={{ fontSize: "inherit" }}
+            {...memoizedProps.labelProps}
+          >
             {label}
           </Text>
         ) : (

@@ -52,6 +52,29 @@ export const Tooltips = () => {
       />
 
       <Usage
+        title="sizes"
+        orientation="horizontal"
+        components={
+          <Flex direction="row" gap={2} wrap="wrap">
+            <Tooltip label="Small tooltip" size="sm">
+              <Button label="Small" variant="outlined" color="default" />
+            </Tooltip>
+            <Tooltip label="Medium tooltip" size="md">
+              <Button label="Medium" variant="outlined" color="default" />
+            </Tooltip>
+            <Tooltip label="Large tooltip" size="lg">
+              <Button label="Large" variant="outlined" color="default" />
+            </Tooltip>
+          </Flex>
+        }
+        onCopy={() =>
+          navigator.clipboard.writeText(
+            `<Tooltip size="lg" label="...">...</Tooltip>`,
+          )
+        }
+      />
+
+      <Usage
         title="placements"
         orientation="horizontal"
         components={

@@ -64,15 +64,15 @@ export const StyledChip = styled.div<ChipStyleProps>`
   height: fit-content;
   background-color: ${({ bgcolor, variant, color, theme }) =>
     bgcolor ??
-    getVariantStyle({ color: color ?? "default", theme })[
+    getVariantStyle({ color: color ?? "default", theme: theme as Theme })[
       variant ?? "contained"
     ].bgColor};
   border: ${({ variant, color, theme }) =>
-    getVariantStyle({ color: color ?? "default", theme })[
+    getVariantStyle({ color: color ?? "default", theme: theme as Theme })[
       variant ?? "contained"
     ].border};
   border-radius: ${({ radius, theme }) =>
-    radius ? radiusMap[radius] : radiusMap[theme.radius]};
+    radius ? radiusMap[radius] : radiusMap[(theme as Theme).radius]};
   ${({ m, mb, ml, mr, mt, mx, my }) =>
     getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
   ${({ p, pb, pl, pr, pt, px, py }) =>
@@ -81,7 +81,8 @@ export const StyledChip = styled.div<ChipStyleProps>`
   position: relative;
   color: ${({ fontColor, color, variant, theme }) =>
     fontColor ??
-    getVariantStyle({ color: color ?? "default", theme })[
+    getVariantStyle({ color: color ?? "default", theme: theme as Theme })[
       variant ?? "contained"
     ].color};
+
 `;

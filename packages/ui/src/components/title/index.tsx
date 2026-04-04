@@ -1,7 +1,7 @@
 "use client";
 
 import { useResponsive } from "../../hooks/use-responsive";
-import type { Color } from "../../theme/types";
+import type { Color, Theme } from "../../theme/types";
 import { useMemo, useRef } from "react";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
@@ -20,14 +20,14 @@ export type TitleProps = {
 const THEME_COLOR_KEYS = ["default", "primary", "secondary", "error"];
 
 export const Title = ({ children, color, ...props }: TitleProps) => {
-  const theme = useTheme();
+  const theme = useTheme() as Theme;
   const { breakpoint } = useResponsive();
   const internalRef = useRef<HTMLHeadingElement | null>(null);
   const autoColor = useAutoContrastColor(internalRef, !!color);
 
   const resolvedColor = color
     ? THEME_COLOR_KEYS.includes(color)
-      ? resolveColor(color, theme).main
+      ? resolveColor(color, theme as Theme).main
       : color
     : autoColor;
 

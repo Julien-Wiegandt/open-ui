@@ -3,7 +3,9 @@
 import { radiusMap } from "../../theme/constants";
 import styled, { css } from "styled-components";
 import type { FlexAlign, FlexJustify, FlexProps } from ".";
-import { getMarginsCSS, getPaddingCSS, toRem } from "../common";
+import { getMarginsCSS, getPaddingCSS, resolveThemeColor, toRem } from "../common";
+import type { Theme } from "../../theme/types";
+
 
 const alignMap: Record<FlexAlign, string> = {
   normal: "normal",
@@ -49,7 +51,11 @@ export const SlyledFlex = styled.div<FlexProps>`
   ${({ m, mb, ml, mr, mt, mx, my }) => getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
   ${({ p, pb, pl, pr, pt, px, py }) => getPaddingCSS({ p, pb, pl, pr, pt, px, py })};
   box-shadow: ${({ elevation }) => shadowMap[elevation ?? 0]};
+  background-color: ${({ bgcolor, theme }) => resolveThemeColor(bgcolor, theme as Theme)};
+  color: ${({ color, theme }) => resolveThemeColor(color, theme as Theme)};
+
   &:hover {
+
     ${(props) => props.hoverstyle && css(props.hoverstyle)}
   }
 `;

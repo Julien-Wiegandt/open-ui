@@ -1,6 +1,6 @@
 "use client";
 
-import type { Color } from "../../theme/types";
+import type { Color, Theme } from "../../theme/types";
 import { gsap } from "gsap";
 import { forwardRef, useEffect, useRef } from "react";
 import { useTheme } from "styled-components";
@@ -18,11 +18,11 @@ export type SkeletonProps = {
 
 export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
   ({ width, height, radius, color, wrapperStyle, shimmerStyle }, ref) => {
-    const theme = useTheme();
+    const theme = useTheme() as Theme;
     const shimmerRef = useRef(null);
 
     // Resolve Color token or raw color string to a hex value
-    const resolvedColor = color ? resolveColor(color, theme).main : undefined;
+    const resolvedColor = color ? resolveColor(color, theme as Theme).main : undefined;
 
     useEffect(() => {
       const shimmerElement = shimmerRef.current;

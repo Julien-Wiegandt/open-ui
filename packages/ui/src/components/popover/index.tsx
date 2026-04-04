@@ -1,6 +1,6 @@
 "use client";
 
-import type { Color, Radius } from "../../theme/types";
+import type { Color, Radius, Theme } from "../../theme/types";
 import React, {
   cloneElement,
   forwardRef,
@@ -36,7 +36,8 @@ export type PopoverProps = {} & PopoverStyleProps;
 
 export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
   ({ children, content, ...props }, _) => {
-    const theme = useTheme();
+    const theme = useTheme() as Theme;
+
 
     const popoverRef = useRef<HTMLDivElement>(null);
     const childrenRef = useRef<HTMLElement>(null);
@@ -234,8 +235,9 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
             backgroundColor: `${
               props.arrowcolor ??
               props.bgcolor ??
-              resolveColor(props.color, theme).light
+              resolveColor(props.color, theme as Theme).light
             }`,
+
             rotate: "45deg",
             position: "absolute",
             top: `${arrowPosition.top}px`,

@@ -9,7 +9,9 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useTheme } from "styled-components";
 import type { Color, Radius, Variant } from "../../theme/types";
+
 
 import type { MarginProps, PaddingProps } from "../common/types";
 import { Flex } from "../flex";
@@ -23,11 +25,13 @@ import { SparklesIcon } from "../icons/sparkles";
 import { Text, type TextProps } from "../text";
 import { useAutoContrastColor } from "../utils/use-auto-contrast-color";
 import { useCombinedRefs } from "../utils/use-combined-refs";
-import { sizeMap, StyledButton } from "./style";
+import { sizeMap, StyledButton, getVariantStyle } from "./style";
+import type { Theme } from "../../theme/types";
 
 import { useComponentTheme } from "../../hooks/use-component-theme";
 
 export type Icon =
+
   | "bell"
   | "check"
   | "hamburger"
@@ -116,6 +120,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     } = useComponentTheme("button", originalProps);
 
     const { color = "default", variant = "contained", ...props } = mergedProps;
+    const theme = useTheme() as Theme;
+    const calculatedBgColor =
+      props.bgcolor ?? getVariantStyle({ color, theme })[variant].bgColor;
+
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const textRef = useRef<HTMLParagraphElement>(null);
@@ -143,7 +151,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const labelColor = useAutoContrastColor(
       buttonRef,
       !!labelProps?.color,
+      calculatedBgColor,
     );
+
 
     useEffect(() => {
       if (textRef.current) {
@@ -242,7 +252,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               align={props.align ?? "center"}
               size={sizeMap[props.size ?? "md"].fontSize}
               {...labelProps}
-              color={labelProps?.color ?? labelColor}
+              color={
+                labelProps?.color ??
+                (variant === "contained" ? labelColor : color)
+              }
             >
               {props.label}
             </Text>

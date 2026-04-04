@@ -31,20 +31,50 @@ export const ThemeBuilder = () => {
   const { theme, setTheme } = useContext(ThemeContext);
   const [selectedTheme, setSelectedTheme] = useState("keypop");
 
+  const updateTheme = (overrides: any) => {
+    const isModeChange = "mode" in overrides;
+    const newTheme = createTheme({
+      radius: theme.radius,
+      primary: theme.palette.primary,
+      secondary: theme.palette.secondary,
+      default: theme.palette.default,
+      error: theme.palette.error,
+      titleFontFamily: theme.title.fontFamily,
+      textFontFamily: theme.text.fontFamily,
+      mode: theme.mode,
+      semantic: isModeChange ? undefined : theme.semantic,
+      ...overrides,
+    });
+    setTheme({ theme: newTheme });
+  };
+
   return (
-    <Flex gap={4} direction="row">
+    <Flex
+      gap={4}
+      direction="row"
+      bgcolor="background"
+      color="foreground"
+      p={3}
+      style={{ minHeight: "100vh" }}
+    >
       <Flex
         elevation={1}
         gap={4}
         p={3}
         width="320px"
+        bgcolor="surface"
         style={{
           position: "fixed",
           right: 24,
-          backgroundColor: "white",
+          overflowY: "auto",
+          height: "90vh",
         }}
       >
-        <Title level={2}>Theme Builder</Title>
+
+        <Flex direction="row" justify="between" align="center">
+          <Title level={2}>Theme Builder</Title>
+          <Chip label={theme.mode ?? "light"} color="primary" variant="soft" />
+        </Flex>
 
         <Select
           label="Themes"
@@ -61,6 +91,20 @@ export const ThemeBuilder = () => {
             }
           }}
         />
+
+        <Select
+          label="Mode"
+          options={[
+            { label: "Light", key: "light" },
+            { label: "Dark", key: "dark" },
+          ]}
+          value={{
+            label: theme.mode === "dark" ? "Dark" : "Light",
+            key: theme.mode ?? "light",
+          }}
+          onChange={(value) => updateTheme({ mode: value.key })}
+        />
+
         <Select
           label="Radius"
           options={[
@@ -71,148 +115,180 @@ export const ThemeBuilder = () => {
             { label: "full", key: "full" },
           ]}
           value={{ label: theme.radius, key: theme.radius }}
-          onChange={(value) =>
-            setTheme({ theme: { ...theme, radius: value.key as Radius } })
-          }
+          onChange={(value) => updateTheme({ radius: value.key as Radius })}
         />
         <Select
           label="Title Font Family"
           options={FONTS}
           value={{ label: theme.title.fontFamily, key: theme.title.fontFamily }}
-          onChange={(value) =>
-            setTheme({
-              theme: {
-                ...theme,
-                title: { ...theme.title, fontFamily: value.key },
-              },
-            })
-          }
+          onChange={(value) => updateTheme({ titleFontFamily: value.key })}
         />
         <Select
           label="Text Font Family"
           options={FONTS}
           value={{ label: theme.text.fontFamily, key: theme.text.fontFamily }}
-          onChange={(value) =>
-            setTheme({
-              theme: {
-                ...theme,
-                text: { ...theme.text, fontFamily: value.key },
-              },
-            })
-          }
+          onChange={(value) => updateTheme({ textFontFamily: value.key })}
         />
-        <Flex direction="row" justify="between">
+
+        <Divider />
+        <Title level={4}>Palette</Title>
+        <Flex direction="row" wrap="wrap" gap={2} justify="between">
           <Input
             type="color"
             label="Primary"
-            w="3rem"
+            w="3.5rem"
             h="3rem"
             value={theme.palette.primary.main}
-            onChange={(e) => {
-              const newTheme = createTheme({
-                radius: theme.radius,
-                primary: e.target.value,
-                secondary: theme.palette.secondary,
-                default: theme.palette.default,
-                error: theme.palette.error,
-                titleFontFamily: theme.title.fontFamily,
-                textFontFamily: theme.text.fontFamily,
-              });
-              setTheme({ theme: newTheme });
-            }}
+            onChange={(e) => updateTheme({ primary: e.target.value })}
           />
           <Input
             type="color"
             label="Secondary"
-            w="3rem"
+            w="3.5rem"
             h="3rem"
             value={theme.palette.secondary.main}
-            onChange={(e) => {
-              const newTheme = createTheme({
-                radius: theme.radius,
-                primary: theme.palette.primary,
-                secondary: e.target.value,
-                default: theme.palette.default,
-                error: theme.palette.error,
-                titleFontFamily: theme.title.fontFamily,
-                textFontFamily: theme.text.fontFamily,
-              });
-              setTheme({ theme: newTheme });
-            }}
+            onChange={(e) => updateTheme({ secondary: e.target.value })}
           />
           <Input
             type="color"
             label="Default"
-            w="3rem"
+            w="3.5rem"
             h="3rem"
             value={theme.palette.default.main}
-            onChange={(e) => {
-              const newTheme = createTheme({
-                radius: theme.radius,
-                primary: theme.palette.primary,
-                secondary: theme.palette.secondary,
-                default: e.target.value,
-                error: theme.palette.error,
-                titleFontFamily: theme.title.fontFamily,
-                textFontFamily: theme.text.fontFamily,
-              });
-              setTheme({ theme: newTheme });
-            }}
+            onChange={(e) => updateTheme({ default: e.target.value })}
           />
           <Input
             type="color"
             label="Error"
-            w="3rem"
+            w="3.5rem"
             h="3rem"
             value={theme.palette.error.main}
-            onChange={(e) => {
-              const newTheme = createTheme({
-                radius: theme.radius,
-                primary: theme.palette.primary,
-                secondary: theme.palette.secondary,
-                default: theme.palette.default,
-                error: e.target.value,
-                titleFontFamily: theme.title.fontFamily,
-                textFontFamily: theme.text.fontFamily,
-              });
-              setTheme({ theme: newTheme });
-            }}
+            onChange={(e) => updateTheme({ error: e.target.value })}
+          />
+        </Flex>
+
+        <Divider />
+        <Title level={4}>Semantic</Title>
+        <Flex direction="row" wrap="wrap" gap={2} justify="between">
+          <Input
+            type="color"
+            label="BG"
+            w="3.5rem"
+            h="3rem"
+            value={theme.semantic.background}
+            onChange={(e) =>
+              updateTheme({
+                semantic: { ...theme.semantic, background: e.target.value },
+              })
+            }
+          />
+          <Input
+            type="color"
+            label="FG"
+            w="3.5rem"
+            h="3rem"
+            value={theme.semantic.foreground}
+            onChange={(e) =>
+              updateTheme({
+                semantic: { ...theme.semantic, foreground: e.target.value },
+              })
+            }
+          />
+          <Input
+            type="color"
+            label="Surface"
+            w="3.5rem"
+            h="3rem"
+            value={theme.semantic.surface}
+            onChange={(e) =>
+              updateTheme({
+                semantic: { ...theme.semantic, surface: e.target.value },
+              })
+            }
+          />
+          <Input
+            type="color"
+            label="Muted"
+            w="3.5rem"
+            h="3rem"
+            value={theme.semantic.muted}
+            onChange={(e) =>
+              updateTheme({
+                semantic: { ...theme.semantic, muted: e.target.value },
+              })
+            }
+          />
+          <Input
+            type="color"
+            label="Border"
+            w="3.5rem"
+            h="3rem"
+            value={theme.semantic.border}
+            onChange={(e) =>
+              updateTheme({
+                semantic: { ...theme.semantic, border: e.target.value },
+              })
+            }
+          />
+          <Input
+            type="color"
+            label="Shadow"
+            w="3.5rem"
+            h="3rem"
+            value={theme.semantic.shadow}
+            onChange={(e) =>
+              updateTheme({
+                semantic: { ...theme.semantic, shadow: e.target.value },
+              })
+            }
           />
         </Flex>
       </Flex>
       <Flex gap={2}>
-        <Title level={4}>Palette</Title>
-        <Divider color="gray" />
-        <Flex direction="row" gap={3}>
-          <Flex direction="column" gap={1}>
-            <Color color={theme.palette.primary.darker} />
-            <Color color={theme.palette.primary.dark} />
-            <Color color={theme.palette.primary.main} />
-            <Color color={theme.palette.primary.light} />
-            <Color color={theme.palette.primary.lighter} />
+        <Flex direction="row" gap={4} align="start">
+          <Flex gap={2}>
+            <Title level={4}>Color Palette</Title>
+            <Divider color="gray" />
+            <Flex direction="row" gap={3}>
+              <Flex direction="column" gap={1}>
+                {Object.values(theme.palette.primary).map((c) => (
+                  <Color key={c} color={c} />
+                ))}
+              </Flex>
+              <Flex direction="column" gap={1}>
+                {Object.values(theme.palette.secondary).map((c) => (
+                  <Color key={c} color={c} />
+                ))}
+              </Flex>
+              <Flex direction="column" gap={1}>
+                {Object.values(theme.palette.default).map((c) => (
+                  <Color key={c} color={c} />
+                ))}
+              </Flex>
+              <Flex direction="column" gap={1}>
+                {Object.values(theme.palette.error).map((c) => (
+                  <Color key={c} color={c} />
+                ))}
+              </Flex>
+            </Flex>
           </Flex>
-          <Flex direction="column" gap={1}>
-            <Color color={theme.palette.secondary.darker} />
-            <Color color={theme.palette.secondary.dark} />
-            <Color color={theme.palette.secondary.main} />
-            <Color color={theme.palette.secondary.light} />
-            <Color color={theme.palette.secondary.lighter} />
-          </Flex>
-          <Flex direction="column" gap={1}>
-            <Color color={theme.palette.default.darker} />
-            <Color color={theme.palette.default.dark} />
-            <Color color={theme.palette.default.main} />
-            <Color color={theme.palette.default.light} />
-            <Color color={theme.palette.default.lighter} />
-          </Flex>
-          <Flex direction="column" gap={1}>
-            <Color color={theme.palette.error.darker} />
-            <Color color={theme.palette.error.dark} />
-            <Color color={theme.palette.error.main} />
-            <Color color={theme.palette.error.light} />
-            <Color color={theme.palette.error.lighter} />
+
+          <Flex gap={2}>
+            <Title level={4}>Semantic Palette</Title>
+            <Divider color="gray" />
+            <Flex direction="column" gap={1}>
+              {Object.entries(theme.semantic).map(([key, value]) => (
+                <Flex key={key} direction="row" gap={2} align="center">
+                  <Color color={value} />
+                  <Title level={6} style={{ margin: 0, fontSize: "12px" }}>
+                    {key}
+                  </Title>
+                </Flex>
+              ))}
+            </Flex>
           </Flex>
         </Flex>
+
         <Title level={4} mt={2}>
           Button
         </Title>
@@ -348,3 +424,4 @@ export const ThemeBuilder = () => {
     </Flex>
   );
 };
+

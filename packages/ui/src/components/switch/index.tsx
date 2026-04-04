@@ -1,6 +1,6 @@
 "use client";
 
-import type { Color } from "../../theme/types";
+import type { Color, Radius, Theme } from "../../theme/types";
 import gsap from "gsap";
 import { forwardRef, useLayoutEffect, useRef, useState } from "react";
 import { useTheme } from "styled-components";
@@ -16,7 +16,7 @@ export type SwitchProps = {
 
 export const Switch = forwardRef<SVGSVGElement, SwitchProps>(
   ({ value, size = 48, color, onChange, ...props }, ref) => {
-    const theme = useTheme();
+    const theme = useTheme() as Theme;
     const [isOn, setIsOn] = useState(value ?? false);
     const knobRef = useRef<SVGCircleElement>(null);
     const bgRef = useRef<SVGRectElement>(null);
@@ -24,7 +24,7 @@ export const Switch = forwardRef<SVGSVGElement, SwitchProps>(
     const svgRef = useCombinedRefs(ref, svgInternalRef);
     const width = size;
     const height = size / 1.75;
-    const palette = resolveColor(color ?? "default", theme);
+    const palette = resolveColor(color ?? "default", theme as Theme);
 
     useLayoutEffect(() => {
       const timeline = gsap.timeline({

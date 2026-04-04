@@ -133,11 +133,11 @@ export const StyledButton = styled.button<ButtonProps>`
 
   background-color: ${({ bgcolor, variant, color, theme }) =>
     bgcolor ??
-    getVariantStyle({ color: color ?? "default", theme })[
+    getVariantStyle({ color: color ?? "default", theme: theme as Theme })[
       variant ?? "contained"
     ].bgColor};
   border: ${({ variant, color, theme }) =>
-    getVariantStyle({ color: color ?? "default", theme })[
+    getVariantStyle({ color: color ?? "default", theme: theme as Theme })[
       variant ?? "contained"
     ].border};
   border-radius: ${({ theme, radius }) =>
@@ -154,25 +154,30 @@ export const StyledButton = styled.button<ButtonProps>`
     (activeStyle
       ? activeStyle
       : {
-          ...getVariantStyle({ color: color ?? "default", theme })[
-            variant ?? "contained"
-          ].onHover,
+          ...getVariantStyle({
+            color: color ?? "default",
+            theme: theme as Theme,
+          })[variant ?? "contained"].onHover,
         })}
+
 
   @media (hover: hover) {
     &:hover {
       ${({ variant, color, theme }) =>
-        getVariantStyle({ color: color ?? "default", theme })[
-          variant ?? "contained"
-        ].onHover}
+        getVariantStyle({
+          color: color ?? "default",
+          theme: theme as Theme,
+        })[variant ?? "contained"].onHover}
       opacity: ${({ disabled }) => disabled && 0.6};
     }
   }
 
   &:active {
     ${({ variant, color, theme }) =>
-      getVariantStyle({ color: color ?? "default", theme })[
-        variant ?? "contained"
-      ].onActive}
+      getVariantStyle({
+        color: color ?? "default",
+        theme: theme as Theme,
+      })[variant ?? "contained"].onActive}
   }
+
 `;

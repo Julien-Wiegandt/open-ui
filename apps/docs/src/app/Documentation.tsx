@@ -9,6 +9,7 @@ import {
   Title,
   useResponsive,
 } from "@julien-wiegandt/open-ui";
+import { LLMDocCopyButton } from "../components/llm-doc-copy-button";
 import { useState } from "react";
 
 // Importing views (moved from src/views)
@@ -17,6 +18,7 @@ import { Checkboxes } from "../views/checkboxes";
 import { Chips } from "../views/chips";
 import { ColorPickers } from "../views/color-picker";
 import { Dividers } from "../views/dividers";
+import { Dropdowns } from "../views/dropdowns";
 import { Flexs } from "../views/flexs";
 import { Icons } from "../views/icons";
 import { Images } from "../views/images";
@@ -81,6 +83,8 @@ export default function Documentations() {
         return <Toasts />;
       case "tooltip":
         return <Tooltips />;
+      case "dropdown":
+        return <Dropdowns />;
       case "skeleton":
         return <Skeletons />;
       default:
@@ -97,6 +101,7 @@ export default function Documentations() {
     { id: "chip", label: "Chip" },
     { id: "color-picker", label: "ColorPicker" },
     { id: "divider", label: "Divider" },
+    { id: "dropdown", label: "Dropdown" },
     { id: "flex", label: "Flex" },
     { id: "icons", label: "Icons" },
     { id: "image", label: "Image" },
@@ -124,9 +129,15 @@ export default function Documentations() {
           closable: false,
           placement: "top-right",
         },
+        autoContrast: true,
       }}
     >
-      <Flex width="100vw" style={{ position: "relative" }}>
+      <Flex
+        width="100vw"
+        bgcolor="background"
+        color="foreground"
+        style={{ position: "relative", minHeight: "100vh" }}
+      >
         <Flex
           direction="row"
           align="center"
@@ -138,11 +149,17 @@ export default function Documentations() {
             boxSizing: "border-box",
             backdropFilter: "blur(10px)",
             zIndex: 10,
-            background: "rgba(255,255,255,0.8)",
+            background: "var(--oui-surface)",
+            borderBottom: "1px solid var(--oui-border)",
           }}
         >
           <img src="/open-ui.png" alt="open-ui" height="36px" />
-          <Title level={3}>open-ui</Title>
+          <Title level={3} color="foreground">
+            open-ui
+          </Title>
+          <Flex direction="row" justify="end" width="100%" pr={2}>
+            <LLMDocCopyButton component={activeView} />
+          </Flex>
         </Flex>
 
         <Flex
@@ -154,9 +171,14 @@ export default function Documentations() {
           <Flex
             p={2}
             width="180px"
+            bgcolor="surface"
             style={{
-              borderRight: "1px solid #eee",
+              borderRight: "1px solid var(--oui-border)",
               minHeight: "calc(100vh - 68px)",
+              position: isMobileOrTablet ? "relative" : "fixed",
+              left: 0,
+              top: 68,
+              zIndex: 5,
             }}
           >
             {navItems.map((item) =>
@@ -166,6 +188,8 @@ export default function Documentations() {
                   size="15"
                   mt={item.label === "Components" ? 1 : 0}
                   mb={1}
+                  color="foreground"
+                  weight="bold"
                 >
                   {item.label}
                 </Text>
@@ -177,7 +201,9 @@ export default function Documentations() {
                   align="left"
                   color={activeView === item.id ? "primary" : "default"}
                   onClick={() => setActiveView(item.id)}
-                  style={{ justifyContent: "flex-start", width: "100%" }}
+                  style={{
+                    justifyContent: "flex-start",
+                  }}
                 />
               ),
             )}
@@ -185,13 +211,12 @@ export default function Documentations() {
 
           {/* Main Content */}
           <Flex
-            pl={2}
-            pr={5}
+            pl={isMobileOrTablet ? 2 : "200px"}
+            pr={isMobileOrTablet ? 2 : 5}
             py={2}
-            width="calc(100vw - 180px)"
+            width="100%"
             style={{
-              height: "calc(100vh - 68px)",
-              overflowY: "auto",
+              minHeight: "calc(100vh - 68px)",
               boxSizing: "border-box",
             }}
           >

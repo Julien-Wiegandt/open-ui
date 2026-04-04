@@ -1,16 +1,21 @@
 import type { RefObject } from "react";
-import { useLayoutEffect, useState } from "react";
-import { useAutoContrast } from "../../context/theme";
+import { useContext, useLayoutEffect, useState } from "react";
+import { ThemeContext, useAutoContrast } from "../../context/theme";
 import { getColorBasedOnBackground } from "./get-color-based-on-background";
 import { getRecursiveBgColor } from "./get-recursive-bg-color";
 
 export function useAutoContrastColor(
   elementRef: RefObject<Element | null>,
   skip?: boolean,
+  initialBgColor?: string,
 ): string | undefined {
+  const { theme } = useContext(ThemeContext);
   const autoContrast = useAutoContrast();
   const disabled = !autoContrast || !!skip;
-  const [color, setColor] = useState<string | undefined>(undefined);
+  const [color, setColor] = useState<string | undefined>(
+    initialBgColor ? getColorBasedOnBackground(initialBgColor) : undefined,
+  );
+
 
   useLayoutEffect(() => {
     if (disabled) return;
@@ -20,14 +25,25 @@ export function useAutoContrastColor(
 
     const compute = () => {
       try {
-        const bgColor = getRecursiveBgColor(element as HTMLElement);
-        setColor(getColorBasedOnBackground(bgColor));
-      } catch {}
+        const el = elementRef.current;
+        if (!el) return;
+        const bgColor = getRecursiveBgColor(el as HTMLElement);
+        const resolvedColor = getColorBasedOnBackground(bgColor);
+        console.log(`[AutoContrast] theme=${theme.mode} bg=${bgColor} -> text=${resolvedColor}`);
+        setColor(resolvedColor);
+      } catch (e) {
+        console.error("[AutoContrast] error:", e);
+      }
     };
 
     compute();
 
-    const observer = new MutationObserver(compute);
+    const retryDelays = [50, 150, 300, 500];
+    const timers = retryDelays.map((delay) => setTimeout(compute, delay));
+
+    const observer = new MutationObserver(() => {
+      compute();
+    });
     let node: Element | null = element;
     while (node) {
       observer.observe(node, {
@@ -37,8 +53,14 @@ export function useAutoContrastColor(
       node = node.parentElement;
     }
 
-    return () => observer.disconnect();
-  }, [disabled]);
+    return () => {
+      observer.disconnect();
+      timers.forEach(clearTimeout);
+    };
+  }, [disabled, theme]);
+
+
+
 
   return disabled ? undefined : color;
 }

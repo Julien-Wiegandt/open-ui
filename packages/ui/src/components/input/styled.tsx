@@ -6,30 +6,33 @@ import { radiusMap } from "../../theme/constants";
 import { getMarginsCSS, getPaddingCSS, getScrollbarCSS } from "../common";
 import type { MarginProps, PaddingProps } from "../common/types";
 import { resolveColor } from "../utils/resolve-color";
+import type { Theme } from "../../theme/types";
 
 export const StyledInput = styled.input<InputProps>`
   all: unset;
   box-sizing: border-box;
-  font-family: ${({ theme }) => theme.text.fontFamily};
+  font-family: ${({ theme }) => (theme as Theme).text.fontFamily};
   font-size: 13px;
   display: flex;
   align-items: center;
   text-align: left;
 
-  color: ${({ theme, color }) => resolveColor(color ?? "default", theme).main};
+  color: ${({ theme, color }) => resolveColor(color ?? "default", theme as Theme).main};
 
   background-color: white;
-  border-radius: ${({ theme }) => radiusMap[theme.radius]};
+  border-radius: ${({ theme }) => radiusMap[(theme as Theme).radius]};
   padding: ${({ type }) => (type === "color" ? "0" : `8px 12px`)};
   ${getScrollbarCSS()};
 
   border: 1px solid
-    ${({ error, type }) =>
+    ${({ error, type, theme, color }) =>
       type === "color"
         ? "transparent"
         : error
-          ? ({ theme }) => theme.palette.error.main
-          : ({ theme, color }) => resolveColor(color ?? "default", theme).main};
+          ? ({ theme }) => (theme as Theme).palette.error.main
+          : ({ theme, color }) =>
+              resolveColor(color ?? "default", theme as Theme).main};
+
   ${({ m, mb, ml, mr, mt, mx, my }: MarginProps) =>
     getMarginsCSS({ m, mb, ml, mr, mt, mx, my })};
   ${({ p, pb, pl, pr, pt, px, py }: PaddingProps) =>

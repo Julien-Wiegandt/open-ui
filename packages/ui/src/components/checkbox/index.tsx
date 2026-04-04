@@ -1,7 +1,7 @@
 "use client";
 
 import { useAutoContrast } from "../../context/theme";
-import type { Color, Radius } from "../../theme/types";
+import type { Color, Radius, Theme } from "../../theme/types";
 import React, { forwardRef, useState } from "react";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
@@ -37,8 +37,9 @@ export type CheckboxProps = {
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   (originalProps, ref) => {
-    const theme = useTheme();
+    const theme = useTheme() as Theme;
     const autoContrast = useAutoContrast();
+
     const mergedProps = useComponentTheme("checkbox", originalProps);
     const {
       checked: checkedProp,

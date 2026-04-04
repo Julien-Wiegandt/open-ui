@@ -1,15 +1,7 @@
 import "styled-components";
-import type { Palette, Radius } from "./theme/types";
+import type { Theme } from "./theme/types";
 
 declare module "styled-components" {
-  export interface DefaultTheme {
-    radius: Radius;
-    palette: Palette;
-    title: {
-      fontFamily: string;
-    };
-    text: {
-      fontFamily: string;
-    };
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  export interface DefaultTheme extends Theme {}
 }

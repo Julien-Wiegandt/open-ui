@@ -1,6 +1,6 @@
 "use client";
 
-import type { Color } from "../../theme/types";
+import type { Color, Theme } from "../../theme/types";
 import { forwardRef } from "react";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
@@ -27,7 +27,7 @@ export type InputProps = {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (originalProps, ref) => {
-    const theme = useTheme();
+    const theme = useTheme() as Theme;
     const mergedProps = useComponentTheme("input", originalProps);
     const {
       label,
@@ -55,8 +55,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 {...{
                   color: error
                     ? theme.palette.error.main
-                    : resolveColor(color ?? "default", theme).main,
+                    : resolveColor(color ?? "default", theme as Theme).main,
                 }}
+
                 size="12"
                 {...labelProps}
               >

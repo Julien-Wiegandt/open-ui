@@ -1,7 +1,8 @@
 "use client";
 
+import { useAutoContrast } from "../../context/theme";
+import type { Color, Theme } from "../../theme/types";
 import { useResponsive } from "../../hooks/use-responsive";
-import type { Color } from "../../theme/types";
 import { forwardRef, useEffect, useRef } from "react";
 import { useTheme } from "styled-components";
 import type { MarginProps, PaddingProps } from "../common/types";
@@ -55,7 +56,7 @@ export const Text = forwardRef<HTMLParagraphElement, TextProps>(
 
     const resolvedColor = color
       ? THEME_COLOR_KEYS.includes(color)
-        ? resolveColor(color, theme).main
+        ? resolveColor(color, theme as Theme).main
         : color
       : autoColor;
 

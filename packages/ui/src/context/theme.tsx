@@ -1,8 +1,8 @@
 "use client";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, useContext, useMemo, useState } from "react";
-import { THEME } from "../theme/constants";
+import { createContext, useContext, useLayoutEffect, useMemo, useState } from "react";
+
+import { THEME, radiusMap } from "../theme/constants";
 import type { Theme } from "../theme/types";
 
 export type IThemeContext = {
@@ -31,6 +31,32 @@ export const ThemeContextProvider = (params: {
   if (params.themes.length === 0) throw new Error("No themes provided");
 
   const [activeTheme, setActiveTheme] = useState<Theme>(params.themes[0]);
+
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+
+    // Mode & Radius
+    root.style.setProperty("--oui-mode", activeTheme.mode ?? "light");
+    root.style.setProperty("--oui-radius", radiusMap[activeTheme.radius]);
+
+    // Semantic tokens
+    root.style.setProperty("--oui-fg", activeTheme.semantic.foreground);
+    root.style.setProperty("--oui-bg", activeTheme.semantic.background);
+    root.style.setProperty("--oui-surface", activeTheme.semantic.surface);
+    root.style.setProperty("--oui-muted", activeTheme.semantic.muted);
+    root.style.setProperty("--oui-border", activeTheme.semantic.border);
+    root.style.setProperty("--oui-shadow", activeTheme.semantic.shadow);
+
+    // Palette tokens
+    Object.entries(activeTheme.palette).forEach(([colorName, transitions]) => {
+      Object.entries(transitions).forEach(([shade, value]) => {
+        root.style.setProperty(`--oui-${colorName}-${shade}`, value as string);
+      });
+    });
+
+    console.log("[Theme] Variables injected on root", activeTheme.mode);
+  }, [activeTheme]);
+
 
   const setTheme = ({ index, theme }: { index?: number; theme?: Theme }) => {
     const newTheme = index !== undefined ? params.themes[index] : theme;

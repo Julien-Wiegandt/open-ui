@@ -189,3 +189,25 @@ export function generateColorPalette(
 
   return palette;
 }
+
+export const withOpacity = (color: string, opacity: number): string => {
+  const rgb = parseColorToRgb(color);
+  return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
+};
+
+export const getContrastColor = (
+  bg: string,
+  options?: { opacity?: number },
+): string => {
+  const rgb = parseColorToRgb(bg);
+  // Calculate relative luminance
+  const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+  const color = luminance > 0.5 ? "#000000" : "#ffffff";
+
+  if (options?.opacity !== undefined) {
+    return withOpacity(color, options.opacity);
+  }
+
+  return color;
+};
+
