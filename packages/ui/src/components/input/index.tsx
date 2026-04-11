@@ -61,7 +61,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 {...{
                   color:
                     labelProps?.color ??
-                    (error ? theme.palette.error.main : contrastColor),
+                    (error ? theme.palette.error.main : undefined),
                 }}
                 size="12"
                 {...labelProps}

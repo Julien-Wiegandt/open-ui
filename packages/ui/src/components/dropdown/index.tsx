@@ -387,7 +387,7 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
               radius={memoizedProps.radius}
               onClick={() => handleOptionSelect(option)}
             >
-              <Text color="inherit" style={{ fontSize: "inherit" }}>
+              <Text style={{ fontSize: "inherit" }}>
                 {option.label}
               </Text>
             </StyledDropdownOption>

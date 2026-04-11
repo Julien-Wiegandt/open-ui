@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useLayoutEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { THEME, radiusMap } from "../theme/constants";
 import type { Theme } from "../theme/types";
@@ -53,10 +59,7 @@ export const ThemeContextProvider = (params: {
         root.style.setProperty(`--oui-${colorName}-${shade}`, value as string);
       });
     });
-
-    console.log("[Theme] Variables injected on root", activeTheme.mode);
   }, [activeTheme]);
-
 
   const setTheme = ({ index, theme }: { index?: number; theme?: Theme }) => {
     const newTheme = index !== undefined ? params.themes[index] : theme;
